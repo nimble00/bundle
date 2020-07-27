@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Body extends StatelessWidget {
  Widget build(BuildContext context) {
@@ -81,6 +82,66 @@ class Body extends StatelessWidget {
      )
     ],
    ),
+   SizedBox(
+    height:20.0,
+   ),
+   Container(
+    height: 150.0,
+    width: double.infinity,
+    color:Colors.white,
+    child: Padding(
+     padding:EdgeInsets.all(10.0),
+         child:
+         Row(
+       children: <Widget>[
+        Container(
+         height: 75.0,
+         width: 385.0,
+         decoration: BoxDecoration(
+          color: Colors.grey,
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        child: Center(
+        child: Text("Trending"),
+        )
+        ),
+       ]
+   )
+    ),
+   ),
+   Container(
+       height: 300.0,
+       child:
+       Row(
+       children: [
+        SizedBox(
+        width: 10.0,
+     ),
+        Container(
+         height:300.0,
+         width:150.0,
+         color: Colors.blueGrey,
+         child:Center(
+          child:
+          Text("Offers"),
+         ),
+        ),
+        SizedBox(
+         width: 90.0,
+        ),
+        Container(
+         height:300.0,
+         width:150.0,
+         color: Colors.blueGrey,
+         child:Center(
+          child:
+          Text("Recommends"),
+         ),
+        )
+    ],
+   )
+   ),
   ]);
+
  }
 }

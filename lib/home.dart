@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
               child: DrawerHeader(
                 child: Text('Madira'),
                 decoration: BoxDecoration(
-                  color: Colors.orangeAccent,
+                  color: Colors.black26,
                 ),
               ),
             ),
