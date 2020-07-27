@@ -1,18 +1,39 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/body.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Madira'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.search,
+              semanticLabel: 'search',
+            ),
+            onPressed: () {
+              print('Search button');
+            },
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.shopping_cart,
+              semanticLabel: 'cart',
+            ),
+            onPressed: () {
+              print('cart button');
+            },
+          ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             Container(
-              height: 70.0,
+              height: 85.0,
               child: DrawerHeader(
                 child: Text('Madira'),
                 decoration: BoxDecoration(
@@ -59,6 +80,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+      body: Body(),
     );
   }
 }
