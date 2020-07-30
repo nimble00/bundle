@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/body.dart';
+import 'package:flutter_app/views/body.dart';
 
 class HomePage extends StatelessWidget {
+  // final String uid;
+  // HomePage(this.uid);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Madira'),
+      appBar: AppBar(
+        title: Text('Madira'),
         actions: <Widget>[
           IconButton(
             icon: Icon(
