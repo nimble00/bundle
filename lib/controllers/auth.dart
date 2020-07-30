@@ -1,15 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_app/models/user.dart';
+// import 'package:flutter_app/models/user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   // IMPL SIGN-IN WITH GOOGLE A/C
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  User _globalUserVariable(FirebaseUser user) {
-    return User(uid: user.uid);
-  }
 
   Future<FirebaseUser> handleSignIn() async {
     try {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/controllers/auth.dart';
-import 'package:flutter_app/home.dart';
+import 'package:flutter_app/views/home.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class _SignInState extends State<SignIn> {
       body: Column(
           // padding: EdgeInsets.symmetric(vertical: 100.0, horizontal: 50.0),
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             RaisedButton(
               child: Text('Sign-in with Google'),
