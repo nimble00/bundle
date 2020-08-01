@@ -1,14 +1,11 @@
-// import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/views/account.dart';
 import 'package:flutter_app/views/body.dart';
 import 'package:flutter_app/views/cart.dart';
-<<<<<<< HEAD
 import 'package:flutter_app/models/user.dart';
 
-=======
->>>>>>> 4d076b94a7c1202d69c4cea65d6502f39d0ddb59
 class HomePage extends StatefulWidget {
   final User user;
   HomePage({this.user});
@@ -17,6 +14,29 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String accountStatus;
+  FirebaseUser currentUser;
+  FirebaseAuth _auth;
+  User user;
+
+  @override
+  void initState() {
+    super.initState();
+    _auth = FirebaseAuth.instance;
+    _getCurrentUser();
+    print('here outside async');
+  }
+
+  _getCurrentUser() async {
+    currentUser = await _auth.currentUser();
+    print('Hello ' + currentUser.displayName.toString());
+    setState(() {
+      currentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
+      print("ACCOUNT STATUS: " + accountStatus);
+      user = User.fromFirebaseUser(currentUser);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,11 +74,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-<<<<<<< HEAD
-                        builder: (context) => Account(user: widget.user))),
-=======
-                        builder: (context) => Account())),
->>>>>>> 4d076b94a7c1202d69c4cea65d6502f39d0ddb59
+                        builder: (context) => Account(user: user))),
                 icon: Icon(Icons.home)),
           ),
           Container(
@@ -67,11 +83,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-<<<<<<< HEAD
-                        builder: (context) => Account(user: widget.user))),
-=======
-                        builder: (context) => Account())),
->>>>>>> 4d076b94a7c1202d69c4cea65d6502f39d0ddb59
+                        builder: (context) => Account(user: user))),
                 icon: Icon(Icons.add_circle_outline)),
           ),
           Container(
@@ -87,11 +99,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-<<<<<<< HEAD
-                        builder: (context) => Account(user: widget.user))),
-=======
-                        builder: (context) => Account())),
->>>>>>> 4d076b94a7c1202d69c4cea65d6502f39d0ddb59
+                        builder: (context) => Account(user: user))),
                 icon: Icon(Icons.account_circle)),
           ),
         ],

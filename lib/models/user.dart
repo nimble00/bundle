@@ -21,7 +21,7 @@ class User {
     this.location,
   });
   User.fromFirebaseUser(FirebaseUser user) {
-    this.uid = user.uid;
+    // this.uid = user.uid;
     this.phone = user.phoneNumber;
   }
 }

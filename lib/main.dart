@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/wrapper.dart';
+// import 'package:flutter_app/wrapper.dart';
+import 'controllers/authservice.dart';
 import 'globals.dart' as globals;
 
 void main() {
@@ -12,7 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Madira',
-      home: Wrapper(),
+      // home: Wrapper(),
+      home: AuthService().handleAuth(),
     );
   }
 }

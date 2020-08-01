@@ -1,13 +1,33 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app/views/account.dart';
+import 'package:flutter_app/views/home.dart';
 // import 'package:flutter_app/views/home.dart';
-// import 'package:flutter_app/models/user.dart';
+import 'package:flutter_app/models/user.dart';
+import 'package:flutter_app/views/phonelogin.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter/material.dart';
 
 class AuthService {
   // IMPL SIGN-IN WITH GOOGLE A/C
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<FirebaseUser> getCurrentUser() async {
+    FirebaseUser user = await _auth.currentUser();
+    return user;
+  }
+
+  // handlePhoneSignIn() {
+  //   return StreamBuilder(
+  //       stream: _auth.onAuthStateChanged,
+  //       builder: (BuildContext context, snapshot) {
+  //         if (snapshot.hasData) {
+  //           return true;
+  //         } else {
+  //           return false;
+  //         }
+  //       });
+  // }
 
   Future<FirebaseUser> handleSignIn() async {
     print('YAHA PE # 01');
@@ -43,6 +63,7 @@ class AuthService {
     // await _googleSignIn.signOut();
     return Account();
   }
+
   // IMPL PHONE SIGN-IN
 
 }
