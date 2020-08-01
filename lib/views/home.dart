@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/views/account.dart';
 import 'package:flutter_app/views/body.dart';
-
+import 'package:flutter_app/cart.dart';
 class HomePage extends StatefulWidget {
   final FirebaseUser user;
   HomePage({this.user});
@@ -12,34 +12,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Extras',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Cart',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Account',
-      style: optionStyle,
-    ),
-  ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  @override
+
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,21 +47,33 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Container(
-            child: Icon(Icons.home, color: Colors.grey),
-            // title: Text('Home'),
-            // backgroundColor:
-            //     isTapped() ? Colors.lightBlueAccent : Colors.blueGrey,
-          ),
-          Container(
-            child: Icon(Icons.add_circle_outline, color: Colors.grey),
-            // title: Text('Extras'),
-          ),
-          Container(
-            child: Icon(Icons.add_shopping_cart, color: Colors.grey),
-            // title: Text('Cart'),
+            // icon: Icon(Icons.account_box, color: Colors.grey),
+            child: IconButton(
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Account(widget.user))),
+                icon: Icon(Icons.home)),
           ),
           Container(
             // icon: Icon(Icons.account_box, color: Colors.grey),
+            child: IconButton(
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Account(widget.user))),
+                icon: Icon(Icons.add_circle_outline)),
+          ),
+          Container(
+            child: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => CartPage())),
+            ),
+          ),
+          Container(
+            // icon: Icon(Icons.account_box, color: Colors.grey),
+<<<<<<< HEAD
             child: FlatButton(
               onPressed: () => {
                 print("YAHA PE DELETED USER " + widget.user.toString()),
@@ -97,11 +84,16 @@ class _HomePageState extends State<HomePage> {
               },
               child: Text('Account'),
             ),
+=======
+            child: IconButton(
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Account(widget.user))),
+                icon: Icon(Icons.account_circle)),
+>>>>>>> 6042b2c20a986c0275d8057c75e9dd6ffd88d005
           ),
         ],
-        // currentIndex: _selectedIndex,
-        // selectedItemColor: Colors.amber[800],
-        // onTap: _onItemTapped,
       ),
     );
   }
