@@ -48,9 +48,8 @@ class _BodyState extends State<Body> {
                   IconButton(
                     icon: Icon(Icons.add_shopping_cart),
                     onPressed: () {
-                      display_list[index].no_of_orders += 1;
+                      /*display_list[index].no_of_orders += 1;*/
                       globals.item_list.add(display_list[index]);
-                      print(display_list[index].itemName);
                     },
                   )
                 ],
