@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/views/phonelogin.dart';
 // import 'package:flutter_app/controllers/auth.dart';
 import 'package:flutter_app/views/signin.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -15,7 +16,7 @@ class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: SignIn(),
+      child: PhoneLogin(),
     );
   }
 }

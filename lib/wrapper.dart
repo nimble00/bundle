@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/views/authenticate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app/views/home.dart';
-import 'package:flutter_app/models/user.dart';
+
 // import 'package:flutter_app/home.dart';
 
 class Wrapper extends StatelessWidget {
@@ -19,7 +19,7 @@ class Wrapper extends StatelessWidget {
             return HomePage(user: currUser);
           }
 
-          /// other way there is no user logged.
+          // other way there is no user logged.
           return Authenticate();
         });
   }

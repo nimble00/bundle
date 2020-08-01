@@ -88,10 +88,13 @@ class _HomePageState extends State<HomePage> {
           Container(
             // icon: Icon(Icons.account_box, color: Colors.grey),
             child: FlatButton(
-              onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Account(widget.user))),
+              onPressed: () => {
+                print("YAHA PE DELETED USER " + widget.user.toString()),
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Account(user: widget.user)))
+              },
               child: Text('Account'),
             ),
           ),
