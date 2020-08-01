@@ -1,5 +1,5 @@
-//import 'package:f_groceries/checkout_screen.dart';
-//import 'package:f_groceries/item_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 enum DialogDemoAction {
@@ -28,7 +28,7 @@ class Item {
 }
 
 class CartState extends State<CartPage> {
-
+  CollectionReference product = FirebaseFirestore.instance.collection('Products');
   List<Item> itemList = <Item>[
     Item(
         itemImage: 'assets/beer.jpg',
@@ -139,40 +139,6 @@ class CartState extends State<CartPage> {
         ),
         title: Text('My Cart (${itemList.length})'),
         backgroundColor: Colors.pink,
-//        actions: <Widget>[
-//          new Padding(
-//            padding: const EdgeInsets.all(10.0),
-//            child: new Container(
-//              height: 150.0,
-//              width: 30.0,
-//              child: new GestureDetector(
-//                onTap: () {
-//                  /*Navigator.of(context).push(
-//                  new MaterialPageRoute(
-//                      builder:(BuildContext context) =>
-//                      new CartItemsScreen()
-//                  )
-//              );*/
-//                },
-//                child: Stack(
-//                  children: <Widget>[
-//                    new IconButton(
-//                        icon: new Icon(
-//                          Icons.home,
-//                          color: Colors.amber,
-//                        ),
-//                        onPressed: () {
-////                          Navigator.push(
-////                              context,
-////                              MaterialPageRoute(
-////                                  builder: (context) => Item_Screen()));
-//                        }),
-//                  ],
-//                ),
-//              ),
-//            ),
-//          )
-//        ],
       ),
       body: Column(
         children: <Widget>[
@@ -416,16 +382,7 @@ class CartState extends State<CartPage> {
                                       SizedBox(
                                           height: 110.0,
                                           width: 50.0,
-//                                          child: Container(
-//                                            alignment: Alignment.center,
-//                                            child: Text.rich(
-//                                              TextSpan(
-////                                                text: (itemList[ind].itemPrice*itemList[ind].itemQun).toString(),
-//                                                text: (itemList[ind].itemQun*double.parse(itemList[ind].itemPrice)).toString(),
-//                                              )
-//                                            ),
 //
-//                                          )
                                         child:Column(
                                           mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -434,7 +391,6 @@ class CartState extends State<CartPage> {
                                               padding:const EdgeInsets.only(top: 20),
                                               child: Text.rich(
                                                 TextSpan(
-  //                                                text: (itemList[ind].itemPrice*itemList[ind].itemQun).toString(),
                                                   text: (itemList[ind].itemQun*double.parse(itemList[ind].itemPrice)).toStringAsFixed(2),
                                                 )
                                               ),
