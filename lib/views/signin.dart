@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/controllers/auth.dart';
+import 'package:flutter_app/models/user.dart';
 import 'package:flutter_app/views/home.dart';
 
 class SignIn extends StatefulWidget {
@@ -15,24 +16,29 @@ class _SignInState extends State<SignIn> {
       backgroundColor: Colors.white,
       body: Column(
           // padding: EdgeInsets.symmetric(vertical: 100.0, horizontal: 50.0),
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             RaisedButton(
               child: Text('Sign-in with Google'),
               onPressed: () async {
-                // IMPL THE AUTH SERVICE HERE
+                // IMPL THE AUTH SERVICE HERE: DONE!
                 dynamic result = await _authService.handleSignIn();
-                if (result == null) {
-                  print('error signing in');
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => HomePage()));
-                } else {
-                  print("sucessfully signed in");
-                  print(result.uid);
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => HomePage()));
-                }
+                print('YAHA PE USER HAI ' + result.toString());
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HomePage(user: result)));
+                // if (result == null) {
+                //   print('error signing in');
+                //   Navigator.push(context,
+                //       MaterialPageRoute(builder: (context) => HomePage(user: null)));
+                // } else {
+                //   print("sucessfully signed in");
+                //   print(result.uid);
+                //   Navigator.push(context,
+                //       MaterialPageRoute(builder: (context) => HomePage()));
+                // }
               },
             ),
           ]),

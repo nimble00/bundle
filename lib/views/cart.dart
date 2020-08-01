@@ -1,8 +1,6 @@
-//import 'package:f_groceries/checkout_screen.dart';
-//import 'package:f_groceries/item_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/item.dart';
-import 'globals.dart' as globals;
 
 enum DialogDemoAction {
   cancel,
@@ -16,7 +14,58 @@ class CartPage extends StatefulWidget {
   State<StatefulWidget> createState() => CartState();
 }
 
+class Item {
+  final String itemImage;
+  final String itemName;
+  int itemQun;
+  final String itemPrice;
+//  final double itemPrice;
+
+  Item({this.itemImage, this.itemName, this.itemQun, this.itemPrice});
+  void incrementQuantity() => itemQun += 1;
+  void decrementQuantity() => itemQun -= 1;
+}
+
 class CartState extends State<CartPage> {
+  CollectionReference product = Firestore.instance.collection('Products');
+  List<Item> itemList = <Item>[
+    Item(
+      itemImage: 'assets/beer.jpg',
+      itemName: 'Black beer',
+      itemQun: 1,
+      itemPrice: '100.0',
+//        itemPrice:100.0,
+    ),
+    Item(
+      itemImage: 'images/tomato.jpg',
+      itemName: 'Tomato',
+      itemQun: 3,
+      itemPrice: '112.0',
+//        itemPrice: 112.0,
+    ),
+    Item(
+      itemImage: 'images/guava.jpg',
+      itemName: 'Guava',
+      itemQun: 2,
+      itemPrice: '105.6',
+//        itemPrice: 105.0,
+    ),
+//    Item(
+//        itemImage: 'images/kiwi.jpg',
+//        itemName: 'Kiwi',
+//        itemQun: 1,
+//        itemPrice: '90.0'),
+//    Item(
+//        itemImage: 'images/lemons.jpg',
+//        itemName: 'Lemon',
+//        itemQun: 2,
+//        itemPrice: '70.0'),
+//    Item(
+//        itemImage: 'images/apple.jpg',
+//        itemName: 'Apple',
+//        itemQun: 1,
+//        itemPrice:'50.0'),
+  ];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   IconData _backIcon() {
@@ -81,9 +130,8 @@ class CartState extends State<CartPage> {
             Navigator.pop(context);
           },
         ),
-        title: Text('My Cart (${globals.item_list.length})'),
+        title: Text('My Cart (${itemList.length})'),
         backgroundColor: Colors.pink,
-//
       ),
       body: Column(
         children: <Widget>[
@@ -170,7 +218,7 @@ class CartState extends State<CartPage> {
                   left: 12.0, top: 5.0, right: 12.0, bottom: 10.0),
               height: hh,
               child: ListView.builder(
-                  itemCount: globals.item_list.length,
+                  itemCount: itemList.length,
                   itemBuilder: (BuildContext cont, int ind) {
                     return SafeArea(
                         child: Container(
@@ -193,8 +241,7 @@ class CartState extends State<CartPage> {
                                               height: 110.0,
                                               width: 100.0,
                                               child: Image.asset(
-                                                globals
-                                                    .item_list[ind].itemImage,
+                                                itemList[ind].itemImage,
                                                 fit: BoxFit.fill,
                                               )),
                                           SizedBox(
@@ -213,7 +260,7 @@ class CartState extends State<CartPage> {
                                                               .start,
                                                       children: <Widget>[
                                                         Text(
-                                                          globals.item_list[ind]
+                                                          itemList[ind]
                                                               .itemName,
                                                           style: TextStyle(
                                                               fontWeight:
@@ -240,11 +287,9 @@ class CartState extends State<CartPage> {
                                                         Container(
                                                           child: Text.rich(
                                                             TextSpan(
-                                                              text: globals
-                                                                  .item_list[
+                                                              text: itemList[
                                                                       ind]
-                                                                  .itemPrice
-                                                                  .toString(),
+                                                                  .itemPrice,
 //                                                                  debugPrint(itemList[ind].itemPrice),
                                                               style: TextStyle(
                                                                   fontSize:
@@ -274,8 +319,7 @@ class CartState extends State<CartPage> {
                                                                   .amber
                                                                   .shade500),
                                                           onPressed: () {
-                                                            globals
-                                                                .item_list[ind]
+                                                            itemList[ind]
                                                                 .incrementQuantity();
                                                             setState(() {});
                                                           },
@@ -285,8 +329,24 @@ class CartState extends State<CartPage> {
                                                               EdgeInsets.only(
                                                                   left: 2.0),
                                                         ),
+//                                                            RichText(
+//                                                              text: TextSpan(
+//
+////                                                                text:'${itemList[ind].itemQun.toString()}',
+//                                                              text: (itemList[ind].itemQun).toString(),
+//                                                                style: TextStyle(
+//                                                                    fontWeight:
+//                                                                    FontWeight
+//                                                                        .bold,
+//                                                                    fontSize: 18.0,
+//                                                                    color:
+//                                                                    Colors.black),
+//                                                              ),
+//
+//
+//                                                            ),
                                                         Text(
-                                                          '${(globals.item_list[ind].itemQun).toString()}',
+                                                          '${(itemList[ind].itemQun).toString()}',
                                                         ),
                                                         Container(
                                                           margin:
@@ -300,8 +360,7 @@ class CartState extends State<CartPage> {
                                                                   .amber
                                                                   .shade500),
                                                           onPressed: () {
-                                                            globals
-                                                                .item_list[ind]
+                                                            itemList[ind]
                                                                 .decrementQuantity();
                                                             setState(() {});
                                                           },
@@ -320,6 +379,7 @@ class CartState extends State<CartPage> {
                                   SizedBox(
                                       height: 110.0,
                                       width: 50.0,
+//
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -328,12 +388,10 @@ class CartState extends State<CartPage> {
                                             padding:
                                                 const EdgeInsets.only(top: 20),
                                             child: Text.rich(TextSpan(
-                                              //                                                text: (itemList[ind].itemPrice*itemList[ind].itemQun).toString(),
-                                              text: (globals.item_list[ind]
-                                                          .itemQun *
-                                                      (globals.item_list[ind]
+                                              text: (itemList[ind].itemQun *
+                                                      double.parse(itemList[ind]
                                                           .itemPrice))
-                                                  .toString(),
+                                                  .toStringAsFixed(2),
                                             )),
                                           ),
                                           new IconButton(
@@ -342,7 +400,7 @@ class CartState extends State<CartPage> {
                                               semanticLabel: 'delete',
                                             ),
                                             onPressed: () {
-                                              globals.item_list.removeAt(ind);
+                                              itemList.removeAt(ind);
                                               setState(() {});
                                             },
                                           ),
@@ -373,7 +431,7 @@ class CartState extends State<CartPage> {
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      getTotal(globals.item_list).toString(),
+                      getTotal(itemList).toString(),
                       style: TextStyle(fontSize: 17.0, color: Colors.black54),
                     ),
                     Padding(
@@ -414,7 +472,7 @@ class CartState extends State<CartPage> {
   double getTotal(List<Item> itemList) {
     double total = 0;
     for (Item item in itemList) {
-      total += item.itemQun * (item.itemPrice);
+      total += item.itemQun * double.parse(item.itemPrice);
     }
     return total;
   }
