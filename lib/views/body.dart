@@ -12,9 +12,9 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   String category = 'All', filter = 'Popularity';
   List<Item> display_list = new List();
-  Item item1 = new Item('assets/beer.jpg', 'Budweiser', 1, 100);
-  Item item2 = new Item('assets/beer.jpg', 'Budweiser', 1, 100);
-  Item item3 = new Item('assets/beer.jpg', 'Budweiser', 1, 100);
+  Item item1 = new Item('assets/beer.jpg', 'Budweiser', 1, 100,0);
+  Item item2 = new Item('assets/beer.jpg', 'Budweiser', 1, 100,0);
+  Item item3 = new Item('assets/beer.jpg', 'Budweiser', 1, 100,0);
   /*void itemList() {
     if (filter == 'Price') {
       //EXTRACT THE LIST OF CATEGORY PRODUCTS FROM GIVEN DATA
@@ -48,8 +48,11 @@ class _BodyState extends State<Body> {
                   IconButton(
                     icon: Icon(Icons.add_shopping_cart),
                     onPressed: () {
-                      /*display_list[index].no_of_orders += 1;*/
-                      globals.item_list.add(display_list[index]);
+                      if(display_list[index].selected==0) {
+                       /*display_list[index].no_of_orders += 1;*/
+                       /* display_list[index].selected=1;*/
+                        globals.item_list.add(display_list[index]);
+                      }
                     },
                   )
                 ],

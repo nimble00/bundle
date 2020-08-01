@@ -5,7 +5,7 @@ class Item {
  double itemPrice;
  int no_of_orders;
  int selected;
-Item(this.itemImage, this.itemName, this.itemQun, this.itemPrice);
+Item(this.itemImage, this.itemName, this.itemQun, this.itemPrice,this.selected);
 void incrementQuantity() => itemQun+=1;
 void decrementQuantity() => itemQun-=1;
 }
