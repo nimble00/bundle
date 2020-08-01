@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/views/account.dart';
 import 'package:flutter_app/views/body.dart';
 import 'package:flutter_app/views/cart.dart';
+<<<<<<< HEAD
 import 'package:flutter_app/models/user.dart';
 
+=======
+>>>>>>> 4d076b94a7c1202d69c4cea65d6502f39d0ddb59
 class HomePage extends StatefulWidget {
   final User user;
   HomePage({this.user});
@@ -51,7 +54,11 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
+<<<<<<< HEAD
                         builder: (context) => Account(user: widget.user))),
+=======
+                        builder: (context) => Account())),
+>>>>>>> 4d076b94a7c1202d69c4cea65d6502f39d0ddb59
                 icon: Icon(Icons.home)),
           ),
           Container(
@@ -60,7 +67,11 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
+<<<<<<< HEAD
                         builder: (context) => Account(user: widget.user))),
+=======
+                        builder: (context) => Account())),
+>>>>>>> 4d076b94a7c1202d69c4cea65d6502f39d0ddb59
                 icon: Icon(Icons.add_circle_outline)),
           ),
           Container(
@@ -76,7 +87,11 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
+<<<<<<< HEAD
                         builder: (context) => Account(user: widget.user))),
+=======
+                        builder: (context) => Account())),
+>>>>>>> 4d076b94a7c1202d69c4cea65d6502f39d0ddb59
                 icon: Icon(Icons.account_circle)),
           ),
         ],
