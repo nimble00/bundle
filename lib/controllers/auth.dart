@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app/views/account.dart';
-import 'package:flutter_app/views/home.dart';
+// import 'package:flutter_app/views/home.dart';
 // import 'package:flutter_app/models/user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 

@@ -1,21 +1,20 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/views/account.dart';
 import 'package:flutter_app/views/body.dart';
-import 'package:flutter_app/cart.dart';
+import 'package:flutter_app/views/cart.dart';
+import 'package:flutter_app/models/user.dart';
+
 class HomePage extends StatefulWidget {
-  final FirebaseUser user;
+  final User user;
   HomePage({this.user});
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
-
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +51,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Account(widget.user))),
+                        builder: (context) => Account(user: widget.user))),
                 icon: Icon(Icons.home)),
           ),
           Container(
@@ -61,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Account(widget.user))),
+                        builder: (context) => Account(user: widget.user))),
                 icon: Icon(Icons.add_circle_outline)),
           ),
           Container(
@@ -73,25 +72,12 @@ class _HomePageState extends State<HomePage> {
           ),
           Container(
             // icon: Icon(Icons.account_box, color: Colors.grey),
-<<<<<<< HEAD
-            child: FlatButton(
-              onPressed: () => {
-                print("YAHA PE DELETED USER " + widget.user.toString()),
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Account(user: widget.user)))
-              },
-              child: Text('Account'),
-            ),
-=======
             child: IconButton(
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Account(widget.user))),
+                        builder: (context) => Account(user: widget.user))),
                 icon: Icon(Icons.account_circle)),
->>>>>>> 6042b2c20a986c0275d8057c75e9dd6ffd88d005
           ),
         ],
       ),

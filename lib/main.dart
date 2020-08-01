@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/wrapper.dart';
 import 'globals.dart' as globals;
+
 void main() {
   runApp(MyApp());
 }

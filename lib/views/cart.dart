@@ -37,14 +37,14 @@ class CartState extends State<CartPage> {
 //        itemPrice:100.0,
     ),
     Item(
-      itemImage: 'images/tomato.jpg',
+      itemImage: 'assets/beer.jpg',
       itemName: 'Tomato',
       itemQun: 3,
       itemPrice: '112.0',
 //        itemPrice: 112.0,
     ),
     Item(
-      itemImage: 'images/guava.jpg',
+      itemImage: 'assets/beer.jpg',
       itemName: 'Guava',
       itemQun: 2,
       itemPrice: '105.6',

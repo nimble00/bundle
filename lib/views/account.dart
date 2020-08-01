@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/controllers/auth.dart';
 // import 'package:flutter_app/views/authenticate.dart';
@@ -8,7 +8,7 @@ import 'package:flutter_app/models/user.dart';
 
 // FirebaseUser globalUser;
 class Account extends StatefulWidget {
-  final FirebaseUser user;
+  final User user;
   Account({this.user});
   final AuthService _authService = AuthService();
   @override

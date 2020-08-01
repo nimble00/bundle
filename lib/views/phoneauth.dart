@@ -1,10 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/views/home.dart';
+import 'package:flutter_app/models/user.dart';
 
 class PhoneLogin extends StatelessWidget {
   final _phoneController = TextEditingController();
   final _codeController = TextEditingController();
+
+  User _userFromFirebaseUser(FirebaseUser user) {
+    return user != null
+        ? User(
+            uid: user.uid, username: user.displayName, phone: user.phoneNumber)
+        : null;
+  }
 
   Future<bool> _loginUser(String phone, BuildContext context) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
@@ -17,8 +25,11 @@ class PhoneLogin extends StatelessWidget {
           AuthResult result = await _auth.signInWithCredential(credential);
           FirebaseUser user = result.user;
           if (user != null) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => HomePage(user: user)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        HomePage(user: _userFromFirebaseUser(user))));
           } else {
             print("Error");
           }
@@ -34,7 +45,7 @@ class PhoneLogin extends StatelessWidget {
               barrierDismissible: false,
               builder: (context) {
                 return AlertDialog(
-                  title: Text("Give the code?"),
+                  title: Text("Verification code?"),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -64,7 +75,7 @@ class PhoneLogin extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => HomePage(
-                                        user: user,
+                                        user: _userFromFirebaseUser(user),
                                       )));
                         } else {
                           print("Error");

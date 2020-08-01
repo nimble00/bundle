@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/views/phonelogin.dart';
+import 'package:flutter_app/controllers/phonelogin.dart';
 // import 'package:flutter_app/controllers/auth.dart';
 import 'package:flutter_app/views/signin.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
