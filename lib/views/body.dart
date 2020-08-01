@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_app/models/item.dart';
+import 'package:flutter_app/globals.dart' as globals;
 
 class Body extends StatefulWidget {
   @override
@@ -8,6 +10,61 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  String category = 'All', filter = 'Popularity';
+  List<Item> display_list = new List();
+  Item item1 = new Item('assets/beer.jpg', 'Budweiser', 1, 100);
+  Item item2 = new Item('assets/beer.jpg', 'Budweiser', 1, 100);
+  Item item3 = new Item('assets/beer.jpg', 'Budweiser', 1, 100);
+  /*void itemList() {
+    if (filter == 'Price') {
+      //EXTRACT THE LIST OF CATEGORY PRODUCTS FROM GIVEN DATA
+      display_list.sort((a, b) => a.itemPrice.compareTo(b.itemPrice));
+    } else
+      display_list.sort((a, b) => a.no_of_orders.compareTo(b.no_of_orders));
+  }*/
+
+  List<Card> _generateCards() {
+    display_list.add(item1);
+    display_list.add(item2);
+    display_list.add(item3);
+    List<Card> cards = List.generate(
+      display_list.length,
+      (int index) => Card(
+        clipBehavior: Clip.antiAlias,
+        child: ListView(
+        children: <Widget>[
+          AspectRatio(
+            aspectRatio: 26.0 / 11.0,
+            child: Image.asset(display_list[index].itemImage),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(display_list[index].itemName),
+                  Text(display_list[index].itemPrice.toString()),
+                  IconButton(
+                    icon: Icon(Icons.add_shopping_cart),
+                    onPressed: () {
+                      display_list[index].no_of_orders += 1;
+                      globals.item_list.add(display_list[index]);
+                      print(display_list[index].itemName);
+                    },
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+      ),
+    );
+
+    return cards;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
@@ -121,73 +178,12 @@ class _BodyState extends State<Body> {
               onPressed: () {},
             ),
           )),
-      Container(
-          height: 300.0,
-          child: GridView.count(
-            crossAxisCount: 2,
-            children: [
-              Card(
-                  child: Column(
-                children: [
-                  AspectRatio(
-                    aspectRatio: 18.0 / 11.0,
-                    child: Image.asset('assets/beer.jpg'),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Center(
-                    child: Text("Budweiser"),
-                  )
-                ],
-              )),
-              Card(
-                  child: Column(
-                    children: [
-                      AspectRatio(
-                        aspectRatio: 18.0 / 11.0,
-                        child: Image.asset('assets/vodka.jpg'),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Center(
-                        child: Text("Magic colors"),
-                      )
-                    ],
-                  )),
-              Card(
-                  child: Column(
-                    children: [
-                      AspectRatio(
-                        aspectRatio: 18.0 / 11.0,
-                        child: Image.asset('assets/whiskey.jpg'),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Center(
-                        child: Text("Chill"),
-                      )
-                    ],
-                  )),
-              Card(
-                  child: Column(
-                    children: [
-                      AspectRatio(
-                        aspectRatio: 18.0 / 11.0,
-                        child: Image.asset('assets/champagne.jpg'),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Center(
-                        child: Text("Madira"),
-                      )
-                    ],
-                  )),
-            ],
-          ))
+      GridView.count(
+        crossAxisCount: 2,
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        children: _generateCards(),
+      )
     ]);
   }
 }
