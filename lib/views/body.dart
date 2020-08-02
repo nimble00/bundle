@@ -31,10 +31,10 @@ class _BodyState extends State<Body> {
       globals.display_list.length,
       (int index) => Card(
         clipBehavior: Clip.antiAlias,
-        child: ListView(
+        child: Column(
         children: <Widget>[
           AspectRatio(
-            aspectRatio: 30.0 / 11.0,
+            aspectRatio: 40.0 / 11.0,
             child: Image.asset(globals.display_list[index].itemImage),
           ),
           Padding(
@@ -52,6 +52,9 @@ class _BodyState extends State<Body> {
                       // globals.display_list[index].no_of_orders += 1;
                         globals.display_list[index].selected=1;
                         globals.item_list.add(globals.display_list[index]);
+                      }
+                      else{
+                        globals.display_list[index].itemQun+=1;
                       }
                     },
                   )
