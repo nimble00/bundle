@@ -344,6 +344,7 @@ class CartState extends State<CartPage> {
                                             ),
                                             onPressed: () {
                                               globals.item_list[ind].selected=0;
+                                              globals.item_list[ind].itemQun=0;
                                               globals.item_list.removeAt(ind);
                                               setState(() {});
                                             },
