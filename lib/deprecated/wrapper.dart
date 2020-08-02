@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/views/authenticate.dart';
+import 'package:flutter_app/deprecated/authenticate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app/views/home.dart';
-import 'models/user.dart';
+import '../models/user.dart';
 
 // import 'package:flutter_app/home.dart';
 

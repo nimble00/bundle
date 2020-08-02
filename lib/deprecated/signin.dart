@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/controllers/auth.dart';
+import 'package:flutter_app/deprecated/auth.dart';
 // import 'package:flutter_app/models/user.dart';
 import 'package:flutter_app/views/home.dart';
 
