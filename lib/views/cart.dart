@@ -167,7 +167,7 @@ class CartState extends State<CartPage> {
           //image , name, price , total price
           Container(
               margin: EdgeInsets.only(
-                  left: 12.0, top: 5.0, right: 12.0, bottom: 10.0),
+                  top: 5.0), // left: 12.0, right: 12.0, bottom: 10.0
               height: hh,
               child: ListView.builder(
                   itemCount: globals.item_list.length,

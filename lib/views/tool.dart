@@ -3,11 +3,11 @@ import 'package:flutter_app/controllers/controllers.dart';
 import 'package:flutter_app/wrapper.dart';
 
 class CollectPincode extends StatelessWidget {
-  TextEditingController _pincodeController= TextEditingController();
+  TextEditingController _pincodeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:AlertDialog(
+      body: AlertDialog(
         title: Text('Pincode to deliver'),
         content: TextField(
           controller: _pincodeController,
@@ -30,14 +30,11 @@ class CollectPincode extends StatelessWidget {
             child: Text('Proceed'),
             onPressed: () {
               print(_pincodeController.text);
-              pincodeController(_pincodeController.text).then((value){
-              if(value){
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Wrapper()));
-              }
-              else{
+              pincodeController(_pincodeController.text).then((value) {
+                if (value) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Wrapper()));
+                } else {
 //                final snackBar = SnackBar(
 //                  content: Text('enter correct pincode'),
 //                  action: SnackBarAction(
@@ -51,14 +48,12 @@ class CollectPincode extends StatelessWidget {
 //                // Find the Scaffold in the widget tree and use
 //                // it to show a SnackBar.
 //                Scaffold.of(context).showSnackBar(snackBar);
-              }
+                }
               });
             },
           ),
         ],
       ),
-
     );
   }
-
 }
