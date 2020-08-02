@@ -11,31 +11,31 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   String category = 'All', filter = 'Popularity';
-  List<Item> display_list = new List();
-  Item item1 = new Item('assets/beer.jpg', 'Budweiser', 1, 100,0);
-  Item item2 = new Item('assets/beer.jpg', 'Budweiser', 1, 100,0);
-  Item item3 = new Item('assets/beer.jpg', 'Budweiser', 1, 100,0);
+  Item item1 = new Item('assets/beer.jpg', 'Budweiser', 0, 100,0,0);
+  Item item2 = new Item('assets/beer.jpg', 'Budweiser', 0, 100,0,0);
+  Item item3 = new Item('assets/beer.jpg', 'Budweiser', 0, 100,0,0);
   /*void itemList() {
     if (filter == 'Price') {
       //EXTRACT THE LIST OF CATEGORY PRODUCTS FROM GIVEN DATA
-      display_list.sort((a, b) => a.itemPrice.compareTo(b.itemPrice));
+      globals.display_list.sort((a, b) => a.itemPrice.compareTo(b.itemPrice));
     } else
-      display_list.sort((a, b) => a.no_of_orders.compareTo(b.no_of_orders));
+      globals.display_list.sort((a, b) => a.no_of_orders.compareTo(b.no_of_orders));
   }*/
 
   List<Card> _generateCards() {
-    display_list.add(item1);
-    display_list.add(item2);
-    display_list.add(item3);
+    globals.display_list.add(item1);
+    globals.display_list.add(item2);
+    globals.display_list.add(item3);
+   // itemList();
     List<Card> cards = List.generate(
-      display_list.length,
+      globals.display_list.length,
       (int index) => Card(
         clipBehavior: Clip.antiAlias,
-        child: ListView(
+        child: Column(
         children: <Widget>[
           AspectRatio(
-            aspectRatio: 26.0 / 11.0,
-            child: Image.asset(display_list[index].itemImage),
+            aspectRatio: 40.0 / 11.0,
+            child: Image.asset(globals.display_list[index].itemImage),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
@@ -43,16 +43,18 @@ class _BodyState extends State<Body> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(display_list[index].itemName),
-                  Text(display_list[index].itemPrice.toString()),
+                  Text(globals.display_list[index].itemName),
+                  Text(globals.display_list[index].itemPrice.toString()),
                   IconButton(
                     icon: Icon(Icons.add_shopping_cart),
                     onPressed: () {
-                      if(display_list[index].selected==0) {
-                       /*display_list[index].no_of_orders += 1;*/
-                       /* display_list[index].selected=1;*/
-                        globals.item_list.add(display_list[index]);
+                      if(globals.display_list[index].selected==0) {
+                      // globals.display_list[index].no_of_orders += 1;
+                        globals.display_list[index].selected=1;
+                        globals.item_list.add(globals.display_list[index]);
                       }
+                      globals.display_list[index].itemQun+=1;
+
                     },
                   )
                 ],
