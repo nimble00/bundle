@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
     currentUser = await _auth.currentUser();
     // Position position = await Geolocator()
     //     .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print('Hello ' + currentUser.displayName.toString());
+    // print('Hello ' + currentUser.displayName.toString());
     setState(() {
       currentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
       print("ACCOUNT STATUS: " + accountStatus);

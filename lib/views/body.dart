@@ -11,9 +11,9 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   String category = 'All', filter = 'Popularity';
-  Item item1 = new Item('assets/beer.jpg', 'Budweiser', 0, 100, 0, 0);
-  Item item2 = new Item('assets/beer.jpg', 'Budweiser', 0, 100, 0, 0);
-  Item item3 = new Item('assets/beer.jpg', 'Budweiser', 0, 100, 0, 0);
+  Item item1 = new Item('assets/bev.jpg', 'Budweiser', 0, 100, 0, 0);
+  Item item2 = new Item('assets/bev.jpg', 'Budweiser', 0, 100, 0, 0);
+  Item item3 = new Item('assets/bev.jpg', 'Budweiser', 0, 100, 0, 0);
   /*void itemList() {
     if (filter == 'Price') {
       //EXTRACT THE LIST OF CATEGORY PRODUCTS FROM GIVEN DATA

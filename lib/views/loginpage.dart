@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/controllers/authservice.dart';
+import '../controllers/existcheck.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,57 +15,77 @@ class _LoginPageState extends State<LoginPage> {
 
   bool codeSent = false;
 
+  // bool newUser = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                  padding: EdgeInsets.only(left: 25.0, right: 25.0),
-                  child: TextFormField(
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(hintText: 'Enter phone number'),
-                    onChanged: (val) {
-                      setState(() {
-                        this.phoneNo = '+91 ' + val;
-                      });
-                    },
-                  )),
-              codeSent
-                  ? Padding(
-                      padding: EdgeInsets.only(left: 25.0, right: 25.0),
-                      child: TextFormField(
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(hintText: 'Enter OTP'),
-                        onChanged: (val) {
-                          setState(() {
-                            this.smsCode = val;
-                          });
-                        },
-                      ))
-                  : Container(),
-              Padding(
-                  padding: EdgeInsets.only(left: 25.0, right: 25.0),
-                  child: RaisedButton(
-                      child: Center(
-                          child: codeSent ? Text('Login') : Text('Verify')),
-                      onPressed: () {
-                        codeSent
-                            ? AuthService()
-                                .signInWithOTP(smsCode, verificationId)
-                            : verifyPhone(phoneNo);
-                      }))
-            ],
-          )),
-    );
+        body:
+            // newUser ?
+            Form(
+                key: formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                        padding: EdgeInsets.only(left: 25.0, right: 25.0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.greenAccent, width: 5.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 5.0),
+                            ),
+                            hintText: 'Phone Number',
+                          ),
+                          onChanged: (val) {
+                            setState(() {
+                              this.phoneNo = '+91 ' + val;
+                            });
+                          },
+                        )),
+                    codeSent
+                        ? Padding(
+                            padding: EdgeInsets.only(left: 25.0, right: 25.0),
+                            child: TextFormField(
+                              keyboardType: TextInputType.phone,
+                              decoration:
+                                  InputDecoration(hintText: 'Enter OTP'),
+                              onChanged: (val) {
+                                setState(() {
+                                  this.smsCode = val;
+                                });
+                              },
+                            ))
+                        : Container(),
+                    Padding(
+                        padding: EdgeInsets.only(left: 25.0, right: 25.0),
+                        child: RaisedButton(
+                            child: Center(
+                                child:
+                                    codeSent ? Text('Login') : Text('Verify')),
+                            onPressed: () {
+                              codeSent
+                                  ? AuthService()
+                                      .signInWithOTP(smsCode, verificationId)
+                                  : verifyPhone(phoneNo);
+                            }))
+                  ],
+                ))
+        // : ExistCheck(),
+        );
   }
 
   Future<void> verifyPhone(phoneNo) async {
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
       AuthService().signIn(authResult);
+      // setState(() {
+      //   this.otpMatched = true;
+      // });
     };
 
     final PhoneVerificationFailed verificationfailed =

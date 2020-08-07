@@ -12,6 +12,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Madira',
+      theme: new ThemeData(
+        primarySwatch: Colors.blue,
+      ),
       // home: Wrapper(),
       home: AuthService().handleAuth(),
     );
