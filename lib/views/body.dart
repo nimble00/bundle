@@ -1,8 +1,10 @@
+import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_app/models/item.dart';
 import 'package:flutter_app/globals.dart' as globals;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -10,62 +12,122 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  List<Item> display_list = new List();
   String category = 'All', filter = 'Popularity';
-  Item item1 = new Item('assets/beer.jpg', 'Budweiser', 0, 100,0,0);
-  Item item2 = new Item('assets/beer.jpg', 'Budweiser', 0, 100,0,0);
-  Item item3 = new Item('assets/beer.jpg', 'Budweiser', 0, 100,0,0);
-  /*void itemList() {
-    if (filter == 'Price') {
-      //EXTRACT THE LIST OF CATEGORY PRODUCTS FROM GIVEN DATA
-      globals.display_list.sort((a, b) => a.itemPrice.compareTo(b.itemPrice));
-    } else
-      globals.display_list.sort((a, b) => a.no_of_orders.compareTo(b.no_of_orders));
-  }*/
+  //FUCTION TO FIND THE CLOSEST PARTNER
+  DocumentSnapshot _nearestPartner(AsyncSnapshot<QuerySnapshot> document) {
+    //CHECK FOR ALL LOCATIONS AND FIND THE NEAREST PARTNER
+    return document.data.documents[1];
+  }
 
-  List<Card> _generateCards() {
-    globals.display_list.add(item1);
-    globals.display_list.add(item2);
-    globals.display_list.add(item3);
-   // itemList();
+  //FUNCTION TO MAKE THE DISPLAY LIST FOR A GIVEN CATEGORY
+  void _productList(DocumentSnapshot document) {
+    display_list = new List();
+    int count = 0;
+    if (category == 'All') {
+      document['products'].forEach((k, v) {
+        for (int i = 0; i < document['products'][k].length; i++) {
+          Item item = new Item(
+              document['products'][k]['$i']['itemImage'],
+              document['products'][k]['$i']['itemName'],
+              1,
+              document['products'][k]['$i']['itemPrice'],
+              false,
+              document['products'][k]['$i']['no_of_orders'],
+              document['products'][k]['$i']['itemCategory'],
+              '$i',
+              count);
+          display_list.add(item);
+        }
+      });
+    } else {
+      try {
+        for (int i = 0; i < document['products'][category].length; i++) {
+          Item item = new Item(
+              document['products'][category]['$i']['itemImage'],
+              document['products'][category]['$i']['itemName'],
+              1,
+              document['products'][category]['$i']['itemPrice'],
+              false,
+              document['products'][category]['$i']['no_of_orders'],
+              document['products'][category]['$i']['itemCategory'],
+              '$i',
+              count);
+          display_list.add(item);
+        }
+        count += 1;
+        filterList();
+      } catch (e) {
+         print("Category doesn't exist");
+      }
+    }
+  }
+  Widget _buildProducts(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: Firestore.instance.collection(globals.pincode).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return LinearProgressIndicator();
+        return GridView.count(
+          crossAxisCount: 2,
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          children: _generateCards(_nearestPartner(snapshot)),
+        );
+      },
+    );
+  }
+
+  void filterList() {
+    if (filter == 'Price') {
+      display_list.sort((a, b) => a.itemPrice.compareTo(b.itemPrice));
+    } else
+      display_list.sort((a, b) => a.no_of_orders.compareTo(b.no_of_orders));
+  }
+
+  List<Card> _generateCards(DocumentSnapshot partner) {
+    globals.reference = partner.reference;
+    _productList(partner);
     List<Card> cards = List.generate(
-      globals.display_list.length,
+      display_list.length,
       (int index) => Card(
         clipBehavior: Clip.antiAlias,
         child: Column(
-        children: <Widget>[
-          AspectRatio(
-            aspectRatio: 40.0 / 11.0,
-            child: Image.asset(globals.display_list[index].itemImage),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(globals.display_list[index].itemName),
-                  Text(globals.display_list[index].itemPrice.toString()),
-                  IconButton(
-                    icon: Icon(Icons.add_shopping_cart),
-                    onPressed: () {
-                      if(globals.display_list[index].selected==0) {
-                      // globals.display_list[index].no_of_orders += 1;
-                        globals.display_list[index].selected=1;
-                        globals.item_list.add(globals.display_list[index]);
-                      }
-                      globals.display_list[index].itemQun+=1;
-
-                    },
-                  )
-                ],
+          children: <Widget>[
+            AspectRatio(
+              aspectRatio: 40.0 / 11.0,
+              child: Image.asset(display_list[index].itemImage),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(display_list[index].itemName),
+                    Text((display_list[index].itemPrice).toString()),
+                    IconButton(
+                        icon: Icon(Icons.add_shopping_cart),
+                        onPressed: () {
+                          if (display_list[index].selected == false) {
+                            if (!globals.item_index.contains(index)) {
+                              display_list[index].selected = true;
+                              globals.item_index.add(index);
+                              globals.item_list.add(display_list[index]);
+                            }
+                          }
+                          globals.reference.updateData({
+                            'products.${display_list[index].itemCategory}.${display_list[index].itemIndex}.no_of_orders':
+                                FieldValue.increment(1)
+                          });
+                        })
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
-
     return cards;
   }
 
@@ -118,7 +180,11 @@ class _BodyState extends State<Body> {
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        category="All";
+                      });
+                    },
                   ))),
               Container(
                   width: MediaQuery.of(context).size.width / 4,
@@ -128,7 +194,11 @@ class _BodyState extends State<Body> {
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        category='beer';
+                      });
+                    },
                   ))),
               Container(
                   width: MediaQuery.of(context).size.width / 4,
@@ -138,7 +208,11 @@ class _BodyState extends State<Body> {
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        category="Rum";
+                      });
+                    },
                   ))),
               Container(
                   width: MediaQuery.of(context).size.width / 4,
@@ -148,7 +222,11 @@ class _BodyState extends State<Body> {
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        category='Whiskey';
+                      });
+                    },
                   ))),
               Container(
                   width: MediaQuery.of(context).size.width / 4,
@@ -158,7 +236,11 @@ class _BodyState extends State<Body> {
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        category='Vodka';
+                      });
+                    },
                   )))
             ],
           )),
@@ -173,7 +255,7 @@ class _BodyState extends State<Body> {
           ),
           child: ListTile(
             title: Text(
-              " Sort By:  Popularity",
+              " Sort By:" + filter,
               style: TextStyle(color: Colors.redAccent),
             ),
             trailing: IconButton(
@@ -182,12 +264,7 @@ class _BodyState extends State<Body> {
               onPressed: () {},
             ),
           )),
-      GridView.count(
-        crossAxisCount: 2,
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        children: _generateCards(),
-      )
+      _buildProducts(context)
     ]);
   }
 }
