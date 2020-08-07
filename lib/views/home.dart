@@ -1,14 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// import 'package:geolocator/geolocator.dart';
 import 'package:flutter_app/views/account.dart';
 import 'package:flutter_app/views/body.dart';
 import 'package:flutter_app/views/cart.dart';
 import 'package:flutter_app/models/user.dart';
 
 class HomePage extends StatefulWidget {
-  final User user;
-  HomePage({this.user});
+  // final User user;
+  // HomePage({this.user});
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -29,11 +30,15 @@ class _HomePageState extends State<HomePage> {
 
   _getCurrentUser() async {
     currentUser = await _auth.currentUser();
+    // Position position = await Geolocator()
+    //     .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     print('Hello ' + currentUser.displayName.toString());
     setState(() {
       currentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
       print("ACCOUNT STATUS: " + accountStatus);
       user = User.fromFirebaseUser(currentUser);
+      // user.location = position;
+      // print('POSITION: ' + user.location.toString());
     });
   }
 

@@ -11,9 +11,9 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   String category = 'All', filter = 'Popularity';
-  Item item1 = new Item('assets/beer.jpg', 'Budweiser', 0, 100,0,0);
-  Item item2 = new Item('assets/beer.jpg', 'Budweiser', 0, 100,0,0);
-  Item item3 = new Item('assets/beer.jpg', 'Budweiser', 0, 100,0,0);
+  Item item1 = new Item('assets/beer.jpg', 'Budweiser', 0, 100, 0, 0);
+  Item item2 = new Item('assets/beer.jpg', 'Budweiser', 0, 100, 0, 0);
+  Item item3 = new Item('assets/beer.jpg', 'Budweiser', 0, 100, 0, 0);
   /*void itemList() {
     if (filter == 'Price') {
       //EXTRACT THE LIST OF CATEGORY PRODUCTS FROM GIVEN DATA
@@ -26,43 +26,42 @@ class _BodyState extends State<Body> {
     globals.display_list.add(item1);
     globals.display_list.add(item2);
     globals.display_list.add(item3);
-   // itemList();
+    // itemList();
     List<Card> cards = List.generate(
       globals.display_list.length,
       (int index) => Card(
         clipBehavior: Clip.antiAlias,
         child: Column(
-        children: <Widget>[
-          AspectRatio(
-            aspectRatio: 40.0 / 11.0,
-            child: Image.asset(globals.display_list[index].itemImage),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(globals.display_list[index].itemName),
-                  Text(globals.display_list[index].itemPrice.toString()),
-                  IconButton(
-                    icon: Icon(Icons.add_shopping_cart),
-                    onPressed: () {
-                      if(globals.display_list[index].selected==0) {
-                      // globals.display_list[index].no_of_orders += 1;
-                        globals.display_list[index].selected=1;
-                        globals.item_list.add(globals.display_list[index]);
-                      }
-                      globals.display_list[index].itemQun+=1;
-
-                    },
-                  )
-                ],
+          children: <Widget>[
+            AspectRatio(
+              aspectRatio: 40.0 / 11.0,
+              child: Image.asset(globals.display_list[index].itemImage),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(globals.display_list[index].itemName),
+                    Text(globals.display_list[index].itemPrice.toString()),
+                    IconButton(
+                      icon: Icon(Icons.add_shopping_cart),
+                      onPressed: () {
+                        if (globals.display_list[index].selected == 0) {
+                          // globals.display_list[index].no_of_orders += 1;
+                          globals.display_list[index].selected = 1;
+                          globals.item_list.add(globals.display_list[index]);
+                        }
+                        globals.display_list[index].itemQun += 1;
+                      },
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
 
