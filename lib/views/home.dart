@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:geolocator/geolocator.dart';
 import 'package:flutter_app/views/account.dart';
@@ -19,28 +18,16 @@ class _HomePageState extends State<HomePage> {
   FirebaseUser currentUser;
   FirebaseAuth _auth;
   User user;
-
   @override
   void initState() {
     super.initState();
     _auth = FirebaseAuth.instance;
-    _getCurrentUser();
+    //_getCurrentUser();
     print('here outside async');
   }
 
-  _getCurrentUser() async {
-    currentUser = await _auth.currentUser();
-    // Position position = await Geolocator()
-    //     .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    // print('Hello ' + currentUser.displayName.toString());
-    setState(() {
-      currentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
-      print("ACCOUNT STATUS: " + accountStatus);
-      user = User.fromFirebaseUser(currentUser);
-      // user.location = position;
-      // print('POSITION: ' + user.location.toString());
-    });
-  }
+  // Function to find the nearest partner for a given pincode
+  //FUNCTION TP RETRIEVE LIST OF PRODUCT FOR THE PARTNER
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Account(user: user))),
+                        builder: (context) => HomePage(user: user))),
                 icon: Icon(Icons.home)),
           ),
           Container(
