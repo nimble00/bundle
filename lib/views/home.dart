@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:geolocator/geolocator.dart';
 import 'package:flutter_app/views/account.dart';
@@ -31,23 +32,29 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Colors.white,
         leading: IconButton(
+          color: Colors.black,
             icon: Icon(Icons.location_on),
             onPressed: () => {
                   // IMPLEMENT A FUNCTION THAT FETCHES LOCATION AND REPLACE THIS ARROW FUNCTION WITH IT!
                 }),
-        title: Text("Address"),
+        title: Text("Address",
+            style:TextStyle(fontStyle:FontStyle.normal,
+              color: Colors.black
+            )
+        ),
         actions: [
           Container(
             child: Center(
               child: Text(
                 "Offers",
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontStyle:FontStyle.normal,fontSize:20.0,color: Colors.black),
               ),
             ),
           ),
           IconButton(
+            color: Colors.black,
               icon: Icon(Icons.local_offer),
               onPressed: () => {
                     // IMPLEMENT THE OFFERS PAGE HERE!

@@ -146,13 +146,13 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:PreferredSize(
-        preferredSize: Size(100.0,75.0),
+        preferredSize: Size(100.0,139.0),
         child:
             Column(
               children:<Widget>[
       Container(
           height: 75.0,
-          color: Colors.grey,
+          color: Colors.white,
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
@@ -233,26 +233,26 @@ class _BodyState extends State<Body> {
                   )))
             ],
           )),
+                Container(
+                    margin: EdgeInsets.all(4.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        " Sort By:" + filter,
+                        style: TextStyle(color: Colors.teal),
+                      ),
+                      trailing: IconButton(
+                        color: Colors.teal,
+                        icon: Icon(Icons.list),
+                        onPressed: () {},
+                      ),
+                    )),
            ])),
       body:ListView(
         children:<Widget>[
-      Container(
-          margin: EdgeInsets.all(4.0),
-          decoration: BoxDecoration(
-            color: Colors.black12,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: ListTile(
-            title: Text(
-              " Sort By:" + filter,
-              style: TextStyle(color: Colors.redAccent),
-            ),
-            trailing: IconButton(
-              color: Colors.redAccent,
-              icon: Icon(Icons.list),
-              onPressed: () {},
-            ),
-          )),
       _buildProducts(context)
         ]
       )
