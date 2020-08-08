@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/controllers/existcheck.dart';
+// import 'package:flutter_app/controllers/existcheck.dart';
+import 'package:flutter_app/views/adduserinfo.dart';
 import 'package:flutter_app/views/home.dart';
 import 'package:flutter_app/views/loginpage.dart';
 // import 'package:flutter_app/models/user.dart';
@@ -14,13 +16,24 @@ class AuthService {
         stream: FirebaseAuth.instance.onAuthStateChanged,
         builder: (BuildContext context, snapshot) {
           if (snapshot.hasData) {
-            doesUserExist(snapshot.data.phoneNumber);
-            print("CHECK: " + check.toString());
-            if (check) {
-              return HomePage();
-            }
-          } else if (snapshot.hasData) {
-            // !doesUserExist(snapshot.data['phoneNumber'])
+            //   doesUserExist(snapshot.data.phoneNumber).then((value) {
+            //     print("VALUE: " + value.toString());
+            //     if (value) {
+            //       return HomePage();
+            //     } else {
+            //       return AddUser();
+            //     }
+            //   });
+            // } else {
+            //   return LoginPage();
+            // }
+            // doesUserExist(snapshot.data.phoneNumber);
+            // print("CHECK: " + check.toString());
+            // if (check) {
+            //   return HomePage();
+            // } else {
+            //   return AddUser();
+            // }
             return ExistCheck();
           } else {
             return LoginPage();
@@ -36,7 +49,7 @@ class AuthService {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        print('Document exists on the database');
+        print('DOCUMENT EXISTS IN THE DATABASE');
         check = true;
         return true;
       }
