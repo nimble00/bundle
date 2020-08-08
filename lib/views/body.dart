@@ -5,7 +5,10 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_app/models/item.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:cloud_firestore/cloud_firestore.dart';
+class Stack{
 
+
+}
 class Body extends StatefulWidget {
   @override
   _BodyState createState() => _BodyState();
@@ -13,7 +16,8 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   List<Item> display_list = new List();
-  String category = 'All', filter = 'Popularity';
+  int current=0;
+  String category = 'all', filter = 'Popularity';
   //FUCTION TO FIND THE CLOSEST PARTNER
   DocumentSnapshot _nearestPartner(AsyncSnapshot<QuerySnapshot> document) {
     //CHECK FOR ALL LOCATIONS AND FIND THE NEAREST PARTNER
@@ -23,7 +27,7 @@ class _BodyState extends State<Body> {
   //FUNCTION TO MAKE THE DISPLAY LIST FOR A GIVEN CATEGORY
   void _productList(DocumentSnapshot document) {
     display_list = new List();
-    if (category == 'All') {
+    if (category == 'all') {
       document['products'].forEach((k, v) {
         for (int i = 0; i < document['products'][k].length; i++) {
           Item item = new Item(
@@ -140,39 +144,12 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: [
-      Container(
-        height: 10.0,
-        color: Colors.grey,
-      ),
-      Container(
-        color: Colors.grey,
-        child: Padding(
-          padding: EdgeInsets.all(10.0),
-          child: InkWell(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(3.0),
-                color: Colors.white,
-              ),
-              child: ListTile(
-                leading: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {},
-                ),
-                title: Text(" Search for drinks....",
-                    style: TextStyle(fontStyle: FontStyle.italic)),
-              ),
-            ),
-            onTap: () {},
-          ),
-        ),
-      ),
-      Container(
-          height: 30.0,
-          decoration: BoxDecoration(
-            color: Colors.blueGrey,
-          )),
+    return Scaffold(
+      appBar:PreferredSize(
+        preferredSize: Size(100.0,75.0),
+        child:
+            Column(
+              children:<Widget>[
       Container(
           height: 75.0,
           color: Colors.grey,
@@ -184,12 +161,13 @@ class _BodyState extends State<Body> {
                   child: Center(
                       child: RaisedButton(
                     child: Text("All"),
-                    color: Colors.white,
+                        color: (current==0) ? Colors.tealAccent : Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     onPressed: () {
                       setState(() {
-                        category = "All";
+                        current=0;
+                        category = "all";
                       });
                     },
                   ))),
@@ -198,11 +176,12 @@ class _BodyState extends State<Body> {
                   child: Center(
                       child: RaisedButton(
                     child: Text("Beer"),
-                    color: Colors.white,
+                        color: (current==1) ? Colors.tealAccent : Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     onPressed: () {
                       setState(() {
+                        current=1;
                         category = 'beer';
                       });
                     },
@@ -212,12 +191,13 @@ class _BodyState extends State<Body> {
                   child: Center(
                       child: RaisedButton(
                     child: Text("Rum"),
-                    color: Colors.white,
+                        color: (current==2) ? Colors.tealAccent : Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     onPressed: () {
                       setState(() {
-                        category = "Rum";
+                        current=2;
+                        category = "rum";
                       });
                     },
                   ))),
@@ -226,12 +206,13 @@ class _BodyState extends State<Body> {
                   child: Center(
                       child: RaisedButton(
                     child: Text("Whiskey"),
-                    color: Colors.white,
+                        color: (current==3) ? Colors.tealAccent : Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     onPressed: () {
                       setState(() {
-                        category = 'Whiskey';
+                        current=3;
+                        category = 'whiskey';
                       });
                     },
                   ))),
@@ -240,20 +221,21 @@ class _BodyState extends State<Body> {
                   child: Center(
                       child: RaisedButton(
                     child: Text("Vodka"),
-                    color: Colors.white,
+                        color: (current==4) ? Colors.tealAccent : Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     onPressed: () {
                       setState(() {
-                        category = 'Vodka';
+                        current=4;
+                        category = 'vodka';
                       });
                     },
                   )))
             ],
           )),
-      SizedBox(
-        height: 10.0,
-      ),
+           ])),
+      body:ListView(
+        children:<Widget>[
       Container(
           margin: EdgeInsets.all(4.0),
           decoration: BoxDecoration(
@@ -272,6 +254,8 @@ class _BodyState extends State<Body> {
             ),
           )),
       _buildProducts(context)
-    ]);
+        ]
+      )
+    );
   }
 }
