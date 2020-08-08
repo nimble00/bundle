@@ -5,10 +5,9 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_app/models/item.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:cloud_firestore/cloud_firestore.dart';
-class Stack{
 
+class Stack {}
 
-}
 class Body extends StatefulWidget {
   @override
   _BodyState createState() => _BodyState();
@@ -16,7 +15,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   List<Item> display_list = new List();
-  int current=0;
+  int current = 0;
   String category = 'all', filter = 'Popularity';
   //FUCTION TO FIND THE CLOSEST PARTNER
   DocumentSnapshot _nearestPartner(AsyncSnapshot<QuerySnapshot> document) {
@@ -102,7 +101,7 @@ class _BodyState extends State<Body> {
               child: Image.asset(display_list[index].itemImage),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+              padding: EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 4.0),
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,6 +129,24 @@ class _BodyState extends State<Body> {
                                   globals.item_list.add(display_list[index]);
                                 }
                               }
+                            })),
+                    Center(
+                        child: IconButton(
+                            icon: Icon(Icons.favorite_border),
+                            color: (globals.favorite_name
+                                    .contains(display_list[index].itemName))
+                                ? Colors.red
+                                : Colors.black,
+                            onPressed: () {
+                              if (!globals.favorite_name
+                                  .contains(display_list[index].itemName)) {
+                                globals.favorite_name
+                                    .add(display_list[index].itemName);
+                              } else {
+                                globals.favorite_name
+                                    .remove(display_list[index].itemName);
+                              }
+                              setState(() {});
                             }))
                   ],
                 ),
@@ -145,103 +162,111 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:PreferredSize(
-        preferredSize: Size(100.0,139.0),
-        child:
-            Column(
-              children:<Widget>[
-      Container(
-          height: 75.0,
-          color: Colors.white,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
+        appBar: PreferredSize(
+            preferredSize: Size(100.0, 139.0),
+            child: Column(children: <Widget>[
               Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  child: Center(
-                      child: RaisedButton(
-                    child: Text("All"),
-                        color: (current==0) ? Colors.tealAccent : Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    onPressed: () {
-                      setState(() {
-                        current=0;
-                        category = "all";
-                      });
-                    },
-                  ))),
+                  height: 75.0,
+                  color: Colors.white,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      Container(
+                          width: MediaQuery.of(context).size.width / 4,
+                          child: Center(
+                              child: RaisedButton(
+                            child: Text("All"),
+                            color: (current == 0)
+                                ? Colors.tealAccent
+                                : Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            onPressed: () {
+                              setState(() {
+                                current = 0;
+                                category = "all";
+                              });
+                            },
+                          ))),
+                      Container(
+                          width: MediaQuery.of(context).size.width / 4,
+                          child: Center(
+                              child: RaisedButton(
+                            child: Text("Beer"),
+                            color: (current == 1)
+                                ? Colors.tealAccent
+                                : Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            onPressed: () {
+                              setState(() {
+                                current = 1;
+                                category = 'beer';
+                              });
+                            },
+                          ))),
+                      Container(
+                          width: MediaQuery.of(context).size.width / 4,
+                          child: Center(
+                              child: RaisedButton(
+                            child: Text("Rum"),
+                            color: (current == 2)
+                                ? Colors.tealAccent
+                                : Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            onPressed: () {
+                              setState(() {
+                                current = 2;
+                                category = "rum";
+                              });
+                            },
+                          ))),
+                      Container(
+                          width: MediaQuery.of(context).size.width / 4,
+                          child: Center(
+                              child: RaisedButton(
+                            child: Text("Whiskey"),
+                            color: (current == 3)
+                                ? Colors.tealAccent
+                                : Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            onPressed: () {
+                              setState(() {
+                                current = 3;
+                                category = 'whiskey';
+                              });
+                            },
+                          ))),
+                      Container(
+                          width: MediaQuery.of(context).size.width / 4,
+                          child: Center(
+                              child: RaisedButton(
+                            child: Text("Vodka"),
+                            color: (current == 4)
+                                ? Colors.tealAccent
+                                : Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            onPressed: () {
+                              setState(() {
+                                current = 4;
+                                category = 'vodka';
+                              });
+                            },
+                          )))
+                    ],
+                  )),
               Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  child: Center(
-                      child: RaisedButton(
-                    child: Text("Beer"),
-                        color: (current==1) ? Colors.tealAccent : Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    onPressed: () {
-                      setState(() {
-                        current=1;
-                        category = 'beer';
-                      });
-                    },
-                  ))),
-              Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  child: Center(
-                      child: RaisedButton(
-                    child: Text("Rum"),
-                        color: (current==2) ? Colors.tealAccent : Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    onPressed: () {
-                      setState(() {
-                        current=2;
-                        category = "rum";
-                      });
-                    },
-                  ))),
-              Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  child: Center(
-                      child: RaisedButton(
-                    child: Text("Whiskey"),
-                        color: (current==3) ? Colors.tealAccent : Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    onPressed: () {
-                      setState(() {
-                        current=3;
-                        category = 'whiskey';
-                      });
-                    },
-                  ))),
-              Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  child: Center(
-                      child: RaisedButton(
-                    child: Text("Vodka"),
-                        color: (current==4) ? Colors.tealAccent : Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    onPressed: () {
-                      setState(() {
-                        current=4;
-                        category = 'vodka';
-                      });
-                    },
-                  )))
-            ],
-          )),
-                Container(
-                    margin: EdgeInsets.all(4.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: ListTile(
+                  margin: EdgeInsets.all(4.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: ListTile(
                       title: Text(
-                        " Sort By:" +" " +filter,
+                        " Sort By:" + " " + filter,
                         style: TextStyle(color: Colors.teal),
                       ),
                       trailing: DropdownButton<String>(
@@ -266,14 +291,8 @@ class _BodyState extends State<Body> {
                             child: Text(value),
                           );
                         }).toList(),
-                      )
-                    )),
-           ])),
-      body:ListView(
-        children:<Widget>[
-      _buildProducts(context)
-        ]
-      )
-    );
+                      ))),
+            ])),
+        body: ListView(children: <Widget>[_buildProducts(context)]));
   }
 }
