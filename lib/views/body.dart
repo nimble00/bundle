@@ -85,7 +85,7 @@ class _BodyState extends State<Body> {
     if (filter == 'Price') {
       display_list.sort((a, b) => a.itemPrice.compareTo(b.itemPrice));
     } else
-      display_list.sort((a, b) => a.no_of_orders.compareTo(b.no_of_orders));
+      display_list.sort((b, a) => a.no_of_orders.compareTo(b.no_of_orders));
   }
 
   List<Card> _generateCards(DocumentSnapshot partner) {
@@ -241,14 +241,32 @@ class _BodyState extends State<Body> {
                     ),
                     child: ListTile(
                       title: Text(
-                        " Sort By:" + filter,
+                        " Sort By:" +" " +filter,
                         style: TextStyle(color: Colors.teal),
                       ),
-                      trailing: IconButton(
-                        color: Colors.teal,
-                        icon: Icon(Icons.list),
-                        onPressed: () {},
-                      ),
+                      trailing: DropdownButton<String>(
+                        value: filter,
+                        icon: Icon(Icons.filter_list),
+                        iconSize: 24,
+                        elevation: 16,
+                        style: TextStyle(color: Colors.teal),
+                        underline: Container(
+                          height: 2,
+                          color: Colors.white,
+                        ),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            filter = newValue;
+                          });
+                        },
+                        items: <String>['Popularity', 'Price', 'x', 'y']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      )
                     )),
            ])),
       body:ListView(

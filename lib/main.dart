@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/views/home.dart';
 // import 'package:flutter_app/views/home.dart';
 // import 'package:flutter_app/views/loginpage.dart';
 // import 'package:flutter_app/wrapper.dart';
