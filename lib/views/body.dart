@@ -58,10 +58,11 @@ class _BodyState extends State<Body> {
         count += 1;
         filterList();
       } catch (e) {
-         print("Category doesn't exist");
+        print("Category doesn't exist");
       }
     }
   }
+
   Widget _buildProducts(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance.collection(globals.pincode).snapshots(),
@@ -84,17 +85,9 @@ class _BodyState extends State<Body> {
       display_list.sort((a, b) => a.no_of_orders.compareTo(b.no_of_orders));
   }
 
-<<<<<<< HEAD
-  List<Card> _generateCards() {
-    globals.display_list.add(item1);
-    globals.display_list.add(item2);
-    globals.display_list.add(item3);
-    // itemList();
-=======
   List<Card> _generateCards(DocumentSnapshot partner) {
     globals.reference = partner.reference;
     _productList(partner);
->>>>>>> 9d73789ec09c231aa23050603f59eaa0954511b8
     List<Card> cards = List.generate(
       display_list.length,
       (int index) => Card(
@@ -103,11 +96,7 @@ class _BodyState extends State<Body> {
           children: <Widget>[
             AspectRatio(
               aspectRatio: 40.0 / 11.0,
-<<<<<<< HEAD
-              child: Image.asset(globals.display_list[index].itemImage),
-=======
               child: Image.asset(display_list[index].itemImage),
->>>>>>> 9d73789ec09c231aa23050603f59eaa0954511b8
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
@@ -115,21 +104,6 @@ class _BodyState extends State<Body> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-<<<<<<< HEAD
-                    Text(globals.display_list[index].itemName),
-                    Text(globals.display_list[index].itemPrice.toString()),
-                    IconButton(
-                      icon: Icon(Icons.add_shopping_cart),
-                      onPressed: () {
-                        if (globals.display_list[index].selected == 0) {
-                          // globals.display_list[index].no_of_orders += 1;
-                          globals.display_list[index].selected = 1;
-                          globals.item_list.add(globals.display_list[index]);
-                        }
-                        globals.display_list[index].itemQun += 1;
-                      },
-                    )
-=======
                     Text(display_list[index].itemName),
                     Text((display_list[index].itemPrice).toString()),
                     IconButton(
@@ -147,7 +121,6 @@ class _BodyState extends State<Body> {
                                 FieldValue.increment(1)
                           });
                         })
->>>>>>> 9d73789ec09c231aa23050603f59eaa0954511b8
                   ],
                 ),
               ),
@@ -210,7 +183,7 @@ class _BodyState extends State<Body> {
                         borderRadius: BorderRadius.circular(10)),
                     onPressed: () {
                       setState(() {
-                        category="All";
+                        category = "All";
                       });
                     },
                   ))),
@@ -224,7 +197,7 @@ class _BodyState extends State<Body> {
                         borderRadius: BorderRadius.circular(10)),
                     onPressed: () {
                       setState(() {
-                        category='beer';
+                        category = 'beer';
                       });
                     },
                   ))),
@@ -238,7 +211,7 @@ class _BodyState extends State<Body> {
                         borderRadius: BorderRadius.circular(10)),
                     onPressed: () {
                       setState(() {
-                        category="Rum";
+                        category = "Rum";
                       });
                     },
                   ))),
@@ -252,7 +225,7 @@ class _BodyState extends State<Body> {
                         borderRadius: BorderRadius.circular(10)),
                     onPressed: () {
                       setState(() {
-                        category='Whiskey';
+                        category = 'Whiskey';
                       });
                     },
                   ))),
@@ -266,7 +239,7 @@ class _BodyState extends State<Body> {
                         borderRadius: BorderRadius.circular(10)),
                     onPressed: () {
                       setState(() {
-                        category='Vodka';
+                        category = 'Vodka';
                       });
                     },
                   )))

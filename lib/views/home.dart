@@ -7,8 +7,8 @@ import 'package:flutter_app/views/cart.dart';
 import 'package:flutter_app/models/user.dart';
 
 class HomePage extends StatefulWidget {
-  // final User user;
-  // HomePage({this.user});
+  //final User user;
+   //HomePage(this.user);
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -17,12 +17,10 @@ class _HomePageState extends State<HomePage> {
   String accountStatus;
   FirebaseUser currentUser;
   FirebaseAuth _auth;
-  User user;
   @override
   void initState() {
     super.initState();
     _auth = FirebaseAuth.instance;
-    //_getCurrentUser();
     print('here outside async');
   }
 
@@ -66,7 +64,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HomePage(user: user))),
+                        builder: (context) => HomePage())),
                 icon: Icon(Icons.home)),
           ),
           Container(
@@ -75,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Account(user: user))),
+                        builder: (context) => Account())),
                 icon: Icon(Icons.add_circle_outline)),
           ),
           Container(
@@ -91,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Account(user: user))),
+                        builder: (context) => Account())),
                 icon: Icon(Icons.account_circle)),
           ),
         ],
