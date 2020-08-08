@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/controllers/controllers.dart';
-import 'package:flutter_app/deprecated/wrapper.dart';
+import 'package:flutter_app/views/loginpage.dart';
 
 class CollectPincode extends StatelessWidget {
   TextEditingController _pincodeController = TextEditingController();
@@ -33,7 +33,7 @@ class CollectPincode extends StatelessWidget {
               pincodeController(_pincodeController.text).then((value) {
                 if (value) {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Wrapper()));
+                      MaterialPageRoute(builder: (context) => LoginPage()));
                 } else {
 //                final snackBar = SnackBar(
 //                  content: Text('enter correct pincode'),

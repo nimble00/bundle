@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// import 'package:geolocator/geolocator.dart';
 import 'package:flutter_app/views/account.dart';
 import 'package:flutter_app/views/body.dart';
 import 'package:flutter_app/views/cart.dart';
@@ -8,8 +8,8 @@ import 'package:flutter_app/models/user.dart';
 import 'package:flutter_app/controllers/dbWork.dart';
 
 class HomePage extends StatefulWidget {
-  final User user;
-  HomePage({this.user});
+  //final User user;
+   //HomePage(this.user);
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -18,25 +18,15 @@ class _HomePageState extends State<HomePage> {
   String accountStatus;
   FirebaseUser currentUser;
   FirebaseAuth _auth;
-  User user;
-
   @override
   void initState() {
     super.initState();
     _auth = FirebaseAuth.instance;
-    _getCurrentUser();
     print('here outside async');
   }
 
-  _getCurrentUser() async {
-    currentUser = await _auth.currentUser();
-    print('Hello ' + currentUser.displayName.toString());
-    setState(() {
-      currentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
-      print("ACCOUNT STATUS: " + accountStatus);
-      user = User.fromFirebaseUser(currentUser);
-    });
-  }
+  // Function to find the nearest partner for a given pincode
+  //FUNCTION TP RETRIEVE LIST OF PRODUCT FOR THE PARTNER
 
   @override
   Widget build(BuildContext context) {
@@ -75,16 +65,20 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Account(user: user))),
+                        builder: (context) => HomePage())),
                 icon: Icon(Icons.home)),
           ),
           Container(
             // icon: Icon(Icons.account_box, color: Colors.grey),
             child: IconButton(
-//                onPressed: () => Navigator.push(
-//                    context,
-//                    MaterialPageRoute(
-//                        builder: (context) => Account(user: user))),
+<<<<<<< HEAD
+
+=======
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Account())),
+>>>>>>> 3c7d08345223dd8c3a927a4c31340f194e43d10d
                 icon: Icon(Icons.add_circle_outline)),
           ),
           Container(
@@ -100,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Account(user: user))),
+                        builder: (context) => Account())),
                 icon: Icon(Icons.account_circle)),
           ),
         ],

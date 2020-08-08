@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_app/models/item.dart';
@@ -277,6 +276,13 @@ class CartState extends State<CartPage> {
                                                             globals
                                                                 .item_list[ind]
                                                                 .incrementQuantity();
+                                                            globals.reference
+                                                                .updateData({
+                                                              'products.${globals.item_list[ind].itemCategory}.${globals.item_list[ind].itemIndex}.no_of_orders':
+                                                                  FieldValue
+                                                                      .increment(
+                                                                          1)
+                                                            });
                                                             setState(() {});
                                                           },
                                                         ),
@@ -304,6 +310,13 @@ class CartState extends State<CartPage> {
                                                             globals
                                                                 .item_list[ind]
                                                                 .decrementQuantity();
+                                                            globals.reference
+                                                                .updateData({
+                                                              'products.${globals.item_list[ind].itemCategory}.${globals.item_list[ind].itemIndex}.no_of_orders':
+                                                                  FieldValue
+                                                                      .increment(
+                                                                          -1)
+                                                            });
                                                             setState(() {});
                                                           },
                                                         ),
@@ -343,8 +356,16 @@ class CartState extends State<CartPage> {
                                               semanticLabel: 'delete',
                                             ),
                                             onPressed: () {
-                                              globals.item_list[ind].selected=0;
-                                              globals.item_list[ind].itemQun=0;
+                                              globals.item_list[ind].selected =
+                                                  false;
+                                              globals.item_name.remove(
+                                                  globals.item_list[ind].itemName);
+                                              globals.reference.updateData({
+                                                'products.${globals.item_list[ind].itemCategory}.${globals.item_list[ind].itemIndex}.no_of_orders':
+                                                    FieldValue.increment(
+                                                        -globals.item_list[ind]
+                                                            .itemQun)
+                                              });
                                               globals.item_list.removeAt(ind);
                                               setState(() {});
                                             },
