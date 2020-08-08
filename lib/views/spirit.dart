@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/item.dart';
 import 'package:flutter_app/views/body.dart';
 import 'package:flutter_app/views/cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_app/models/product.dart';
+import 'package:flutter_app/models/item.dart';
 
 class SpiritPage extends StatefulWidget {
 
@@ -82,21 +83,16 @@ class _SpiritPageState extends State<SpiritPage> {
       stream: Firestore.instance.collection('products').document('3TLHwpIwrTt2UrygHLEs').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
-        Product p=new Product(
-            Image:snapshot.data['Image'],
-            Name:snapshot.data['Name'],
-            Qun:1,
-            Price:snapshot.data['Price'].toString(),
-            Detail:snapshot.data['Detail']);
+        Item p=new Item(snapshot.data['Image'], snapshot.data['Name'], 1, snapshot.data['Price'], 0, 0);
         return _buildView(context, p);
       },
     );
   }
-  Widget _buildView(BuildContext context, Product p){
+  Widget _buildView(BuildContext context, Item p){
       return Column(
         children: <Widget>[
           Image.asset(
-            p.Image,
+            p.itemImage,
             height: 240,
           ),
           SizedBox(height: 40),
@@ -105,11 +101,11 @@ class _SpiritPageState extends State<SpiritPage> {
             children: <Widget>[
               Spacer(),
               Text(
-                p.Name,
+                p.itemName,
               ),
               Spacer(),
               Text(
-                p.Price,
+                p.itemPrice.toString(),
               ),
               Spacer(),
             ],
@@ -126,14 +122,14 @@ class _SpiritPageState extends State<SpiritPage> {
                         icon: Icon(Icons.add_circle),
                         onPressed: () {
                           p.incrementQuantity();
-                          print(p.Qun);
+                          print(p.itemQun);
                           setState(() {});
                         },
 
                       ),
 //                    Spacer(),
                       Text(
-                        '${(p.Qun).toString()}',
+                        '${(p.itemQun).toString()}',
 //                  '${(itemList[ind].itemQun).toString()}',
                       ),
 //                    Spacer(),
@@ -141,7 +137,7 @@ class _SpiritPageState extends State<SpiritPage> {
                         icon: Icon(Icons.remove_circle),
                         onPressed: () {
                           p.decrementQuantity();
-                          print(p.Qun);
+                          print(p.itemQun);
                           setState(() {});
                         },
                       ),
@@ -149,9 +145,6 @@ class _SpiritPageState extends State<SpiritPage> {
                       IconButton(
                         icon: Icon(Icons.add_shopping_cart),
                         onPressed: () {
-//                    itemList[ind].incrementQuantity();
-                          p=getData();
-                          setState(() {});
                         },
 
                       ),
@@ -167,7 +160,7 @@ class _SpiritPageState extends State<SpiritPage> {
           Container(
             padding: const EdgeInsets.all(32),
             child: Text(
-              p.Detail,
+              ' good product in this range',
               softWrap: true,
             ),
           ),
@@ -176,29 +169,6 @@ class _SpiritPageState extends State<SpiritPage> {
       );
 
   }
-
-  Product getData(){
-//    CollectionReference product = Firestore.instance.collection('Products');
-    Firestore.instance.collection("products").document('3TLHwpIwrTt2UrygHLEs')
-        .get()
-        .then((DocumentSnapshot snapshot){
-        if (snapshot.exists) {
-          print('Document exists on the database');
-//          Map<String, dynamic> data = snapshot.data;
-          print(snapshot.data);
-          Product p=new Product(
-              Image:snapshot.data['Image'],
-              Name:snapshot.data['Name'],
-              Qun:1,
-              Price:snapshot.data['Price'].toString(),
-              Detail:snapshot.data['Detail']);
-          return p;
-        }else{
-          throw("not found");
-        }
-    });
-  }
-
 
 }
 

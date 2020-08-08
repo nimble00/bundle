@@ -5,6 +5,7 @@ import 'package:flutter_app/views/account.dart';
 import 'package:flutter_app/views/body.dart';
 import 'package:flutter_app/views/cart.dart';
 import 'package:flutter_app/models/user.dart';
+import 'package:flutter_app/controllers/dbWork.dart';
 
 class HomePage extends StatefulWidget {
   final User user;
@@ -80,10 +81,10 @@ class _HomePageState extends State<HomePage> {
           Container(
             // icon: Icon(Icons.account_box, color: Colors.grey),
             child: IconButton(
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Account(user: user))),
+//                onPressed: () => Navigator.push(
+//                    context,
+//                    MaterialPageRoute(
+//                        builder: (context) => Account(user: user))),
                 icon: Icon(Icons.add_circle_outline)),
           ),
           Container(
