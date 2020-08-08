@@ -169,7 +169,7 @@ class CartState extends State<CartPage> {
                   top: 5.0), // left: 12.0, right: 12.0, bottom: 10.0
               height: hh,
               child: ListView.builder(
-                  itemCount: globals.item_index.length,
+                  itemCount: globals.item_list.length,
                   itemBuilder: (BuildContext cont, int ind) {
                     return SafeArea(
                         child: Container(
@@ -358,8 +358,8 @@ class CartState extends State<CartPage> {
                                             onPressed: () {
                                               globals.item_list[ind].selected =
                                                   false;
-                                              globals.item_index.remove(
-                                                  globals.item_list[ind].index);
+                                              globals.item_name.remove(
+                                                  globals.item_list[ind].itemName);
                                               globals.reference.updateData({
                                                 'products.${globals.item_list[ind].itemCategory}.${globals.item_list[ind].itemIndex}.no_of_orders':
                                                     FieldValue.increment(

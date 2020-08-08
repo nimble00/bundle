@@ -6,4 +6,4 @@ List<Item>item_list =new List();
 Map<String,dynamic>products=new Map();
 String pincode='110016';
 DocumentReference reference;
-List<int>item_index=new List();
+List<String>item_name=new List();

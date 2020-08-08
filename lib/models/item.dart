@@ -8,7 +8,6 @@ class Item {
   int in_stock;
   String itemCategory; //SPIRIT CATEGORY OF THE ITEM
   String itemIndex; //INDEX TO REFER TO THE PRODUCT MAP
-  int index; //INDEX TO REFER TO DISPLAY LIST
   Item(
       this.itemImage,
       this.itemName,
@@ -18,7 +17,7 @@ class Item {
       this.no_of_orders,
       this.itemCategory,
       this.itemIndex,
-      this.index);
+      );
   void incrementQuantity() => itemQun += 1;
   void decrementQuantity() => itemQun -= 1;
 }

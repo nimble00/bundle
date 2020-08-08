@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                                 });
                               },
                             ))
-                        : Container(),
+                        : Container(width:0.0,height: 0.0,),
                     Padding(
                         padding: EdgeInsets.only(left: 25.0, right: 25.0),
                         child: RaisedButton(

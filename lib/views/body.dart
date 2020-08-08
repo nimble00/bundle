@@ -23,20 +23,19 @@ class _BodyState extends State<Body> {
   //FUNCTION TO MAKE THE DISPLAY LIST FOR A GIVEN CATEGORY
   void _productList(DocumentSnapshot document) {
     display_list = new List();
-    int count = 0;
     if (category == 'All') {
       document['products'].forEach((k, v) {
         for (int i = 0; i < document['products'][k].length; i++) {
           Item item = new Item(
-              document['products'][k]['$i']['itemImage'],
-              document['products'][k]['$i']['itemName'],
-              1,
-              document['products'][k]['$i']['itemPrice'],
-              false,
-              document['products'][k]['$i']['no_of_orders'],
-              document['products'][k]['$i']['itemCategory'],
-              '$i',
-              count);
+            document['products'][k]['$i']['itemImage'],
+            document['products'][k]['$i']['itemName'],
+            1,
+            document['products'][k]['$i']['itemPrice'],
+            false,
+            document['products'][k]['$i']['no_of_orders'],
+            document['products'][k]['$i']['itemCategory'],
+            '$i',
+          );
           display_list.add(item);
         }
       });
@@ -44,23 +43,23 @@ class _BodyState extends State<Body> {
       try {
         for (int i = 0; i < document['products'][category].length; i++) {
           Item item = new Item(
-              document['products'][category]['$i']['itemImage'],
-              document['products'][category]['$i']['itemName'],
-              1,
-              document['products'][category]['$i']['itemPrice'],
-              false,
-              document['products'][category]['$i']['no_of_orders'],
-              document['products'][category]['$i']['itemCategory'],
-              '$i',
-              count);
+            document['products'][category]['$i']['itemImage'],
+            document['products'][category]['$i']['itemName'],
+            1,
+            document['products'][category]['$i']['itemPrice'],
+            false,
+            document['products'][category]['$i']['no_of_orders'],
+            document['products'][category]['$i']['itemCategory'],
+            '$i',
+          );
           display_list.add(item);
         }
-        count += 1;
-        filterList();
       } catch (e) {
         print("Category doesn't exist");
+        return;
       }
     }
+    filterList();
   }
 
   Widget _buildProducts(BuildContext context) {
@@ -99,28 +98,35 @@ class _BodyState extends State<Body> {
               child: Image.asset(display_list[index].itemImage),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+              padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(display_list[index].itemName),
-                    Text((display_list[index].itemPrice).toString()),
-                    IconButton(
-                        icon: Icon(Icons.add_shopping_cart),
-                        onPressed: () {
-                          if (display_list[index].selected == false) {
-                            if (!globals.item_index.contains(index)) {
-                              display_list[index].selected = true;
-                              globals.item_index.add(index);
-                              globals.item_list.add(display_list[index]);
-                            }
-                          }
-                          globals.reference.updateData({
-                            'products.${display_list[index].itemCategory}.${display_list[index].itemIndex}.no_of_orders':
-                                FieldValue.increment(1)
-                          });
-                        })
+                    Center(
+                      child: Text(display_list[index].itemName),
+                    ),
+                    Center(
+                      child: Text((display_list[index].itemPrice).toString()),
+                    ),
+                    Center(
+                        child: IconButton(
+                            icon: Icon(Icons.add_shopping_cart),
+                            onPressed: () {
+                              if (display_list[index].selected == false) {
+                                if (!globals.item_name
+                                    .contains(display_list[index].itemName)) {
+                                  display_list[index].selected = true;
+                                  globals.item_name
+                                      .add(display_list[index].itemName);
+                                  globals.reference.updateData({
+                                    'products.${display_list[index].itemCategory}.${display_list[index].itemIndex}.no_of_orders':
+                                        FieldValue.increment(1)
+                                  });
+                                  globals.item_list.add(display_list[index]);
+                                }
+                              }
+                            }))
                   ],
                 ),
               ),
