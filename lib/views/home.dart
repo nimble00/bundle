@@ -9,7 +9,7 @@ import 'package:flutter_app/models/user.dart';
 
 class HomePage extends StatefulWidget {
   //final User user;
-   //HomePage(this.user);
+  //HomePage(this.user);
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -18,11 +18,23 @@ class _HomePageState extends State<HomePage> {
   String accountStatus;
   FirebaseUser currentUser;
   FirebaseAuth _auth;
+  User user;
   @override
   void initState() {
     super.initState();
     _auth = FirebaseAuth.instance;
+    _getCurrentUser();
     print('here outside async');
+  }
+
+  _getCurrentUser() async {
+    currentUser = await _auth.currentUser();
+    print('Hello ' + currentUser.displayName.toString());
+    setState(() {
+      currentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
+      print("ACCOUNT STATUS: " + accountStatus);
+      user = User.fromFirebaseUser(currentUser);
+    });
   }
 
   // Function to find the nearest partner for a given pincode
@@ -68,10 +80,8 @@ class _HomePageState extends State<HomePage> {
           Container(
             // icon: Icon(Icons.account_box, color: Colors.grey),
             child: IconButton(
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage())),
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage())),
                 icon: Icon(Icons.home)),
           ),
           Container(
@@ -80,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Account())),
+                        builder: (context) => Account(user: user))),
                 icon: Icon(Icons.add_circle_outline)),
           ),
           Container(
@@ -96,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Account())),
+                        builder: (context) => Account(user: user))),
                 icon: Icon(Icons.account_circle)),
           ),
         ],

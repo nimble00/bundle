@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/controllers/authservice.dart';
-import 'package:flutter_app/views/home.dart';
+// import 'package:flutter_app/views/home.dart';
 import 'package:flutter_app/models/user.dart';
 
 // FirebaseUser globalUser;
@@ -59,9 +59,11 @@ class _AccountState extends State<Account> {
             onPressed: () async {
               // IMPL THE AUTH SERVICE HERE: DONE!
               dynamic result = await AuthService().signOut();
-              // Navigator.pushReplacement(
-              //     context, MaterialPageRoute(builder: (context) => HomePage()));
-              Navigator.pop(context);
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AuthService().handleAuth()));
+              // Navigator.pop(context);
               print(result);
               // Navigator.pop(context);
             },
