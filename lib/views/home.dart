@@ -46,27 +46,35 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          color: Colors.black,
+            color: Colors.black,
             icon: Icon(Icons.location_on),
             onPressed: () => {
                   // IMPLEMENT A FUNCTION THAT FETCHES LOCATION AND REPLACE THIS ARROW FUNCTION WITH IT!
                 }),
-        title: Text("Address",
-            style:TextStyle(fontStyle:FontStyle.normal,
-              color: Colors.black
-            )
-        ),
+        title: Column(children: <Widget>[
+          Text(
+            "Delivering to",
+            style: TextStyle(
+                fontSize: 10, fontStyle: FontStyle.normal, color: Colors.black),
+          ),
+          /*Text(//ADDRESS OF THE USER,
+              style:
+                  TextStyle(fontStyle: FontStyle.normal,fontSize:11, color: Colors.black))*/
+        ]),
         actions: [
           Container(
             child: Center(
               child: Text(
                 "Offers",
-                style: TextStyle(fontStyle:FontStyle.normal,fontSize:20.0,color: Colors.black),
+                style: TextStyle(
+                    fontStyle: FontStyle.normal,
+                    fontSize: 20.0,
+                    color: Colors.black),
               ),
             ),
           ),
           IconButton(
-            color: Colors.black,
+              color: Colors.black,
               icon: Icon(Icons.local_offer),
               onPressed: () => {
                     // IMPLEMENT THE OFFERS PAGE HERE!
