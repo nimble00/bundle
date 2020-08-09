@@ -7,7 +7,6 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_app/models/item.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Stack {}
 
 class Body extends StatefulWidget {
@@ -22,6 +21,8 @@ class _BodyState extends State<Body> {
   //FUCTION TO FIND THE CLOSEST PARTNER
   DocumentSnapshot _nearestPartner(AsyncSnapshot<QuerySnapshot> document) {
     //CHECK FOR ALL LOCATIONS AND FIND THE NEAREST PARTNER
+
+
     return document.data.documents[0];
   }
 
@@ -103,7 +104,7 @@ class _BodyState extends State<Body> {
               child: Image.asset(display_list[index].itemImage),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 4.0),
+              padding: EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 2.0),
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
