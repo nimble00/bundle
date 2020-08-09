@@ -1,4 +1,4 @@
-
+import 'dart:math';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter/cupertino.dart';
@@ -21,11 +21,31 @@ class _BodyState extends State<Body> {
   //FUCTION TO FIND THE CLOSEST PARTNER
   DocumentSnapshot _nearestPartner(AsyncSnapshot<QuerySnapshot> document) {
     //CHECK FOR ALL LOCATIONS AND FIND THE NEAREST PARTNER
-
-
-    return document.data.documents[0];
+    int min=0;
+    double minDistance=distance(globals.geopoint,document.data.documents[0].data['location']);
+    for(int i=1;i<document.data.documents.length;i++){
+      if(distance(globals.geopoint,document.data.documents[i].data['location'])<minDistance){
+        min=i;
+        minDistance=distance(globals.geopoint,document.data.documents[i].data['location']);
+      }
+    }
+    return document.data.documents[min];
   }
 
+  double distance(GeoPoint user,GeoPoint partner){
+    double R = 6371e3; // metres
+    double a1 = user.latitude * pi/180; // φ, λ in radians
+    double a2 = partner.latitude * pi/180;
+    double a3 = (partner.latitude-user.latitude) * pi/180;
+    double a4 = (partner.longitude-user.longitude) * pi/180;
+
+    double a = sin(a3/2) * sin(a3/2) +
+    cos(a1) * cos(a2) *
+    sin(a4/2) * sin(a4/2);
+    double c = 2 * atan2(sqrt(a), sqrt(1-a));
+
+     return R * c; // in metres
+  }
   //FUNCTION TO MAKE THE DISPLAY LIST FOR A GIVEN CATEGORY
   void _productList(DocumentSnapshot document) {
     display_list = new List();
