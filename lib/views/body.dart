@@ -1,3 +1,5 @@
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,7 @@ class _BodyState extends State<Body> {
   //FUCTION TO FIND THE CLOSEST PARTNER
   DocumentSnapshot _nearestPartner(AsyncSnapshot<QuerySnapshot> document) {
     //CHECK FOR ALL LOCATIONS AND FIND THE NEAREST PARTNER
-    return document.data.documents[1];
+    return document.data.documents[0];
   }
 
   //FUNCTION TO MAKE THE DISPLAY LIST FOR A GIVEN CATEGORY
@@ -67,7 +69,7 @@ class _BodyState extends State<Body> {
 
   Widget _buildProducts(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection(globals.pincode).snapshots(),
+      stream: Firestore.instance.collection('pincodes').document(globals.pincode).collection('partners').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return GridView.count(
