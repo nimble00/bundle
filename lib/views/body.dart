@@ -16,8 +16,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   List<Item> display_list = new List();
-  int current = 0;
-  String category = 'all', filter = 'Popularity';
+
   //FUCTION TO FIND THE CLOSEST PARTNER
   DocumentSnapshot _nearestPartner(AsyncSnapshot<QuerySnapshot> document) {
     //CHECK FOR ALL LOCATIONS AND FIND THE NEAREST PARTNER
@@ -49,7 +48,7 @@ class _BodyState extends State<Body> {
   //FUNCTION TO MAKE THE DISPLAY LIST FOR A GIVEN CATEGORY
   void _productList(DocumentSnapshot document) {
     display_list = new List();
-    if (category == 'all') {
+    if (globals.category == 'all') {
       document['products'].forEach((k, v) {
         for (int i = 0; i < document['products'][k].length; i++) {
           Item item = new Item(
@@ -67,15 +66,15 @@ class _BodyState extends State<Body> {
       });
     } else {
       try {
-        for (int i = 0; i < document['products'][category].length; i++) {
+        for (int i = 0; i < document['products'][globals.category].length; i++) {
           Item item = new Item(
-            document['products'][category]['$i']['itemImage'],
-            document['products'][category]['$i']['itemName'],
+            document['products'][globals.category]['$i']['itemImage'],
+            document['products'][globals.category]['$i']['itemName'],
             1,
-            document['products'][category]['$i']['itemPrice'],
+            document['products'][globals.category]['$i']['itemPrice'],
             false,
-            document['products'][category]['$i']['no_of_orders'],
-            document['products'][category]['$i']['itemCategory'],
+            document['products'][globals.category]['$i']['no_of_orders'],
+            document['products'][globals.category]['$i']['itemCategory'],
             '$i',
           );
           display_list.add(item);
@@ -104,7 +103,7 @@ class _BodyState extends State<Body> {
   }
 
   void filterList() {
-    if (filter == 'Price') {
+    if (globals.filter == 'Price') {
       display_list.sort((a, b) => a.itemPrice.compareTo(b.itemPrice));
     } else
       display_list.sort((b, a) => a.no_of_orders.compareTo(b.no_of_orders));
@@ -165,9 +164,15 @@ class _BodyState extends State<Body> {
                                   .contains(display_list[index].itemName)) {
                                 globals.favorite_name
                                     .add(display_list[index].itemName);
+                                Firestore.instance.collection('users').document(globals.phoneNumber).updateData({'favorites.${display_list[index].itemName}.itemImage':display_list[index].itemImage});
+                                Firestore.instance.collection('users').document(globals.phoneNumber).updateData({'favorites.${display_list[index].itemName}.itemPrice':display_list[index].itemPrice});
+                                Firestore.instance.collection('users').document(globals.phoneNumber).updateData({'favorites.${display_list[index].itemName}.no_of_orders':display_list[index].no_of_orders});
+                                Firestore.instance.collection('users').document(globals.phoneNumber).updateData({'favorites.${display_list[index].itemName}.itemCategory':display_list[index].itemCategory});
+                                Firestore.instance.collection('users').document(globals.phoneNumber).updateData({'favorites.${display_list[index].itemName}.itemIndex':display_list[index].itemIndex});
                               } else {
                                 globals.favorite_name
                                     .remove(display_list[index].itemName);
+                                Firestore.instance.collection('users').document(globals.phoneNumber).updateData({'favorites.${display_list[index].itemName}':FieldValue.delete()});
                               }
                               setState(() {});
                             }))
@@ -199,15 +204,15 @@ class _BodyState extends State<Body> {
                           child: Center(
                               child: RaisedButton(
                             child: Text("All"),
-                            color: (current == 0)
+                            color: (globals.current == 0)
                                 ? Colors.tealAccent
                                 : Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             onPressed: () {
                               setState(() {
-                                current = 0;
-                                category = "all";
+                                globals.current = 0;
+                                globals.category = "all";
                               });
                             },
                           ))),
@@ -216,15 +221,15 @@ class _BodyState extends State<Body> {
                           child: Center(
                               child: RaisedButton(
                             child: Text("Beer"),
-                            color: (current == 1)
+                            color: (globals.current == 1)
                                 ? Colors.tealAccent
                                 : Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             onPressed: () {
                               setState(() {
-                                current = 1;
-                                category = 'beer';
+                                globals.current = 1;
+                                globals.category = 'beer';
                               });
                             },
                           ))),
@@ -233,15 +238,15 @@ class _BodyState extends State<Body> {
                           child: Center(
                               child: RaisedButton(
                             child: Text("Rum"),
-                            color: (current == 2)
+                            color: (globals.current == 2)
                                 ? Colors.tealAccent
                                 : Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             onPressed: () {
                               setState(() {
-                                current = 2;
-                                category = "rum";
+                                globals.current = 2;
+                                globals.category = "rum";
                               });
                             },
                           ))),
@@ -250,15 +255,15 @@ class _BodyState extends State<Body> {
                           child: Center(
                               child: RaisedButton(
                             child: Text("Whiskey"),
-                            color: (current == 3)
+                            color: (globals.current == 3)
                                 ? Colors.tealAccent
                                 : Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             onPressed: () {
                               setState(() {
-                                current = 3;
-                                category = 'whiskey';
+                                globals.current = 3;
+                                globals.category = 'whiskey';
                               });
                             },
                           ))),
@@ -267,15 +272,15 @@ class _BodyState extends State<Body> {
                           child: Center(
                               child: RaisedButton(
                             child: Text("Vodka"),
-                            color: (current == 4)
+                            color: (globals.current == 4)
                                 ? Colors.tealAccent
                                 : Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             onPressed: () {
                               setState(() {
-                                current = 4;
-                                category = 'vodka';
+                                globals.current = 4;
+                                globals.category = 'vodka';
                               });
                             },
                           )))
@@ -289,11 +294,11 @@ class _BodyState extends State<Body> {
                   ),
                   child: ListTile(
                       title: Text(
-                        " Sort By:" + " " + filter,
+                        " Sort By:" + " " + globals.filter,
                         style: TextStyle(color: Colors.teal),
                       ),
                       trailing: DropdownButton<String>(
-                        value: filter,
+                        value: globals.filter,
                         icon: Icon(Icons.filter_list),
                         iconSize: 24,
                         elevation: 16,
@@ -304,7 +309,7 @@ class _BodyState extends State<Body> {
                         ),
                         onChanged: (String newValue) {
                           setState(() {
-                            filter = newValue;
+                            globals.filter = newValue;
                           });
                         },
                         items: <String>['Popularity', 'Price', 'x', 'y']

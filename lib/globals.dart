@@ -11,3 +11,6 @@ DocumentReference reference;
 List<String> item_name = new List();
 List<String> favorite_name=new List();
 GeoPoint geopoint=new GeoPoint(48,60);
+String category = 'all', filter = 'Popularity';
+int current=0;
+String phoneNumber;
