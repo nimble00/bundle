@@ -14,7 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   String phoneNo, verificationId, smsCode;
 
   bool codeSent = false;
-
+  bool _isButtonDisabled;
   // bool newUser = true;
 
   @override
@@ -61,7 +61,10 @@ class _LoginPageState extends State<LoginPage> {
                                 });
                               },
                             ))
-                        : Container(width:0.0,height: 0.0,),
+                        : Container(
+                            width: 0.0,
+                            height: 0.0,
+                          ),
                     Padding(
                         padding: EdgeInsets.only(left: 25.0, right: 25.0),
                         child: RaisedButton(
