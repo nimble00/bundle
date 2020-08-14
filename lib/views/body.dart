@@ -7,6 +7,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_app/models/item.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Stack {}
 
 class Body extends StatefulWidget {
@@ -15,39 +16,86 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+
+  @override
+  void initState() {
+    super.initState();
+    _initialList();
+    print('here outside async');
+  }
+
   List<Item> display_list = new List();
+  //MAKE THE INITIAL LIST OF FAVORITES
+  void _initialList() {
+    Firestore.instance
+        .collection('users')
+        .document(globals.phoneNumber)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      documentSnapshot['favorites'].forEach((k, v) {
+        globals.favorite_name.add(k);
+        print(globals.favorites_list);
+      });
+    });
+  }
 
   //FUCTION TO FIND THE CLOSEST PARTNER
   DocumentSnapshot _nearestPartner(AsyncSnapshot<QuerySnapshot> document) {
     //CHECK FOR ALL LOCATIONS AND FIND THE NEAREST PARTNER
-    int min=0;
-    double minDistance=distance(globals.geopoint,document.data.documents[0].data['location']);
-    for(int i=1;i<document.data.documents.length;i++){
-      if(distance(globals.geopoint,document.data.documents[i].data['location'])<minDistance){
-        min=i;
-        minDistance=distance(globals.geopoint,document.data.documents[i].data['location']);
+    int min = 0;
+    double minDistance =
+        distance(globals.geopoint, document.data.documents[0].data['location']);
+    for (int i = 1; i < document.data.documents.length; i++) {
+      if (distance(
+              globals.geopoint, document.data.documents[i].data['location']) <
+          minDistance) {
+        min = i;
+        minDistance = distance(
+            globals.geopoint, document.data.documents[i].data['location']);
       }
     }
     return document.data.documents[min];
   }
 
-  double distance(GeoPoint user,GeoPoint partner){
+  double distance(GeoPoint user, GeoPoint partner) {
     double R = 6371e3; // metres
-    double a1 = user.latitude * pi/180; // φ, λ in radians
-    double a2 = partner.latitude * pi/180;
-    double a3 = (partner.latitude-user.latitude) * pi/180;
-    double a4 = (partner.longitude-user.longitude) * pi/180;
+    double a1 = user.latitude * pi / 180; // φ, λ in radians
+    double a2 = partner.latitude * pi / 180;
+    double a3 = (partner.latitude - user.latitude) * pi / 180;
+    double a4 = (partner.longitude - user.longitude) * pi / 180;
 
-    double a = sin(a3/2) * sin(a3/2) +
-    cos(a1) * cos(a2) *
-    sin(a4/2) * sin(a4/2);
-    double c = 2 * atan2(sqrt(a), sqrt(1-a));
+    double a = sin(a3 / 2) * sin(a3 / 2) +
+        cos(a1) * cos(a2) * sin(a4 / 2) * sin(a4 / 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
-     return R * c; // in metres
+    return R * c; // in metres
   }
+
   //FUNCTION TO MAKE THE DISPLAY LIST FOR A GIVEN CATEGORY
-  void _productList(DocumentSnapshot document) {
-    display_list = new List();
+  _productList() {
+    globals.favorites_list = new List();
+    Firestore.instance
+        .collection('users')
+        .document(globals.phoneNumber)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      documentSnapshot['favorites'].forEach((k, v) {
+        Item item = new Item(
+            documentSnapshot['favorites'][k]['itemImage'],
+            k,
+            1,
+            documentSnapshot['favorites'][k]['itemPrice'],
+            false,
+            documentSnapshot['favorites'][k]['no_of_orders'],
+            documentSnapshot['favorites'][k]['itemCategory'],
+            documentSnapshot['favorites'][k]['itemIndex']);
+        globals.favorites_list.add(item);
+        print(globals.favorites_list);
+      });
+    });
+  }
+
+  void _productLists(DocumentSnapshot document) {
     if (globals.category == 'all') {
       document['products'].forEach((k, v) {
         for (int i = 0; i < document['products'][k].length; i++) {
@@ -66,7 +114,9 @@ class _BodyState extends State<Body> {
       });
     } else {
       try {
-        for (int i = 0; i < document['products'][globals.category].length; i++) {
+        for (int i = 0;
+            i < document['products'][globals.category].length;
+            i++) {
           Item item = new Item(
             document['products'][globals.category]['$i']['itemImage'],
             document['products'][globals.category]['$i']['itemName'],
@@ -89,7 +139,11 @@ class _BodyState extends State<Body> {
 
   Widget _buildProducts(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('pincodes').document(globals.pincode).collection('partners').snapshots(),
+      stream: Firestore.instance
+          .collection('pincodes')
+          .document(globals.pincode)
+          .collection('partners')
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return GridView.count(
@@ -110,8 +164,12 @@ class _BodyState extends State<Body> {
   }
 
   List<Card> _generateCards(DocumentSnapshot partner) {
+    display_list = new List();
     globals.reference = partner.reference;
-    _productList(partner);
+    (globals.category == 'favorites')
+        ? display_list = globals.favorites_list
+        : _productLists(partner);
+    print("Generate List");
     List<Card> cards = List.generate(
       display_list.length,
       (int index) => Card(
@@ -164,16 +222,34 @@ class _BodyState extends State<Body> {
                                   .contains(display_list[index].itemName)) {
                                 globals.favorite_name
                                     .add(display_list[index].itemName);
-                                Firestore.instance.collection('users').document(globals.phoneNumber).updateData({'favorites.${display_list[index].itemName}.itemImage':display_list[index].itemImage});
-                                Firestore.instance.collection('users').document(globals.phoneNumber).updateData({'favorites.${display_list[index].itemName}.itemPrice':display_list[index].itemPrice});
-                                Firestore.instance.collection('users').document(globals.phoneNumber).updateData({'favorites.${display_list[index].itemName}.no_of_orders':display_list[index].no_of_orders});
-                                Firestore.instance.collection('users').document(globals.phoneNumber).updateData({'favorites.${display_list[index].itemName}.itemCategory':display_list[index].itemCategory});
-                                Firestore.instance.collection('users').document(globals.phoneNumber).updateData({'favorites.${display_list[index].itemName}.itemIndex':display_list[index].itemIndex});
+                                Firestore.instance
+                                    .collection('users')
+                                    .document(globals.phoneNumber)
+                                    .updateData({
+                                  'favorites.${display_list[index].itemName}.itemCategory':
+                                      display_list[index].itemCategory,
+                                  'favorites.${display_list[index].itemName}.itemIndex':
+                                      display_list[index].itemIndex,
+                                  'favorites.${display_list[index].itemName}.itemImage':
+                                      display_list[index].itemImage,
+                                  'favorites.${display_list[index].itemName}.itemPrice':
+                                      display_list[index].itemPrice,
+                                  'favorites.${display_list[index].itemName}.no_of_orders':
+                                      display_list[index].no_of_orders
+                                });
                               } else {
                                 globals.favorite_name
                                     .remove(display_list[index].itemName);
-                                Firestore.instance.collection('users').document(globals.phoneNumber).updateData({'favorites.${display_list[index].itemName}':FieldValue.delete()});
+                                Firestore.instance
+                                    .collection('users')
+                                    .document(globals.phoneNumber)
+                                    .updateData({
+                                  'favorites.${display_list[index].itemName}':
+                                      FieldValue.delete()
+                                });
+                                _productList();
                               }
+
                               setState(() {});
                             }))
                   ],
@@ -213,6 +289,25 @@ class _BodyState extends State<Body> {
                               setState(() {
                                 globals.current = 0;
                                 globals.category = "all";
+                              });
+                            },
+                          ))),
+                      Container(
+                          width: MediaQuery.of(context).size.width / 4,
+                          child: Center(
+                              child: RaisedButton(
+                            child: Text("Favorites"),
+                            color: (globals.current == 5)
+                                ? Colors.tealAccent
+                                : Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            onPressed: () {
+                              _productList();
+                              setState(() {
+                                print("Entering the state");
+                                globals.current = 5;
+                                globals.category = "favorites";
                               });
                             },
                           ))),

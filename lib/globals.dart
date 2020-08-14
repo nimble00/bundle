@@ -14,3 +14,4 @@ GeoPoint geopoint=new GeoPoint(48,60);
 String category = 'all', filter = 'Popularity';
 int current=0;
 String phoneNumber;
+List<Item>favorites_list;
