@@ -249,7 +249,6 @@ class _BodyState extends State<Body> {
                                 });
                                 _productList();
                               }
-
                               setState(() {});
                             }))
                   ],
@@ -303,8 +302,9 @@ class _BodyState extends State<Body> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             onPressed: () {
-                              _productList();
+
                               setState(() {
+                                _productList();
                                 print("Entering the state");
                                 globals.current = 5;
                                 globals.category = "favorites";
