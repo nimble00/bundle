@@ -363,6 +363,8 @@ class CartState extends State<CartPage> {
                                               semanticLabel: 'delete',
                                             ),
                                             onPressed: () {
+                                              Item deleted_item=globals.item_list[ind];
+                                              int deleted_ind=ind;
                                               globals.item_list[ind].selected =
                                                   false;
                                               globals.item_name.remove(globals
@@ -375,6 +377,9 @@ class CartState extends State<CartPage> {
                                               });
                                               globals.item_list.removeAt(ind);
                                               setState(() {});
+                                              print("snackbar calling");
+                                              showSnackBar(cont,deleted_item,deleted_ind);
+                                              print("snackbar complete");
                                             },
                                           ),
                                         ],
@@ -471,5 +476,28 @@ class CartState extends State<CartPage> {
         textColor: Colors.black,
         fontSize: 16.0
     );
+  }
+
+  showSnackBar(BuildContext context,Item deleted_item, int deleted_ind){
+    print("snackbar inside");
+    final snackBar = SnackBar(
+      content: Text('You have deleted ${deleted_item.itemName}'),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+            deleted_item.selected = true;
+            globals.item_name.add(deleted_item.itemName);
+            globals.item_list.insert(deleted_ind,deleted_item);
+            globals.reference.updateData({
+              'products.${globals.item_list[deleted_ind].itemCategory}.${globals.item_list[deleted_ind].itemIndex}.no_of_orders':
+              FieldValue.increment(
+                  -globals.item_list[deleted_ind]
+                      .itemQun)
+            });
+            setState(() {});
+        },
+      ),
+    );
+    Scaffold.of(context).showSnackBar(snackBar);
   }
 }
