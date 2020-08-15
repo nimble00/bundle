@@ -134,11 +134,14 @@ class _BodyState extends State<Body> {
                             })),
                     Center(
                         child: IconButton(
-                            icon: Icon(Icons.favorite_border),
-                            color: (globals.favorite_name
-                                    .contains(display_list[index].itemName))
-                                ? Colors.red
-                                : Colors.black,
+                            icon: globals.favorite_name
+                                    .contains(display_list[index].itemName)
+                            ?Icon(Icons.favorite,color : Colors.red)
+                            :Icon(Icons.favorite_border),
+//                            color: (globals.favorite_name
+//                                    .contains(display_list[index].itemName))
+//                                ? Colors.red
+//                                : Colors.black,
                             onPressed: () {
                               if (!globals.favorite_name
                                   .contains(display_list[index].itemName)) {
@@ -298,3 +301,10 @@ class _BodyState extends State<Body> {
         body: ListView(children: <Widget>[_buildProducts(context)]));
   }
 }
+
+//products/3TLHwpIwrTt2UrygHLEs champagne
+//products/55rXrEfTLZyWHlHOpBW1  Pineapple
+//products/5toVPZ2FnUkrgKdyz8or  baby
+//products/FJCBySsbtKwTyE46bcK0  black beer
+//products/FSRLupC7UPoc4CZEkxfu  Apple
+//products/GFpaeo0VvNLVYqSMBXQ3  Pomegranate

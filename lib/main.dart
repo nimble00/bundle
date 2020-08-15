@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
       ),
       // home: Wrapper(),
       // home: LoginPage(),
-      home: HomePage()//AuthService().handleAuth(),
+//      home: AuthService().handleAuth(),
+      home: HomePage(),
     );
   }
 }

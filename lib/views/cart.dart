@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_app/models/item.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 enum DialogDemoAction {
   cancel,
@@ -273,7 +274,7 @@ class CartState extends State<CartPage> {
                                                                   .amber
                                                                   .shade500),
                                                           onPressed: () {
-                                                            globals
+                                                              globals
                                                                 .item_list[ind]
                                                                 .incrementQuantity();
                                                             globals.reference
@@ -284,6 +285,7 @@ class CartState extends State<CartPage> {
                                                                           1)
                                                             });
                                                             setState(() {});
+
                                                           },
                                                         ),
                                                         Container(
@@ -307,17 +309,21 @@ class CartState extends State<CartPage> {
                                                                   .amber
                                                                   .shade500),
                                                           onPressed: () {
-                                                            globals
-                                                                .item_list[ind]
-                                                                .decrementQuantity();
-                                                            globals.reference
-                                                                .updateData({
-                                                              'products.${globals.item_list[ind].itemCategory}.${globals.item_list[ind].itemIndex}.no_of_orders':
-                                                                  FieldValue
-                                                                      .increment(
-                                                                          -1)
-                                                            });
-                                                            setState(() {});
+                                                            if(globals.item_list[ind].itemQun>1){
+                                                              globals
+                                                                  .item_list[ind]
+                                                                  .decrementQuantity();
+                                                              globals.reference
+                                                                  .updateData({
+                                                                'products.${globals.item_list[ind].itemCategory}.${globals.item_list[ind].itemIndex}.no_of_orders':
+                                                                    FieldValue
+                                                                        .increment(
+                                                                            -1)
+                                                              });
+                                                              setState(() {});
+                                                            }else{
+                                                              showToast();
+                                                            }
                                                           },
                                                         ),
                                                       ],
@@ -454,5 +460,15 @@ class CartState extends State<CartPage> {
             .showSnackBar(SnackBar(content: Text('You selected: $value')));
       }
     });
+  }
+  void showToast(){
+    Fluttertoast.showToast(
+        msg: "Use delete icon to delete",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+//        backgroundColor: Colors.grey,
+        textColor: Colors.black,
+        fontSize: 16.0
+    );
   }
 }
