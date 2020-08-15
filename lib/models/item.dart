@@ -5,7 +5,6 @@ class Item {
   int itemPrice;
   int no_of_orders;
   bool selected;
-  int in_stock;
   String itemCategory; //SPIRIT CATEGORY OF THE ITEM
   String itemIndex; //INDEX TO REFER TO THE PRODUCT MAP
   Item(

@@ -364,8 +364,8 @@ class CartState extends State<CartPage> {
                                             onPressed: () {
                                               globals.item_list[ind].selected =
                                                   false;
-                                              globals.item_name.remove(
-                                                  globals.item_list[ind].itemName);
+                                              globals.item_name.remove(globals
+                                                  .item_list[ind].itemName);
                                               globals.reference.updateData({
                                                 'products.${globals.item_list[ind].itemCategory}.${globals.item_list[ind].itemIndex}.no_of_orders':
                                                     FieldValue.increment(

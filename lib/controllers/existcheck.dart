@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/views/home.dart';
 import 'package:flutter_app/views/adduserinfo.dart';
-
+import 'package:flutter_app/globals.dart' as globals;
 class ExistCheck extends StatefulWidget {
   // final String phone;
   // ExistCheck(this.phone);
@@ -19,7 +19,6 @@ class _ExistCheckState extends State<ExistCheck> {
   FirebaseUser currentUser;
   bool loading = true;
   String accountStatus;
-  String phoneNum;
 
   @override
   void initState() {
@@ -37,9 +36,9 @@ class _ExistCheckState extends State<ExistCheck> {
       print("ACCOUNT STATUS: " + accountStatus);
       // user = User.fromFirebaseUser(currentUser);
       print("CURRENT USER: " + currentUser.phoneNumber);
-      phoneNum = currentUser.phoneNumber;
-      print("PHONE: " + phoneNum);
-      _gotoHomeScreen(phoneNum);
+      globals.phoneNumber = currentUser.phoneNumber;
+      print("PHONE: " + globals.phoneNumber);
+      _gotoHomeScreen(globals.phoneNumber);
     });
   }
 
