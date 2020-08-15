@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_app/models/item.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_app/views/checkout.dart';
 
 enum DialogDemoAction {
   cancel,
@@ -413,13 +414,13 @@ class CartState extends State<CartPage> {
                         child: OutlineButton(
                             borderSide:
                                 BorderSide(color: Colors.amber.shade500),
-                            child: const Text('CONFIRM ORDER'),
+                            child: const Text('CHECKOUT'),
                             textColor: Colors.amber.shade500,
                             onPressed: () {
-//                              Navigator.push(
-//                                  context,
-//                                  MaterialPageRoute(
-//                                      builder: (context) => Checkout()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Checkout()));
                             },
                             shape: new OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30.0),
