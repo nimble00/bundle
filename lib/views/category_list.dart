@@ -112,7 +112,10 @@ class _CategoryState extends State<Category> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => SpiritPage(
-                            display_list: display_list, index: index))),
+                            display_list: display_list,
+                            index: index))).then((value) {
+                  setState(() {});
+                }),
                 child: Image.asset(display_list[index].itemImage),
               ),
             ),

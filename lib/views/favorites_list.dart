@@ -5,6 +5,8 @@ import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_app/models/item.dart';
 import 'dart:math';
 
+import 'package:flutter_app/views/spirit.dart';
+
 class Favorites extends StatefulWidget {
 @override
 _FavoritesState createState() => _FavoritesState();
@@ -44,8 +46,14 @@ _FavoritesState createState() => _FavoritesState();
           children: <Widget>[
             AspectRatio(
               aspectRatio: 40.0 / 11.0,
-              child: Image.asset(display_list[index].itemImage),
-            ),
+              child: GestureDetector(
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SpiritPage(
+                            display_list: display_list, index: index))),
+                child: Image.asset(display_list[index].itemImage),
+            )),
             Padding(
               padding: EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 2.0),
               child: Center(
