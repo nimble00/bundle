@@ -1,4 +1,3 @@
-
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +20,11 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   Widget _body;
   void initState() {
+    globals.category='all';
+    globals.current=0;
     _initialList();
-    _body = Category();
+    _body=Category();
   }
-
   void _initialList() {
     Firestore.instance
         .collection('users')
@@ -37,10 +37,17 @@ class _BodyState extends State<Body> {
     });
   }
 
-
+ _CategoryView(){
+    if(globals.category=='favorites'){
+      _body=Favorites();
+      return;
+    }
+    _body=Category();
+}
 
   @override
   Widget build(BuildContext context) {
+    _CategoryView();
     return Scaffold(
         appBar: PreferredSize(
             preferredSize: Size(100.0, 139.0),
