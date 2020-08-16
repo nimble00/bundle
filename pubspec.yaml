@@ -25,6 +25,7 @@ dependencies:
   cloud_firestore: ^0.13.7
   firebase_core: ^0.4.5
   http: ^0.12.2
+  fluttertoast: ^7.0.2
 
 
 

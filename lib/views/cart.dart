@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_app/models/item.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_app/views/checkout.dart';
 
 enum DialogDemoAction {
   cancel,
@@ -273,7 +275,7 @@ class CartState extends State<CartPage> {
                                                                   .amber
                                                                   .shade500),
                                                           onPressed: () {
-                                                            globals
+                                                              globals
                                                                 .item_list[ind]
                                                                 .incrementQuantity();
                                                             globals.reference
@@ -284,6 +286,7 @@ class CartState extends State<CartPage> {
                                                                           1)
                                                             });
                                                             setState(() {});
+
                                                           },
                                                         ),
                                                         Container(
@@ -307,17 +310,21 @@ class CartState extends State<CartPage> {
                                                                   .amber
                                                                   .shade500),
                                                           onPressed: () {
-                                                            globals
-                                                                .item_list[ind]
-                                                                .decrementQuantity();
-                                                            globals.reference
-                                                                .updateData({
-                                                              'products.${globals.item_list[ind].itemCategory}.${globals.item_list[ind].itemIndex}.no_of_orders':
-                                                                  FieldValue
-                                                                      .increment(
-                                                                          -1)
-                                                            });
-                                                            setState(() {});
+                                                            if(globals.item_list[ind].itemQun>1){
+                                                              globals
+                                                                  .item_list[ind]
+                                                                  .decrementQuantity();
+                                                              globals.reference
+                                                                  .updateData({
+                                                                'products.${globals.item_list[ind].itemCategory}.${globals.item_list[ind].itemIndex}.no_of_orders':
+                                                                    FieldValue
+                                                                        .increment(
+                                                                            -1)
+                                                              });
+                                                              setState(() {});
+                                                            }else{
+                                                              showToast();
+                                                            }
                                                           },
                                                         ),
                                                       ],
@@ -356,6 +363,8 @@ class CartState extends State<CartPage> {
                                               semanticLabel: 'delete',
                                             ),
                                             onPressed: () {
+                                              Item deleted_item=globals.item_list[ind];
+                                              int deleted_ind=ind;
                                               globals.item_list[ind].selected =
                                                   false;
                                               globals.item_name.remove(globals
@@ -368,6 +377,9 @@ class CartState extends State<CartPage> {
                                               });
                                               globals.item_list.removeAt(ind);
                                               setState(() {});
+                                              print("snackbar calling");
+                                              showSnackBar(cont,deleted_item,deleted_ind);
+                                              print("snackbar complete");
                                             },
                                           ),
                                         ],
@@ -407,13 +419,13 @@ class CartState extends State<CartPage> {
                         child: OutlineButton(
                             borderSide:
                                 BorderSide(color: Colors.amber.shade500),
-                            child: const Text('CONFIRM ORDER'),
+                            child: const Text('CHECKOUT'),
                             textColor: Colors.amber.shade500,
                             onPressed: () {
-//                              Navigator.push(
-//                                  context,
-//                                  MaterialPageRoute(
-//                                      builder: (context) => Checkout()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Checkout()));
                             },
                             shape: new OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30.0),
@@ -454,5 +466,38 @@ class CartState extends State<CartPage> {
             .showSnackBar(SnackBar(content: Text('You selected: $value')));
       }
     });
+  }
+  void showToast(){
+    Fluttertoast.showToast(
+        msg: "Use delete icon to delete",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+//        backgroundColor: Colors.grey,
+        textColor: Colors.black,
+        fontSize: 16.0
+    );
+  }
+
+  showSnackBar(BuildContext context,Item deleted_item, int deleted_ind){
+    print("snackbar inside");
+    final snackBar = SnackBar(
+      content: Text('You have deleted ${deleted_item.itemName}'),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+            deleted_item.selected = true;
+            globals.item_name.add(deleted_item.itemName);
+            globals.item_list.insert(deleted_ind,deleted_item);
+            globals.reference.updateData({
+              'products.${globals.item_list[deleted_ind].itemCategory}.${globals.item_list[deleted_ind].itemIndex}.no_of_orders':
+              FieldValue.increment(
+                  -globals.item_list[deleted_ind]
+                      .itemQun)
+            });
+            setState(() {});
+        },
+      ),
+    );
+    Scaffold.of(context).showSnackBar(snackBar);
   }
 }

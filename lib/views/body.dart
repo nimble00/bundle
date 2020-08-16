@@ -1,15 +1,15 @@
-import 'dart:math';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter_app/models/item.dart';
-import 'package:flutter_app/globals.dart' as globals;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/views/category_list.dart';
 
 import 'favorites_list.dart';
+
+import 'package:flutter_app/views/spirit.dart';
+
 
 class Stack {}
 
@@ -36,6 +36,8 @@ class _BodyState extends State<Body> {
       });
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -197,3 +199,10 @@ class _BodyState extends State<Body> {
         body: _body);
   }
 }
+
+//products/3TLHwpIwrTt2UrygHLEs champagne
+//products/55rXrEfTLZyWHlHOpBW1  Pineapple
+//products/5toVPZ2FnUkrgKdyz8or  baby
+//products/FJCBySsbtKwTyE46bcK0  black beer
+//products/FSRLupC7UPoc4CZEkxfu  Apple
+//products/GFpaeo0VvNLVYqSMBXQ3  Pomegranate

@@ -3,15 +3,24 @@ library my_prj.globals;
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/models/item.dart';
-
+//shoping cart list
 List<Item> item_list = new List();
-Map<String, dynamic> products = new Map();
-String pincode = '110016';
-DocumentReference reference;
 List<String> item_name = new List();
-List<String> favorite_name=new List();
+
+Map<String, dynamic> products = new Map();
+
+//user pincode, later work :will update on start of app
+String pincode = '110016';
 GeoPoint geopoint=new GeoPoint(48,60);
+String phoneNumber;
+
+DocumentReference reference;
+
+//list of fav items
+List<String> favorite_name=new List();
+List<Item>favorites_list;
+
+
 String category = 'all', filter = 'Popularity';
 int current=0;
-String phoneNumber;
-List<Item>favorites_list;
+
