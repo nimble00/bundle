@@ -66,7 +66,6 @@ class _AddUserState extends State<AddUser> {
             // 'govt_ID': ageproof,
             'dateOfBirth': dob,
             'address': address,
-            'favorites':{},
           })
           .then((value) => print("User Added"))
           .catchError((error) => print("Failed to add user: $error"));

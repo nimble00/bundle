@@ -150,45 +150,45 @@ class _CategoryState extends State<Category> {
                               }
                             })),
                     Center(
-                        child: IconButton(
-                            icon: Icon(Icons.favorite_border),
-                            color: (globals.favorite_name
-                                    .contains(display_list[index].itemName))
-                                ? Colors.red
-                                : Colors.black,
-                            onPressed: () {
-                              if (!globals.favorite_name
-                                  .contains(display_list[index].itemName)) {
-                                globals.favorite_name
-                                    .add(display_list[index].itemName);
-                                Firestore.instance
-                                    .collection('users')
-                                    .document(globals.phoneNumber)
-                                    .updateData({
-                                  'favorites.${display_list[index].itemName}.itemCategory':
-                                      display_list[index].itemCategory,
-                                  'favorites.${display_list[index].itemName}.itemIndex':
-                                      display_list[index].itemIndex,
-                                  'favorites.${display_list[index].itemName}.itemImage':
-                                      display_list[index].itemImage,
-                                  'favorites.${display_list[index].itemName}.itemPrice':
-                                      display_list[index].itemPrice,
-                                  'favorites.${display_list[index].itemName}.no_of_orders':
-                                      display_list[index].no_of_orders
-                                });
-                              } else {
-                                globals.favorite_name
-                                    .remove(display_list[index].itemName);
-                                Firestore.instance
-                                    .collection('users')
-                                    .document(globals.phoneNumber)
-                                    .updateData({
-                                  'favorites.${display_list[index].itemName}':
-                                      FieldValue.delete()
-                                });
-                              }
-                              setState(() {});
-                            }))
+                      child: IconButton(
+                          icon: globals.favorite_name
+                                  .contains(display_list[index].itemName)
+                              ? Icon(Icons.favorite, color: Colors.red)
+                              : Icon(Icons.favorite_border),
+                          onPressed: () {
+                            if (!globals.favorite_name
+                                .contains(display_list[index].itemName)) {
+                              globals.favorite_name
+                                  .add(display_list[index].itemName);
+                              Firestore.instance
+                                  .collection('users')
+                                  .document(globals.phoneNumber)
+                                  .updateData({
+                                'favorites.${display_list[index].itemName}.itemCategory':
+                                    display_list[index].itemCategory,
+                                'favorites.${display_list[index].itemName}.itemIndex':
+                                    display_list[index].itemIndex,
+                                'favorites.${display_list[index].itemName}.itemImage':
+                                    display_list[index].itemImage,
+                                'favorites.${display_list[index].itemName}.itemPrice':
+                                    display_list[index].itemPrice,
+                                'favorites.${display_list[index].itemName}.no_of_orders':
+                                    display_list[index].no_of_orders
+                              });
+                            } else {
+                              globals.favorite_name
+                                  .remove(display_list[index].itemName);
+                              Firestore.instance
+                                  .collection('users')
+                                  .document(globals.phoneNumber)
+                                  .updateData({
+                                'favorites.${display_list[index].itemName}':
+                                    FieldValue.delete()
+                              });
+                            }
+                            setState(() {});
+                          }),
+                    )
                   ],
                 ),
               ),

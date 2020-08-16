@@ -23,7 +23,9 @@ class _BodyState extends State<Body> {
     globals.category='all';
     globals.current=0;
     _initialList();
-    _body=Category();
+    _body=CircularProgressIndicator(
+      strokeWidth: 2.0,
+    );
   }
   void _initialList() {
     Firestore.instance
