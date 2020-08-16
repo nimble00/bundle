@@ -137,7 +137,7 @@ _FavoritesState createState() => _FavoritesState();
          if (!snapshot.hasData) return LinearProgressIndicator();
          return GridView.count(
            crossAxisCount: 2,
-           physics: NeverScrollableScrollPhysics(),
+           physics: const ScrollPhysics(),
            shrinkWrap: true,
            children: _generateCards(snapshot),
          );
