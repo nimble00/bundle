@@ -200,9 +200,3 @@ class _BodyState extends State<Body> {
   }
 }
 
-//products/3TLHwpIwrTt2UrygHLEs champagne
-//products/55rXrEfTLZyWHlHOpBW1  Pineapple
-//products/5toVPZ2FnUkrgKdyz8or  baby
-//products/FJCBySsbtKwTyE46bcK0  black beer
-//products/FSRLupC7UPoc4CZEkxfu  Apple
-//products/GFpaeo0VvNLVYqSMBXQ3  Pomegranate

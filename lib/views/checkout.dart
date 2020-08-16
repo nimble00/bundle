@@ -92,7 +92,7 @@ class CheckoutState extends State<Checkout> {
                         ],
                       )))),
           _verticalDivider(),
-          new Container(
+          Container(
             alignment: Alignment.topLeft,
             margin:
             EdgeInsets.only(left: 12.0, top: 5.0, right: 0.0, bottom: 5.0),
@@ -105,7 +105,7 @@ class CheckoutState extends State<Checkout> {
             ),
           ),
           //ADDRESS
-          new Container(
+          Container(
               height: 165.0,
               child: ListView(
                 scrollDirection: Axis.horizontal,
@@ -408,7 +408,7 @@ class CheckoutState extends State<Checkout> {
                 ],
               )),
           _verticalDivider(),
-          new Container(
+          Container(
             alignment: Alignment.topLeft,
             margin:
             EdgeInsets.only(left: 12.0, top: 5.0, right: 0.0, bottom: 5.0),
@@ -511,7 +511,9 @@ class CheckoutState extends State<Checkout> {
                 ),
               )),
         ],
+
       ),
+
     );
   }
 
