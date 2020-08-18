@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/views/home.dart';
 import 'package:flutter_app/views/adduserinfo.dart';
 import 'package:flutter_app/globals.dart' as globals;
+
 class ExistCheck extends StatefulWidget {
   // final String phone;
   // ExistCheck(this.phone);
@@ -12,9 +13,7 @@ class ExistCheck extends StatefulWidget {
 }
 
 class _ExistCheckState extends State<ExistCheck> {
-  Widget _body = CircularProgressIndicator(
-    value: 5,
-  ); // Default Body
+  Widget _body = CircularProgressIndicator(); // Default Body
   FirebaseAuth _auth;
   FirebaseUser currentUser;
   bool loading = true;
