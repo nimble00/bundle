@@ -27,10 +27,8 @@ class _BodyState extends State<Body> {
       strokeWidth: 2.0,
     );
   }
-  void _initialList() {
-    Firestore.instance
-        .collection('users')
-        .document(globals.phoneNumber)
+  void _initialList() async{
+    await globals.user
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       documentSnapshot['favorites'].forEach((k, v) {

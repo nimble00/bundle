@@ -21,7 +21,6 @@ class _FavoritesState extends State<Favorites> {
           k,
           1,
           snapshot.data['favorites'][k]['itemPrice'],
-          false,
           snapshot.data['favorites'][k]['no_of_orders'],
           snapshot.data['favorites'][k]['itemCategory'],
           snapshot.data['favorites'][k]['itemIndex']);
@@ -72,10 +71,8 @@ class _FavoritesState extends State<Favorites> {
                         child: IconButton(
                             icon: Icon(Icons.add_shopping_cart),
                             onPressed: () {
-                              if (display_list[index].selected == false) {
                                 if (!globals.item_name
                                     .contains(display_list[index].itemName)) {
-                                  display_list[index].selected = true;
                                   globals.item_name
                                       .add(display_list[index].itemName);
                                   globals.reference.updateData({
@@ -84,7 +81,6 @@ class _FavoritesState extends State<Favorites> {
                                   });
                                   globals.item_list.add(display_list[index]);
                                 }
-                              }
                             })),
                     Center(
                       child: IconButton(
@@ -97,9 +93,7 @@ class _FavoritesState extends State<Favorites> {
                                 .contains(display_list[index].itemName)) {
                               globals.favorite_name
                                   .add(display_list[index].itemName);
-                              Firestore.instance
-                                  .collection('users')
-                                  .document(globals.phoneNumber)
+                             globals.user
                                   .updateData({
                                 'favorites.${display_list[index].itemName}.itemCategory':
                                     display_list[index].itemCategory,
@@ -115,9 +109,7 @@ class _FavoritesState extends State<Favorites> {
                             } else {
                               globals.favorite_name
                                   .remove(display_list[index].itemName);
-                              Firestore.instance
-                                  .collection('users')
-                                  .document(globals.phoneNumber)
+                             globals.user
                                   .updateData({
                                 'favorites.${display_list[index].itemName}':
                                     FieldValue.delete()
@@ -140,9 +132,7 @@ class _FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
-      stream: Firestore.instance
-          .collection('users')
-          .document(globals.phoneNumber)
+      stream: globals.user
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();

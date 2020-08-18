@@ -3,6 +3,8 @@ import 'package:flutter_app/controllers/authservice.dart';
 // import 'package:flutter_app/views/home.dart';
 import 'package:flutter_app/models/user.dart';
 
+import 'orders.dart';
+
 // FirebaseUser globalUser;
 class Account extends StatefulWidget {
   final User user;
@@ -31,8 +33,13 @@ class _AccountState extends State<Account> {
             elevation: 10,
             padding: EdgeInsets.only(top: 20, bottom: 20),
             child: Text('Orders'),
-            onPressed: () => {}, // IMPL THE COMPLETE ORDERS PAGE
-          ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Orders()));
+              }),
+             // IMPL THE COMPLETE ORDERS PAGE
           RaisedButton(
             elevation: 10,
             padding: EdgeInsets.only(top: 20, bottom: 20),

@@ -275,7 +275,7 @@ class CartState extends State<CartPage> {
                                                                   .amber
                                                                   .shade500),
                                                           onPressed: () {
-                                                              globals
+                                                            globals
                                                                 .item_list[ind]
                                                                 .incrementQuantity();
                                                             globals.reference
@@ -286,7 +286,6 @@ class CartState extends State<CartPage> {
                                                                           1)
                                                             });
                                                             setState(() {});
-
                                                           },
                                                         ),
                                                         Container(
@@ -310,9 +309,13 @@ class CartState extends State<CartPage> {
                                                                   .amber
                                                                   .shade500),
                                                           onPressed: () {
-                                                            if(globals.item_list[ind].itemQun>1){
-                                                              globals
-                                                                  .item_list[ind]
+                                                            if (globals
+                                                                    .item_list[
+                                                                        ind]
+                                                                    .itemQun >
+                                                                1) {
+                                                              globals.item_list[
+                                                                      ind]
                                                                   .decrementQuantity();
                                                               globals.reference
                                                                   .updateData({
@@ -322,7 +325,7 @@ class CartState extends State<CartPage> {
                                                                             -1)
                                                               });
                                                               setState(() {});
-                                                            }else{
+                                                            } else {
                                                               showToast();
                                                             }
                                                           },
@@ -363,10 +366,9 @@ class CartState extends State<CartPage> {
                                               semanticLabel: 'delete',
                                             ),
                                             onPressed: () {
-                                              Item deleted_item=globals.item_list[ind];
-                                              int deleted_ind=ind;
-                                              globals.item_list[ind].selected =
-                                                  false;
+                                              Item deleted_item =
+                                                  globals.item_list[ind];
+                                              int deleted_ind = ind;
                                               globals.item_name.remove(globals
                                                   .item_list[ind].itemName);
                                               globals.reference.updateData({
@@ -378,7 +380,8 @@ class CartState extends State<CartPage> {
                                               globals.item_list.removeAt(ind);
                                               setState(() {});
                                               print("snackbar calling");
-                                              showSnackBar(cont,deleted_item,deleted_ind);
+                                              showSnackBar(cont, deleted_item,
+                                                  deleted_ind);
                                               print("snackbar complete");
                                             },
                                           ),
@@ -467,34 +470,31 @@ class CartState extends State<CartPage> {
       }
     });
   }
-  void showToast(){
+
+  void showToast() {
     Fluttertoast.showToast(
         msg: "Use delete icon to delete",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
 //        backgroundColor: Colors.grey,
         textColor: Colors.black,
-        fontSize: 16.0
-    );
+        fontSize: 16.0);
   }
 
-  showSnackBar(BuildContext context,Item deleted_item, int deleted_ind){
+  showSnackBar(BuildContext context, Item deleted_item, int deleted_ind) {
     print("snackbar inside");
     final snackBar = SnackBar(
       content: Text('You have deleted ${deleted_item.itemName}'),
       action: SnackBarAction(
         label: 'Undo',
         onPressed: () {
-            deleted_item.selected = true;
-            globals.item_name.add(deleted_item.itemName);
-            globals.item_list.insert(deleted_ind,deleted_item);
-            globals.reference.updateData({
-              'products.${globals.item_list[deleted_ind].itemCategory}.${globals.item_list[deleted_ind].itemIndex}.no_of_orders':
-              FieldValue.increment(
-                  -globals.item_list[deleted_ind]
-                      .itemQun)
-            });
-            setState(() {});
+          globals.item_name.add(deleted_item.itemName);
+          globals.item_list.insert(deleted_ind, deleted_item);
+          globals.reference.updateData({
+            'products.${globals.item_list[deleted_ind].itemCategory}.${globals.item_list[deleted_ind].itemIndex}.no_of_orders':
+                FieldValue.increment(-globals.item_list[deleted_ind].itemQun)
+          });
+          setState(() {});
         },
       ),
     );

@@ -23,7 +23,6 @@ class _CategoryState extends State<Category> {
             document['products'][k]['$i']['itemName'],
             1,
             document['products'][k]['$i']['itemPrice'],
-            false,
             document['products'][k]['$i']['no_of_orders'],
             document['products'][k]['$i']['itemCategory'],
             '$i',
@@ -41,7 +40,6 @@ class _CategoryState extends State<Category> {
             document['products'][globals.category]['$i']['itemName'],
             1,
             document['products'][globals.category]['$i']['itemPrice'],
-            false,
             document['products'][globals.category]['$i']['no_of_orders'],
             document['products'][globals.category]['$i']['itemCategory'],
             '$i',
@@ -135,10 +133,8 @@ class _CategoryState extends State<Category> {
                         child: IconButton(
                             icon: Icon(Icons.add_shopping_cart),
                             onPressed: () {
-                              if (display_list[index].selected == false) {
                                 if (!globals.item_name
                                     .contains(display_list[index].itemName)) {
-                                  display_list[index].selected = true;
                                   globals.item_name
                                       .add(display_list[index].itemName);
                                   globals.reference.updateData({
@@ -147,7 +143,7 @@ class _CategoryState extends State<Category> {
                                   });
                                   globals.item_list.add(display_list[index]);
                                 }
-                              }
+
                             })),
                     Center(
                       child: IconButton(
@@ -160,9 +156,7 @@ class _CategoryState extends State<Category> {
                                 .contains(display_list[index].itemName)) {
                               globals.favorite_name
                                   .add(display_list[index].itemName);
-                              Firestore.instance
-                                  .collection('users')
-                                  .document(globals.phoneNumber)
+                              globals.user
                                   .updateData({
                                 'favorites.${display_list[index].itemName}.itemCategory':
                                     display_list[index].itemCategory,
@@ -178,9 +172,7 @@ class _CategoryState extends State<Category> {
                             } else {
                               globals.favorite_name
                                   .remove(display_list[index].itemName);
-                              Firestore.instance
-                                  .collection('users')
-                                  .document(globals.phoneNumber)
+                            globals.user
                                   .updateData({
                                 'favorites.${display_list[index].itemName}':
                                     FieldValue.delete()

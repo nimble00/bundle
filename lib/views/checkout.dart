@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_app/views/payment.dart';
 import 'package:flutter_app/models/item.dart';
@@ -14,8 +15,15 @@ class CheckoutState extends State<Checkout> {
   bool checkboxValueA = true;
   bool checkboxValueB = false;
   bool checkboxValueC = false;
-
-
+  int no_of_orders;
+void initState(){
+  _getOrders();
+}
+_getOrders() async{
+  await Firestore.instance.collection('users').document(globals.phoneNumber).get().then((value){
+      no_of_orders=value['orders']['no_of_orders'];
+  });
+}
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -497,6 +505,7 @@ class CheckoutState extends State<Checkout> {
                             child: const Text('CONFIRM ORDER'),
                             textColor: Colors.amber.shade500,
                             onPressed: () {
+                              add_order_to_database();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -524,7 +533,50 @@ class CheckoutState extends State<Checkout> {
     }
     return total;
   }
-
+void add_order_to_database() {
+  int sum = 0;
+  for (int i = 0; i < globals.item_list.length; i++) {
+    globals.user.updateData(
+        {
+          'orders.details.${no_of_orders}.items.${globals.item_list[i]
+              .itemName}.itemCategory': globals.item_list[i].itemCategory
+        });
+    globals.user.updateData(
+        {
+          'orders.details.${no_of_orders}.items.${globals.item_list[i]
+              .itemName}.itemPrice': globals.item_list[i].itemPrice
+        });
+    globals.user.updateData(
+        {
+          'orders.details.${no_of_orders}.items.${globals.item_list[i]
+              .itemName}.itemQun': globals.item_list[i].itemQun
+        });
+    globals.user.updateData(
+        {
+          'orders.details.${no_of_orders}.items.${globals.item_list[i]
+              .itemName}.itemIndex': globals.item_list[i].itemIndex
+        });
+    globals.user.updateData(
+        {
+          'orders.details.${no_of_orders}.items.${globals.item_list[i]
+              .itemName}.itemImage': globals.item_list[i].itemImage
+        });
+    globals.user.updateData(
+        {
+          'orders.details.${no_of_orders}.items.${globals.item_list[i]
+              .itemName}.no_of_orders': globals.item_list[i].no_of_orders
+        });
+    sum += globals.item_list[i].itemPrice * globals.item_list[i].itemQun;
+  }
+  globals.user.updateData(
+      {'orders.details.${no_of_orders}.total': sum});
+  globals.user.updateData(
+      {'orders.details.${no_of_orders}.status': "Delievered"});
+  globals.user.updateData(
+      {'orders.details.${no_of_orders}.date': "20 July"});
+  globals.user.updateData(
+      {'orders.no_of_orders': FieldValue.increment(1)});
+}
   _verticalDivider() => Container(
     padding: EdgeInsets.all(2.0),
   );

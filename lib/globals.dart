@@ -15,7 +15,7 @@ GeoPoint geopoint=new GeoPoint(48,60);
 String phoneNumber;
 
 DocumentReference reference;
-
+DocumentReference user=Firestore.instance.collection('users').document(phoneNumber);
 //list of fav items
 List<String> favorite_name=new List();
 List<Item>favorites_list;
