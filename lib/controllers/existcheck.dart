@@ -13,7 +13,11 @@ class ExistCheck extends StatefulWidget {
 }
 
 class _ExistCheckState extends State<ExistCheck> {
-  Widget _body = CircularProgressIndicator(); // Default Body
+  Widget _body = Container(
+      height: 5.0,
+      child: CircularProgressIndicator(
+        value: 5,
+      )); // Default Body
   FirebaseAuth _auth;
   FirebaseUser currentUser;
   bool loading = true;
