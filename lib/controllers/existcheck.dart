@@ -65,9 +65,7 @@ class _ExistCheckState extends State<ExistCheck> {
   }
 
   _gotoHomeScreen(String phoneN) {
-    Firestore.instance
-        .collection('users')
-        .document(phoneN)
+   globals.user
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {

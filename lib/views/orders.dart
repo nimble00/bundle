@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_app/models/item.dart';
 import 'package:flutter_app/models/order.dart';
+import 'package:flutter_app/views/cart.dart';
 import 'package:flutter_app/views/checkout.dart';
 
 class Orders extends StatefulWidget {
@@ -80,7 +81,7 @@ class _OrdersState extends State<Orders> {
                 onPressed: () {
                   reorder(orders_list[index]);
                   setState(() {
-                    _body=Checkout();
+                    _body=CartPage();
                   });
                 },
               ),
