@@ -74,18 +74,11 @@ class CartState extends State<CartPage> {
 
     return new Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(_backIcon()),
-          alignment: Alignment.centerLeft,
-          tooltip: 'Back',
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text('My Cart (${globals.item_list.length})'),
-        backgroundColor: Colors.pink,
-      ),
+      appBar:
+        AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(icon:Icon(Icons.keyboard_backspace), color: Colors.black,onPressed: (){Navigator.pop(context);},),
+        title: Text('My Cart',style: TextStyle(color: Colors.black),)),
       body: Column(
         children: <Widget>[
           //addres wala

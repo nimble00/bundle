@@ -67,8 +67,8 @@ class _HomePageState extends State<HomePage> {
               child: Text(
                 "Offers",
                 style: TextStyle(
-                    fontStyle: FontStyle.normal,
-                    fontSize: 20.0,
+                    fontStyle: FontStyle.italic,
+                    fontSize: 15.0,
                     color: Colors.black),
               ),
             ),

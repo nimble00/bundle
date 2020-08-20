@@ -13,7 +13,7 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
-  List<Order> orders_list = new List();
+  List<Order> orders_list ;
   Widget _body;
   void initState(){
     _body=_create();
@@ -67,6 +67,7 @@ class _OrdersState extends State<Orders> {
   }
 
   List<Card> _generateCards(AsyncSnapshot snapshot) {
+    orders_list=new List();
     _orderList(snapshot);
     List<Card> cards = List.generate(
       orders_list.length,
