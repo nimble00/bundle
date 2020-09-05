@@ -42,6 +42,7 @@ class _FavoritesState extends State<Favorites> {
     List<Card> cards = List.generate(
       display_list.length,
       (int index) => Card(
+        elevation: 5.0,
         clipBehavior: Clip.antiAlias,
         child: Column(
           children: <Widget>[

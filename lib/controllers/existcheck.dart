@@ -13,11 +13,13 @@ class ExistCheck extends StatefulWidget {
 }
 
 class _ExistCheckState extends State<ExistCheck> {
-  Widget _body = Container(
-      height: 5.0,
-      child: CircularProgressIndicator(
-        value: 5,
-      )); // Default Body
+  Widget _body = Scaffold(
+    appBar: AppBar(backgroundColor: Colors.white),
+    body: Center(
+      child: CircularProgressIndicator(),
+    ),
+  );
+  // Default Body
   FirebaseAuth _auth;
   FirebaseUser currentUser;
   bool loading = true;
@@ -65,11 +67,7 @@ class _ExistCheckState extends State<ExistCheck> {
   }
 
   _gotoHomeScreen(String phoneN) {
-    Firestore.instance
-        .collection('users')
-        .document(phoneN)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
+    globals.user.get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         print('DOCUMENT EXISTS IN THE DATABASE');
         setState(() => _body = HomePage());

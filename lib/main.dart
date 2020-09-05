@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
       // home: LoginPage(),
       home: AuthService().handleAuth(),
 //      home: HomePage(),
-
     );
   }
 }

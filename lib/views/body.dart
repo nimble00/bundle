@@ -59,15 +59,17 @@ class _BodyState extends State<Body> {
                     scrollDirection: Axis.horizontal,
                     children: [
                       Container(
-                          width: MediaQuery.of(context).size.width / 4,
+                          width: 100.0,
+                          margin: EdgeInsets.all(8.0),
                           child: Center(
                               child: RaisedButton(
+                                elevation: 10.0,
                             child: Text("All"),
                             color: (globals.current == 0)
                                 ? Colors.tealAccent
                                 : Colors.white,
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
+                                borderRadius: BorderRadius.circular(20)),
                             onPressed: () {
                               setState(() {
                                 globals.current = 0;
@@ -77,15 +79,17 @@ class _BodyState extends State<Body> {
                             },
                           ))),
                       Container(
-                          width: MediaQuery.of(context).size.width / 4,
+                          width: 100.0,
+                          margin: EdgeInsets.all(8.0),
                           child: Center(
                               child: RaisedButton(
+                                elevation: 10.0,
                             child: Text("Favorites"),
                             color: (globals.current == 5)
                                 ? Colors.tealAccent
                                 : Colors.white,
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
+                                borderRadius: BorderRadius.circular(20)),
                             onPressed: () {
                               setState(() {
                                 globals.current = 5;
@@ -95,15 +99,17 @@ class _BodyState extends State<Body> {
                             },
                           ))),
                       Container(
-                          width: MediaQuery.of(context).size.width / 4,
+                          width: 100.0,
+                          margin: EdgeInsets.all(8.0),
                           child: Center(
                               child: RaisedButton(
+                                elevation: 10.0,
                             child: Text("Beer"),
                             color: (globals.current == 1)
                                 ? Colors.tealAccent
                                 : Colors.white,
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
+                                borderRadius: BorderRadius.circular(20)),
                             onPressed: () {
                               setState(() {
                                 globals.current = 1;
@@ -113,15 +119,17 @@ class _BodyState extends State<Body> {
                             },
                           ))),
                       Container(
-                          width: MediaQuery.of(context).size.width / 4,
+                          width: 100.0,
+                          margin: EdgeInsets.all(8.0),
                           child: Center(
                               child: RaisedButton(
+                                elevation: 10.0,
                             child: Text("Rum"),
                             color: (globals.current == 2)
                                 ? Colors.tealAccent
                                 : Colors.white,
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
+                                borderRadius: BorderRadius.circular(20)),
                             onPressed: () {
                               setState(() {
                                 globals.current = 2;
@@ -131,15 +139,17 @@ class _BodyState extends State<Body> {
                             },
                           ))),
                       Container(
-                          width: MediaQuery.of(context).size.width / 4,
+                          width: 100.0,
+                          margin: EdgeInsets.all(8.0),
                           child: Center(
                               child: RaisedButton(
+                                elevation: 10.0,
                             child: Text("Whiskey"),
                             color: (globals.current == 3)
                                 ? Colors.tealAccent
                                 : Colors.white,
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
+                                borderRadius: BorderRadius.circular(20)),
                             onPressed: () {
                               setState(() {
                                 globals.current = 3;
@@ -149,15 +159,17 @@ class _BodyState extends State<Body> {
                             },
                           ))),
                       Container(
-                          width: MediaQuery.of(context).size.width / 4,
+                          width: 100.0,
+                          margin: EdgeInsets.all(8.0),
                           child: Center(
                               child: RaisedButton(
+                                elevation: 10.0,
                             child: Text("Vodka"),
                             color: (globals.current == 4)
                                 ? Colors.tealAccent
                                 : Colors.white,
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
+                                borderRadius: BorderRadius.circular(20)),
                             onPressed: () {
                               setState(() {
                                 globals.current = 4;

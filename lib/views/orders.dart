@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_app/models/item.dart';
 import 'package:flutter_app/models/order.dart';
+import 'package:flutter_app/views/cart.dart';
 import 'package:flutter_app/views/checkout.dart';
 
 class Orders extends StatefulWidget {
@@ -12,22 +13,22 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
-  List<Order> orders_list = new List();
+  List<Order> orders_list;
   Widget _body;
-  void initState(){
-    _body=_create();
+  void initState() {
+    _body = _create();
   }
+
   void _orderList(AsyncSnapshot snapshot) {
     Map orders = snapshot.data['orders'];
     for (int i = 0; i < orders['no_of_orders']; i++) {
-
       add_order_from_database(orders['details']['$i']);
     }
   }
 
   void add_order_from_database(Map _order) {
     Order order = new Order();
-    order.item_list=new List();
+    order.item_list = new List();
     order.total = _order['total'];
     order.status = _order['status'];
     order.date = _order['date'];
@@ -61,50 +62,72 @@ class _OrdersState extends State<Orders> {
     for (int i = 0; i < order.item_list.length; i++) {
       globals.item_list.add(order.item_list[i]);
       globals.item_name.add(order.item_list[i].itemName);
-      globals.reference.updateData({'${order.item_list[i].itemCategory}.${order.item_list[i].itemIndex}.no_of_orders':FieldValue.increment(order.item_list[i].itemQun)});
+      globals.reference.updateData({
+        '${order.item_list[i].itemCategory}.${order.item_list[i].itemIndex}.no_of_orders':
+            FieldValue.increment(order.item_list[i].itemQun)
+      });
     }
   }
 
   List<Card> _generateCards(AsyncSnapshot snapshot) {
+    orders_list = new List();
     _orderList(snapshot);
     List<Card> cards = List.generate(
       orders_list.length,
       (int index) => Card(
         clipBehavior: Clip.antiAlias,
-        child:
-            ListTile(
-              title: Text(_orderDetails(orders_list[index]),style: TextStyle(fontStyle: FontStyle.italic,fontSize: 20.0,color: Colors.red),),
-              trailing: Text(orders_list[index].total.toString()),
-              leading: RaisedButton(
-                child: Text("Reorder"),
-                onPressed: () {
-                  reorder(orders_list[index]);
-                  setState(() {
-                    _body=Checkout();
-                  });
-                },
-              ),
-            ),
+        child: ListTile(
+          title: Text(
+            _orderDetails(orders_list[index]),
+            style: TextStyle(
+                fontStyle: FontStyle.italic, fontSize: 20.0, color: Colors.red),
+          ),
+          trailing: Text(orders_list[index].total.toString()),
+          leading: RaisedButton(
+            child: Text("Reorder"),
+            onPressed: () {
+              reorder(orders_list[index]);
+              setState(() {
+                _body = CartPage();
+              });
+            },
+          ),
         ),
-      );
+      ),
+    );
     return cards;
   }
-Widget _create(){
-  return StreamBuilder<DocumentSnapshot>(
-    stream: globals.user
-        .snapshots(),
-    builder: (context, snapshot) {
-      if (!snapshot.hasData) return CircularProgressIndicator();
-      return ListView(
-        children: _generateCards(snapshot),
-      );
-    },
-  );
-}
+
+  Widget _create() {
+    return StreamBuilder<DocumentSnapshot>(
+      stream: globals.user.snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return CircularProgressIndicator();
+        return ListView(
+          children: _generateCards(snapshot),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:_body ,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Icon(Icons.keyboard_backspace),
+          color: Colors.black,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          'Orders',
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
+      body: _body,
     );
   }
 }
