@@ -55,7 +55,11 @@ class _LoginPageState extends State<LoginPage> {
                                   BorderSide(color: Colors.grey, width: 5.0),
 //                                  BorderSide(color: Colors.red, width: 5.0),
                             ),
+                            border: OutlineInputBorder(),
                             hintText: 'Phone Number',
+                            prefixIcon:
+                                const Icon(Icons.phone, color: Colors.grey),
+                            prefixText: ' ',
                           ),
                           onChanged: (val) {
                             setState(() {
