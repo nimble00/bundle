@@ -32,7 +32,7 @@ class _PartnerHomepageState extends State<PartnerHomepage> {
     ),
     AppBar(
       leading: Icon(
-        Icons.call_to_action,
+        Icons.explore,
         color: Colors.black,
       ),
       title: Text(
@@ -44,7 +44,7 @@ class _PartnerHomepageState extends State<PartnerHomepage> {
     ),
     AppBar(
       leading: Icon(
-        Icons.call_to_action,
+        Icons.check,
         color: Colors.black,
       ),
       title: Text(
@@ -59,6 +59,7 @@ class _PartnerHomepageState extends State<PartnerHomepage> {
         leading: Icon(
           Icons.account_box,
           color: Colors.black,
+          // size: 12,
         ),
         title: Text(
           'My Account',
@@ -72,6 +73,7 @@ class _PartnerHomepageState extends State<PartnerHomepage> {
       appBar: _appBarList[_index],
       body: _bodyList[_index],
       bottomNavigationBar: BottomNavigationBar(
+          elevation: 8,
           currentIndex: _index,
           selectedItemColor: Colors.black,
           unselectedItemColor: Colors.grey,

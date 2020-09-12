@@ -8,8 +8,19 @@ class PartnerPastOrders extends StatefulWidget {
 class _PartnerPastOrdersState extends State<PartnerPastOrders> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("RAVI WILL IMPLEMENT PAST ORDERS HERE"),
+    return Column(
+      children: [
+        Spacer(
+          flex: 1,
+        ),
+        Text(
+          "RAVI WILL IMPLEMENT PAST ORDERS HERE!!!",
+          style: TextStyle(color: Colors.black),
+        ),
+        Spacer(
+          flex: 2,
+        ),
+      ],
     );
   }
 }
