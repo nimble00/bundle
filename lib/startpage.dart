@@ -11,11 +11,6 @@ class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   // title: Text("welcome"),
-      //   elevation: 0,
-      //   backgroundColor: Colors.white,
-      // ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -26,6 +21,7 @@ class _StartPageState extends State<StartPage> {
           RaisedButton(
             onPressed: null,
             child: Text(" i want to "),
+            padding: EdgeInsets.only(top: 20, bottom: 20),
           ),
           Spacer(
             flex: 4,
@@ -43,6 +39,7 @@ class _StartPageState extends State<StartPage> {
                 builder: (context) => PartnerHomepage(),
               ),
             ),
+            padding: EdgeInsets.only(top: 20, bottom: 20),
           ),
           Spacer(
             flex: 1,
@@ -60,6 +57,7 @@ class _StartPageState extends State<StartPage> {
                 builder: (context) => AuthService().handleAuth(),
               ),
             ),
+            padding: EdgeInsets.only(top: 20, bottom: 20),
           ),
           Spacer(
             flex: 10,
