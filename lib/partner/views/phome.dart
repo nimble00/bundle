@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/partner/views/activeorders.dart';
+import 'package:flutter_app/partner/views/addproducts.dart';
 import 'package:flutter_app/partner/views/paccount.dart';
+import 'package:flutter_app/partner/views/pastorders.dart';
 
 class PartnerHomepage extends StatefulWidget {
   @override
@@ -9,22 +12,9 @@ class PartnerHomepage extends StatefulWidget {
 class _PartnerHomepageState extends State<PartnerHomepage> {
   int _index = 0;
   List<Widget> _bodyList = [
-    Column(
-      children: [
-        Spacer(
-          flex: 1,
-        ),
-        Text(
-          "RAVI WILL IMPLEMENT CURRENT ACTIVE ORDERS HERE!!!",
-          style: TextStyle(color: Colors.black),
-        ),
-        Spacer(
-          flex: 2,
-        ),
-      ],
-    ),
-    PartnerAccountPage(),
-    PartnerAccountPage(),
+    PartnerActiveOrders(),
+    PartnerAddProducts(),
+    PartnerPastOrders(),
     PartnerAccountPage()
   ];
   List<Widget> _appBarList = [
@@ -100,13 +90,8 @@ class _PartnerHomepageState extends State<PartnerHomepage> {
                   setState(() {
                     this._index = 0;
                   });
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => PartnerHomepage()));
-                }, // THIS BUTTON SHOULD BRING THE USER BACK TO HOME
+                },
               ),
-              // activeIcon: Icon(Icons.home),
             ),
             BottomNavigationBarItem(
               title: Text(""),
@@ -116,9 +101,7 @@ class _PartnerHomepageState extends State<PartnerHomepage> {
                   setState(() {
                     this._index = 1;
                   });
-                  // Navigator.push(
-                  //     context, MaterialPageRoute(builder: (context) => null));
-                }, // THIS BUTTON SHOULD OPEN THE ADD PRODUCT CUM PRODUCT LIST SECTION
+                },
               ),
             ),
             BottomNavigationBarItem(
@@ -129,8 +112,6 @@ class _PartnerHomepageState extends State<PartnerHomepage> {
                   setState(() {
                     this._index = 2;
                   });
-                  // Navigator.push(
-                  //     context, MaterialPageRoute(builder: (context) => null));
                 }, // THIS BUTTON SHOULD OPEN THE FULFILLED ORDERS LIST
               ),
             ),
@@ -142,10 +123,6 @@ class _PartnerHomepageState extends State<PartnerHomepage> {
                   setState(() {
                     this._index = 3;
                   });
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => PartnerAccountPage()));
                 },
               ),
             ),
