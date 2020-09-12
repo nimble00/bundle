@@ -14,7 +14,9 @@ class ExistCheck extends StatefulWidget {
 
 class _ExistCheckState extends State<ExistCheck> {
   Widget _body = Scaffold(
-    appBar: AppBar(backgroundColor: Colors.white),
+    // appBar: AppBar(
+    //   backgroundColor: Colors.white,
+    // ),
     body: Center(
       child: CircularProgressIndicator(),
     ),

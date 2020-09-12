@@ -21,7 +21,7 @@ class _StartPageState extends State<StartPage> {
           RaisedButton(
             onPressed: null,
             child: Text(" i want to "),
-            padding: EdgeInsets.only(top: 20, bottom: 20),
+            padding: EdgeInsets.all(10.0),
           ),
           Spacer(
             flex: 4,
@@ -39,7 +39,7 @@ class _StartPageState extends State<StartPage> {
                 builder: (context) => PartnerHomepage(),
               ),
             ),
-            padding: EdgeInsets.only(top: 20, bottom: 20),
+            padding: EdgeInsets.all(10.0),
           ),
           Spacer(
             flex: 1,
@@ -57,7 +57,7 @@ class _StartPageState extends State<StartPage> {
                 builder: (context) => AuthService().handleAuth(),
               ),
             ),
-            padding: EdgeInsets.only(top: 20, bottom: 20),
+            padding: EdgeInsets.all(10.0),
           ),
           Spacer(
             flex: 10,
