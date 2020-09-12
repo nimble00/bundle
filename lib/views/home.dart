@@ -114,7 +114,8 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Account(user: user))),
+                      builder: (context) => Account(user: user),
+                    )),
                 icon: Icon(Icons.account_circle)),
           ),
         ],
