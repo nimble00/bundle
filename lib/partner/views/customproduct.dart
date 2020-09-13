@@ -11,7 +11,8 @@ class PartnerCustomProduct extends StatefulWidget {
 class _PartnerCustomProductState extends State<PartnerCustomProduct> {
   File _image;
   final picker = ImagePicker();
-
+  TextEditingController size;
+  TextEditingController price;
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
 
@@ -23,17 +24,39 @@ class _PartnerCustomProductState extends State<PartnerCustomProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Image Picker Example'),
-      ),
-      body: Center(
-        child: _image == null ? Text('No image selected.') : Image.file(_image),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: getImage,
-        tooltip: 'Pick Image',
-        child: Icon(Icons.add_a_photo),
-      ),
-    );
+        appBar: AppBar(
+          backgroundColor: Colors.lightGreen,
+          title: Text(
+            'Add New Product',
+          ),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                width: double.infinity,
+                height: double.infinity,
+                child: _image == null
+                    ? Text('No image selected.')
+                    : Image.file(_image),
+              ),
+              RaisedButton(
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 80),
+                color: Colors.lightGreen,
+                elevation: 10,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24.0),
+                    side: BorderSide(color: Colors.white)),
+                onPressed: getImage,
+                // tooltip: 'Pick Image',
+                child: Icon(
+                  Icons.add_a_photo,
+                  size: 80,
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }
