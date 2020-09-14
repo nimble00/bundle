@@ -233,8 +233,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.4"
-<<<<<<< HEAD
-=======
   image:
     dependency: transitive
     description:
@@ -256,7 +254,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
->>>>>>> 0dbf8edd660c2c3ed6145a1b63214634d877c269
   js:
     dependency: transitive
     description:
@@ -370,16 +367,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
->>>>>>> 0dbf8edd660c2c3ed6145a1b63214634d877c269
   typed_data:
     dependency: transitive
     description:
       name: typed_data
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
+
     version: "1.2.0"
-=======
+
     version: "1.1.6"
   upi_pay:
     dependency: "direct main"
@@ -388,7 +384,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.2"
->>>>>>> 0dbf8edd660c2c3ed6145a1b63214634d877c269
+
   vector_math:
     dependency: transitive
     description:
