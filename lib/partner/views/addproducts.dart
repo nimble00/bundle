@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/partner/views/customproduct.dart';
+
+// I added android: ... = "true" in android/ap/src/main/AndroidManifest.xml
+// to make 'imagepicker' backward compatible.
 
 class PartnerAddProducts extends StatefulWidget {
   @override
@@ -9,25 +13,86 @@ class _PartnerAddProductsState extends State<PartnerAddProducts> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 6,
       child: Scaffold(
         appBar: TabBar(
           indicatorColor: Colors.black,
           labelColor: Colors.black,
           tabs: [
             Tab(
-              text: "Add Products",
+              text: "All",
             ),
             Tab(
-              text: "My Products",
+              text: "Dairy and Bakery",
+            ),
+            Tab(
+              text: "Personal Care",
+            ),
+            Tab(
+              text: "Snacks and Drinks",
+            ),
+            Tab(
+              text: "Kitchen Essentials",
+            ),
+            Tab(
+              text: "Miscellaneous",
             ),
           ],
         ),
         body: TabBarView(
           children: [
-            Icon(Icons.directions_car),
-            Icon(Icons.directions_transit)
+            // Container(
+            //   child: StreamBuilder(
+            //     stream: Firestore.instance.collection('productList').snapshots(),
+            //     builder: (context, snapshot) {
+            //       if (!snapshot.hasData) {
+            //         return Center(
+            //           child: CircularProgressIndicator(
+            //             valueColor: AlwaysStoppedAnimation<Color>(themeColor),
+            //           ),
+            //         );
+            //       } else {
+            //         return ListView.builder(
+            //           padding: EdgeInsets.all(10.0),
+            //           itemBuilder: (context, index) =>
+            //               buildItem(context, snapshot.data.documents[index]),
+            //           itemCount: snapshot.data.documents.length,
+            //         );
+            //       }
+            //     },
+            //   ),
+            // ),
+            Center(
+              child: Text("IMPLEMENT THE LISTVIEW OF ALL THE PRODUCTS HERE!"),
+            ),
+            Center(
+              child: Text("IMPLEMENT THE LISTVIEW OF DnB PRODUCTS HERE!"),
+            ),
+            Center(
+              child: Text("IMPLEMENT THE LISTVIEW OF Pcare PRODUCTS HERE!"),
+            ),
+            Center(
+              child: Text("IMPLEMENT THE LISTVIEW OF SnD PRODUCTS HERE!"),
+            ),
+            Center(
+              child: Text("IMPLEMENT THE LISTVIEW OF K.E THE PRODUCTS HERE!"),
+            ),
+            Center(
+              child: Text("IMPLEMENT THE LISTVIEW OF Misc. THE PRODUCTS HERE!"),
+            ),
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PartnerCustomProduct(),
+              ),
+            );
+          },
+          child: Icon(Icons.navigation),
+          backgroundColor: Colors.green,
         ),
       ),
     );

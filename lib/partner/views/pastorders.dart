@@ -14,7 +14,7 @@ class _PartnerPastOrdersState extends State<PartnerPastOrders> {
           flex: 1,
         ),
         Text(
-          "RAVI WILL IMPLEMENT PAST ORDERS HERE!!!",
+          "RAVI WILL IMPLEMENT PAST ORDERS LIST HERE!!!",
           style: TextStyle(color: Colors.black),
         ),
         Spacer(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/partner/views/activeorders.dart';
 import 'package:flutter_app/partner/views/addproducts.dart';
+import 'package:flutter_app/partner/views/myproducts.dart';
 import 'package:flutter_app/partner/views/paccount.dart';
 import 'package:flutter_app/partner/views/pastorders.dart';
 
@@ -14,6 +15,7 @@ class _PartnerHomepageState extends State<PartnerHomepage> {
   List<Widget> _bodyList = [
     PartnerActiveOrders(),
     PartnerAddProducts(),
+    PartnerMyProducts(),
     PartnerPastOrders(),
     PartnerAccountPage()
   ];
@@ -28,7 +30,7 @@ class _PartnerHomepageState extends State<PartnerHomepage> {
         style: TextStyle(color: Colors.black),
       ),
       // centerTitle: true,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.green,
     ),
     AppBar(
       leading: Icon(
@@ -40,11 +42,23 @@ class _PartnerHomepageState extends State<PartnerHomepage> {
         style: TextStyle(color: Colors.black),
       ),
       // centerTitle: true,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.green,
     ),
     AppBar(
       leading: Icon(
-        Icons.check,
+        Icons.store_mall_directory,
+        color: Colors.black,
+      ),
+      title: Text(
+        "My Shop",
+        style: TextStyle(color: Colors.black),
+      ),
+      // centerTitle: true,
+      backgroundColor: Colors.green,
+    ),
+    AppBar(
+      leading: Icon(
+        Icons.done_all,
         color: Colors.black,
       ),
       title: Text(
@@ -52,10 +66,10 @@ class _PartnerHomepageState extends State<PartnerHomepage> {
         style: TextStyle(color: Colors.black),
       ),
       // centerTitle: true,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.green,
     ),
     AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.green,
         leading: Icon(
           Icons.account_box,
           color: Colors.black,
@@ -77,7 +91,6 @@ class _PartnerHomepageState extends State<PartnerHomepage> {
           currentIndex: _index,
           selectedItemColor: Colors.black,
           unselectedItemColor: Colors.grey,
-          // fixedColor: Colors.black, // CHECK WHAT THIS DOES
           onTap: (newIndex) {
             setState(() {
               _index = newIndex;
@@ -109,12 +122,23 @@ class _PartnerHomepageState extends State<PartnerHomepage> {
             BottomNavigationBarItem(
               title: Text(""),
               icon: IconButton(
-                icon: Icon(Icons.check),
+                icon: Icon(Icons.store_mall_directory),
                 onPressed: () {
                   setState(() {
                     this._index = 2;
                   });
-                }, // THIS BUTTON SHOULD OPEN THE FULFILLED ORDERS LIST
+                },
+              ),
+            ),
+            BottomNavigationBarItem(
+              title: Text(""),
+              icon: IconButton(
+                icon: Icon(Icons.check),
+                onPressed: () {
+                  setState(() {
+                    this._index = 3;
+                  });
+                },
               ),
             ),
             BottomNavigationBarItem(
@@ -123,7 +147,7 @@ class _PartnerHomepageState extends State<PartnerHomepage> {
                 icon: Icon(Icons.account_box),
                 onPressed: () {
                   setState(() {
-                    this._index = 3;
+                    this._index = 4;
                   });
                 },
               ),
