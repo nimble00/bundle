@@ -25,10 +25,10 @@ dependencies:
   http: ^0.12.2
   countdown: ^0.1.0
   image_picker: ^0.6.7+7
-  upi_pay: ^0.2.0
+  upi_pay: ^0.2.2
 
   toast: ^0.1.5
-#  fluttertoast: ^7.0.2
+
 
 
 
