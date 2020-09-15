@@ -5,7 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_app/models/item.dart';
 import 'package:flutter_app/globals.dart' as globals;
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:toast/toast.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
 
 class SpiritPage extends StatefulWidget {
   final List display_list;
@@ -177,6 +178,7 @@ class SpiritState extends State<SpiritPage>{
                         setState(() {});
                         }else{
                           showToast();
+                          print("toast was here");
                         }
                       //ADD SOMETHING SIMILAR TO SETSTATE
                       },
@@ -218,15 +220,18 @@ class SpiritState extends State<SpiritPage>{
       ],
     );
   }
-  void showToast(){
-    Fluttertoast.showToast(
-        msg: "Seems like u want to do somethig else :)",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-//        backgroundColor: Colors.grey,
-        textColor: Colors.black,
-        fontSize: 16.0
-    );
+//  void showToast(){
+//    Fluttertoast.showToast(
+//        msg: "Seems like u want to do somethig else :)",
+//        toastLength: Toast.LENGTH_SHORT,
+//        gravity: ToastGravity.CENTER,
+////        backgroundColor: Colors.grey,
+//        textColor: Colors.black,
+//        fontSize: 16.0
+//    );
+//  }
+  void showToast() {
+    Toast.show('Seems like u want to do somethig else :', context, duration: Toast.LENGTH_SHORT, gravity:Toast.CENTER);
   }
 
 }

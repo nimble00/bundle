@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_app/models/item.dart';
+import 'package:flutter_app/views/paymentGateway.dart';
+
 class PaymentPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => PaymentState();
@@ -240,7 +242,10 @@ class PaymentState extends State<PaymentPage> {
                             child: const Text('PROCEED TO PAY'),
                             textColor: Colors.green,
                             onPressed: () {
-
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PaymentGateway(amount:getTotal())));
                             },
                             shape: new OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30.0),

@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_app/models/item.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
+import 'package:toast/toast.dart';
 import 'package:flutter_app/views/checkout.dart';
 
 enum DialogDemoAction {
@@ -320,6 +321,7 @@ class CartState extends State<CartPage> {
                                                               setState(() {});
                                                             } else {
                                                               showToast();
+//                                                            print("taost was here");
                                                             }
                                                           },
                                                         ),
@@ -464,14 +466,17 @@ class CartState extends State<CartPage> {
     });
   }
 
+//  void showToast() {
+//    Fluttertoast.showToast(
+//        msg: "Use delete icon to delete",
+//        toastLength: Toast.LENGTH_SHORT,
+//        gravity: ToastGravity.CENTER,
+////        backgroundColor: Colors.grey,
+//        textColor: Colors.black,
+//        fontSize: 16.0);
+//  }
   void showToast() {
-    Fluttertoast.showToast(
-        msg: "Use delete icon to delete",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-//        backgroundColor: Colors.grey,
-        textColor: Colors.black,
-        fontSize: 16.0);
+    Toast.show('Use delete icon to delete', context, duration: Toast.LENGTH_SHORT, gravity:Toast.CENTER);
   }
 
   showSnackBar(BuildContext context, Item deleted_item, int deleted_ind) {
