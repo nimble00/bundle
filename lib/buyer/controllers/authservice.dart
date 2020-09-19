@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/controllers/existcheck.dart';
+import 'package:flutter_app/buyer/controllers/existcheck.dart';
 // import 'package:flutter_app/controllers/existcheck.dart';
 import 'package:flutter_app/views/adduserinfo.dart';
 import 'package:flutter_app/views/home.dart';

@@ -5,45 +5,43 @@ import 'package:flutter/painting.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/views/category_list.dart';
 
-import 'favorites_list.dart';
+import '../../views/favorites_list.dart';
 
 import 'package:flutter_app/views/spirit.dart';
 
-
 class Stack {}
 
-class Body extends StatefulWidget {
+class BuyerNearbyShops extends StatefulWidget {
   @override
-  _BodyState createState() => _BodyState();
+  _BuyerNearbyShopsState createState() => _BuyerNearbyShopsState();
 }
 
-class _BodyState extends State<Body> {
+class _BuyerNearbyShopsState extends State<BuyerNearbyShops> {
   Widget _body;
   void initState() {
-    globals.category='all';
-    globals.current=0;
+    globals.category = 'all';
+    globals.current = 0;
     _initialList();
-    _body=CircularProgressIndicator(
+    _body = CircularProgressIndicator(
       strokeWidth: 2.0,
     );
   }
-  void _initialList() async{
-    await globals.user
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
+
+  void _initialList() async {
+    await globals.user.get().then((DocumentSnapshot documentSnapshot) {
       documentSnapshot['favorites'].forEach((k, v) {
         globals.favorite_name.add(k);
       });
     });
   }
 
- _CategoryView(){
-    if(globals.category=='favorites'){
-      _body=Favorites();
+  _CategoryView() {
+    if (globals.category == 'favorites') {
+      _body = Favorites();
       return;
     }
-    _body=Category();
-}
+    _body = Category();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +61,7 @@ class _BodyState extends State<Body> {
                           margin: EdgeInsets.all(8.0),
                           child: Center(
                               child: RaisedButton(
-                                elevation: 10.0,
+                            elevation: 10.0,
                             child: Text("All"),
                             color: (globals.current == 0)
                                 ? Colors.tealAccent
@@ -83,7 +81,7 @@ class _BodyState extends State<Body> {
                           margin: EdgeInsets.all(8.0),
                           child: Center(
                               child: RaisedButton(
-                                elevation: 10.0,
+                            elevation: 10.0,
                             child: Text("Favorites"),
                             color: (globals.current == 5)
                                 ? Colors.tealAccent
@@ -103,7 +101,7 @@ class _BodyState extends State<Body> {
                           margin: EdgeInsets.all(8.0),
                           child: Center(
                               child: RaisedButton(
-                                elevation: 10.0,
+                            elevation: 10.0,
                             child: Text("Beer"),
                             color: (globals.current == 1)
                                 ? Colors.tealAccent
@@ -123,7 +121,7 @@ class _BodyState extends State<Body> {
                           margin: EdgeInsets.all(8.0),
                           child: Center(
                               child: RaisedButton(
-                                elevation: 10.0,
+                            elevation: 10.0,
                             child: Text("Rum"),
                             color: (globals.current == 2)
                                 ? Colors.tealAccent
@@ -143,7 +141,7 @@ class _BodyState extends State<Body> {
                           margin: EdgeInsets.all(8.0),
                           child: Center(
                               child: RaisedButton(
-                                elevation: 10.0,
+                            elevation: 10.0,
                             child: Text("Whiskey"),
                             color: (globals.current == 3)
                                 ? Colors.tealAccent
@@ -163,7 +161,7 @@ class _BodyState extends State<Body> {
                           margin: EdgeInsets.all(8.0),
                           child: Center(
                               child: RaisedButton(
-                                elevation: 10.0,
+                            elevation: 10.0,
                             child: Text("Vodka"),
                             color: (globals.current == 4)
                                 ? Colors.tealAccent
@@ -218,4 +216,3 @@ class _BodyState extends State<Body> {
         body: _body);
   }
 }
-

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/controllers/authservice.dart';
+import 'package:flutter_app/buyer/controllers/authservice.dart';
 // import 'package:flutter_app/views/home.dart';
-import 'package:flutter_app/models/user.dart';
+import 'package:flutter_app/buyer/models/user.dart';
 
 import 'orders.dart';
 

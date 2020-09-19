@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/globals.dart' as globals;
-import 'package:flutter_app/models/item.dart';
-import 'package:flutter_app/models/order.dart';
+import 'package:flutter_app/buyer/models/item.dart';
+import 'package:flutter_app/buyer/models/order.dart';
 import 'package:flutter_app/views/cart.dart';
 import 'package:flutter_app/views/checkout.dart';
 

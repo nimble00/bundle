@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/globals.dart' as globals;
-import 'package:flutter_app/models/item.dart';
+import 'package:flutter_app/buyer/models/item.dart';
 import 'dart:math';
 
 import 'package:flutter_app/views/spirit.dart';
@@ -72,16 +72,16 @@ class _FavoritesState extends State<Favorites> {
                         child: IconButton(
                             icon: Icon(Icons.add_shopping_cart),
                             onPressed: () {
-                                if (!globals.item_name
-                                    .contains(display_list[index].itemName)) {
-                                  globals.item_name
-                                      .add(display_list[index].itemName);
-                                  globals.reference.updateData({
-                                    'products.${display_list[index].itemCategory}.${display_list[index].itemIndex}.no_of_orders':
-                                        FieldValue.increment(1)
-                                  });
-                                  globals.item_list.add(display_list[index]);
-                                }
+                              if (!globals.item_name
+                                  .contains(display_list[index].itemName)) {
+                                globals.item_name
+                                    .add(display_list[index].itemName);
+                                globals.reference.updateData({
+                                  'products.${display_list[index].itemCategory}.${display_list[index].itemIndex}.no_of_orders':
+                                      FieldValue.increment(1)
+                                });
+                                globals.item_list.add(display_list[index]);
+                              }
                             })),
                     Center(
                       child: IconButton(
@@ -94,8 +94,7 @@ class _FavoritesState extends State<Favorites> {
                                 .contains(display_list[index].itemName)) {
                               globals.favorite_name
                                   .add(display_list[index].itemName);
-                             globals.user
-                                  .updateData({
+                              globals.user.updateData({
                                 'favorites.${display_list[index].itemName}.itemCategory':
                                     display_list[index].itemCategory,
                                 'favorites.${display_list[index].itemName}.itemIndex':
@@ -110,8 +109,7 @@ class _FavoritesState extends State<Favorites> {
                             } else {
                               globals.favorite_name
                                   .remove(display_list[index].itemName);
-                             globals.user
-                                  .updateData({
+                              globals.user.updateData({
                                 'favorites.${display_list[index].itemName}':
                                     FieldValue.delete()
                               });
@@ -133,8 +131,7 @@ class _FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
-      stream: globals.user
-          .snapshots(),
+      stream: globals.user.snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return GridView.count(

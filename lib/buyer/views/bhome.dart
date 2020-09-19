@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_app/buyer/views/activeorders.dart';
-import 'package:flutter_app/buyer/views/addproducts.dart';
-import 'package:flutter_app/buyer/views/myproducts.dart';
-import 'package:flutter_app/buyer/views/paccount.dart';
-import 'package:flutter_app/buyer/views/pastorders.dart';
+import 'package:flutter_app/buyer/views/baccount.dart';
 
 class BuyerHomepage extends StatefulWidget {
   @override
@@ -32,13 +28,11 @@ class _BuyerHomepageState extends State<BuyerHomepage> {
       title: Column(children: <Widget>[
         Text(
           "Delivering to",
-          style: TextStyle(
-              fontSize: 10, fontStyle: FontStyle.normal, color: Colors.black),
+          style: TextStyle(fontStyle: FontStyle.normal, color: Colors.black),
         ),
         Text(
-          "",
-          style: TextStyle(
-              fontStyle: FontStyle.normal, fontSize: 11, color: Colors.black),
+          "Street No. 01",
+          style: TextStyle(fontStyle: FontStyle.normal, color: Colors.black),
         )
       ]),
       actions: [

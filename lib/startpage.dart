@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/partner/views/phome.dart';
-import 'controllers/authservice.dart';
+import 'buyer/controllers/authservice.dart';
 
 class StartPage extends StatefulWidget {
   @override

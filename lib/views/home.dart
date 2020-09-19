@@ -1,11 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/shared/controllers/location.dart';
 // import 'package:geolocator/geolocator.dart';
 import 'package:flutter_app/views/account.dart';
-import 'package:flutter_app/views/body.dart';
+import 'package:flutter_app/buyer/views/bnearbyshops.dart';
 import 'package:flutter_app/views/cart.dart';
-import 'package:flutter_app/models/user.dart';
+import 'package:flutter_app/buyer/models/user.dart';
+import 'package:flutter/services.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   //final User user;
@@ -15,6 +20,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String _currentAddress;
   String accountStatus;
   FirebaseUser currentUser;
   FirebaseAuth _auth;
@@ -24,19 +30,46 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _auth = FirebaseAuth.instance;
     _getCurrentUser();
-    print('here outside async');
+    print('home.dart: here outside async');
   }
 
   _getCurrentUser() async {
     currentUser = await _auth.currentUser();
-    print('Hello ' + currentUser.displayName.toString());
+    print('home.dart: Hello ' + currentUser.displayName.toString());
     setState(() {
       currentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
-      print("ACCOUNT STATUS: " + accountStatus);
+      print("home.dart: ACCOUNT STATUS: " + accountStatus);
       user = User.fromFirebaseUser(currentUser);
     });
   }
 
+  _getLocation() async {
+    // bool isLocationEnabled = await isLocationServiceEnabled();
+    final prefs = await SharedPreferences.getInstance();
+    Position position =
+        await getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    debugPrint('location: ${position.latitude}');
+
+    final coordinates = new Coordinates(position.latitude, position.longitude);
+    debugPrint('coordinates is: $coordinates');
+
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+    _currentAddress = first.toString();
+    prefs.setString("pincode", first.postalCode);
+    prefs.setString("address", _currentAddress);
+
+    // print number of retured addresses
+    debugPrint('${addresses.length}');
+    // print the best address
+    debugPrint("${first.featureName} : ${first.addressLine}");
+    //print other address names
+    debugPrint(
+        "Country:${first.countryName} AdminArea:${first.adminArea} SubAdminArea:${first.subAdminArea}");
+    //print more address names
+    debugPrint("Locality:${first.locality}: Sublocality:${first.subLocality}");
+  }
   // Function to find the nearest partner for a given pincode
   //FUNCTION TP RETRIEVE LIST OF PRODUCT FOR THE PARTNER
 
@@ -44,44 +77,16 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        title: Text("Where are you?"),
+        centerTitle: true,
         leading: IconButton(
-            color: Colors.black,
-            icon: Icon(Icons.location_on),
-            onPressed: () => {
-                  // IMPLEMENT A FUNCTION THAT FETCHES LOCATION AND REPLACE THIS ARROW FUNCTION WITH IT!
-                }),
-        title: Column(children: <Widget>[
-          Text(
-            "Delivering to",
-            style: TextStyle(
-                fontSize: 10, fontStyle: FontStyle.normal, color: Colors.black),
-          ),
-          /*Text(//ADDRESS OF THE USER,
-              style:
-                  TextStyle(fontStyle: FontStyle.normal,fontSize:11, color: Colors.black))*/
-        ]),
-        actions: [
-          Container(
-            child: Center(
-              child: Text(
-                "Offers",
-                style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontSize: 15.0,
-                    color: Colors.black),
-              ),
-            ),
-          ),
-          IconButton(
-              color: Colors.black,
-              icon: Icon(Icons.local_offer),
-              onPressed: () => {
-                    // IMPLEMENT THE OFFERS PAGE HERE!
-                  })
-        ],
+          icon: Icon(Icons.location_on),
+          onPressed: () {
+            _getLocation();
+          },
+        ),
       ),
-      body: Body(),
+      body: BuyerNearbyShops(),
       bottomNavigationBar: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[

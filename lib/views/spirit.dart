@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/views/body.dart';
+import 'package:flutter_app/buyer/views/bnearbyshops.dart';
 import 'package:flutter_app/views/cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_app/models/item.dart';
+import 'package:flutter_app/buyer/models/item.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:toast/toast.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
@@ -15,10 +15,11 @@ class SpiritPage extends StatefulWidget {
   SpiritPage({Key key, this.display_list, this.index}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => SpiritState(display_list:display_list, index:index);
+  State<StatefulWidget> createState() =>
+      SpiritState(display_list: display_list, index: index);
 }
 
-class SpiritState extends State<SpiritPage>{
+class SpiritState extends State<SpiritPage> {
   List display_list;
   int index;
   SpiritState({this.display_list, this.index});
@@ -30,46 +31,43 @@ class SpiritState extends State<SpiritPage>{
         title: Text("Address"),
         actions: [
           IconButton(
-            icon: globals.favorite_name
-                .contains(display_list[index].itemName)
-                ?Icon(Icons.favorite,color : Colors.red)
-                :Icon(Icons.favorite_border),
+              icon: globals.favorite_name.contains(display_list[index].itemName)
+                  ? Icon(Icons.favorite, color: Colors.red)
+                  : Icon(Icons.favorite_border),
               onPressed: () {
                 if (!globals.favorite_name
                     .contains(display_list[index].itemName)) {
-                  globals.favorite_name
-                      .add(display_list[index].itemName);
+                  globals.favorite_name.add(display_list[index].itemName);
                   Firestore.instance
                       .collection('users')
                       .document(globals.phoneNumber)
                       .updateData({
                     'favorites.${display_list[index].itemName}.itemCategory':
-                    display_list[index].itemCategory,
+                        display_list[index].itemCategory,
                     'favorites.${display_list[index].itemName}.itemIndex':
-                    display_list[index].itemIndex,
+                        display_list[index].itemIndex,
                     'favorites.${display_list[index].itemName}.itemImage':
-                    display_list[index].itemImage,
+                        display_list[index].itemImage,
                     'favorites.${display_list[index].itemName}.itemPrice':
-                    display_list[index].itemPrice,
+                        display_list[index].itemPrice,
                     'favorites.${display_list[index].itemName}.no_of_orders':
-                    display_list[index].no_of_orders
+                        display_list[index].no_of_orders
                   });
                 } else {
-                  globals.favorite_name
-                      .remove(display_list[index].itemName);
+                  globals.favorite_name.remove(display_list[index].itemName);
                   Firestore.instance
                       .collection('users')
                       .document(globals.phoneNumber)
                       .updateData({
                     'favorites.${display_list[index].itemName}':
-                    FieldValue.delete()
+                        FieldValue.delete()
                   });
                 }
                 setState(() {});
               }),
         ],
       ),
-      body: _buildView(context,display_list,index),
+      body: _buildView(context, display_list, index),
       bottomNavigationBar: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -124,7 +122,7 @@ class SpiritState extends State<SpiritPage>{
 //    );
 //  }
 
-  Widget _buildView(BuildContext context,List display_list, int index) {
+  Widget _buildView(BuildContext context, List display_list, int index) {
     return Column(
       children: <Widget>[
         Image.asset(
@@ -171,16 +169,15 @@ class SpiritState extends State<SpiritPage>{
                     new IconButton(
                       icon: Icon(Icons.remove_circle),
                       onPressed: () {
-
-                        if(display_list[index].itemQun>1){
-                            display_list[index].decrementQuantity();
-                        print(display_list[index].itemQun);
-                        setState(() {});
-                        }else{
+                        if (display_list[index].itemQun > 1) {
+                          display_list[index].decrementQuantity();
+                          print(display_list[index].itemQun);
+                          setState(() {});
+                        } else {
                           showToast();
                           print("toast was here");
                         }
-                      //ADD SOMETHING SIMILAR TO SETSTATE
+                        //ADD SOMETHING SIMILAR TO SETSTATE
                       },
                     ),
                     Spacer(),
@@ -192,11 +189,10 @@ class SpiritState extends State<SpiritPage>{
                           if (!globals.item_name
                               .contains(display_list[index].itemName)) {
                             display_list[index].selected = true;
-                            globals.item_name
-                                .add(display_list[index].itemName);
+                            globals.item_name.add(display_list[index].itemName);
                             globals.reference.updateData({
                               'products.${display_list[index].itemCategory}.${display_list[index].itemIndex}.no_of_orders':
-                              FieldValue.increment(1)
+                                  FieldValue.increment(1)
                             });
                             globals.item_list.add(display_list[index]);
                           }
@@ -220,6 +216,7 @@ class SpiritState extends State<SpiritPage>{
       ],
     );
   }
+
 //  void showToast(){
 //    Fluttertoast.showToast(
 //        msg: "Seems like u want to do somethig else :)",
@@ -231,7 +228,7 @@ class SpiritState extends State<SpiritPage>{
 //    );
 //  }
   void showToast() {
-    Toast.show('Seems like u want to do somethig else :', context, duration: Toast.LENGTH_SHORT, gravity:Toast.CENTER);
+    Toast.show('Seems like u want to do somethig else :', context,
+        duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
   }
-
 }

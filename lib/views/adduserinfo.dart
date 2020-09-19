@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/views/home.dart';
-import '../models/user.dart';
 
 class AddUser extends StatefulWidget {
   @override
@@ -66,7 +65,7 @@ class _AddUserState extends State<AddUser> {
             // 'govt_ID': ageproof,
             'dateOfBirth': dob,
             'address': address,
-            'orders.no_of_orders':0,
+            'orders.no_of_orders': 0,
           })
           .then((value) => print("User Added"))
           .catchError((error) => print("Failed to add user: $error"));

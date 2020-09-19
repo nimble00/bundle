@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/globals.dart' as globals;
-import 'package:flutter_app/models/item.dart';
+import 'package:flutter_app/buyer/models/item.dart';
 import 'package:flutter_app/views/paymentGateway.dart';
 
 class PaymentPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => PaymentState();
 }
-
 
 class PaymentState extends State<PaymentPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -105,7 +104,7 @@ class PaymentState extends State<PaymentPage> {
                   color: Colors.green.shade100,
                   child: Container(
                       padding:
-                      const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+                          const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
                       child: Text(
                           "GET EXTRA 5% OFF* with MONEY bank Simply Save Credit card. T&C.",
                           //TO PUT BANK OFFER
@@ -117,7 +116,7 @@ class PaymentState extends State<PaymentPage> {
           new Container(
             alignment: Alignment.topLeft,
             margin:
-            EdgeInsets.only(left: 12.0, top: 5.0, right: 0.0, bottom: 5.0),
+                EdgeInsets.only(left: 12.0, top: 5.0, right: 0.0, bottom: 5.0),
             child: new Text(
               'Payment Method',
               style: TextStyle(
@@ -136,81 +135,77 @@ class PaymentState extends State<PaymentPage> {
                 child: Container(
                   child: Container(
                       child: Column(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.only(left: 10.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text("Wallet / UPI",
-                                    maxLines: 10,
-                                    style: TextStyle(
-                                        fontSize: 15.0, color: Colors.black)),
-                                Radio<int>(
-                                    value: 0,
-                                    groupValue: 0,
-                                    onChanged: null),
-                              ],
-                            ),
-                          ),
-                          Divider(),
-                          _verticalD(),
-                          Container(
-                              padding: EdgeInsets.only(left: 10.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("Net Banking",
-                                      maxLines: 10,
-                                      style: TextStyle(
-                                          fontSize: 15.0, color: Colors.black)),
-                                  Radio<int>(
-                                      value: 0,
-                                      groupValue: radioValue,
-                                      onChanged: null),
-                                ],
-                              )),
-                          Divider(),
-                          _verticalD(),
-                          Container(
-                              padding: EdgeInsets.only(left: 10.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("Credit / Debit / ATM Card",
-                                      maxLines: 10,
-                                      style: TextStyle(
-                                          fontSize: 15.0, color: Colors.black)),
-                                  Radio<int>(
-                                      value: 0,
-                                      groupValue: 0,
-                                      onChanged: handleRadioValueChanged),
-                                ],
-                              )),
-                          Divider(),
-                          _verticalD(),
-                          Container(
-                              padding: EdgeInsets.only(left: 10.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("Cash on Delivery",
-                                      maxLines: 10,
-                                      style: TextStyle(
-                                          fontSize: 15.0, color: Colors.black)),
-                                  Radio<int>(
-                                      value: 0,
-                                      groupValue: 0,
-                                      onChanged: null),
-                                ],
-                              )),
-                          Divider(),
-                        ],
-                      )),
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(left: 10.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Wallet / UPI",
+                                maxLines: 10,
+                                style: TextStyle(
+                                    fontSize: 15.0, color: Colors.black)),
+                            Radio<int>(
+                                value: 0, groupValue: 0, onChanged: null),
+                          ],
+                        ),
+                      ),
+                      Divider(),
+                      _verticalD(),
+                      Container(
+                          padding: EdgeInsets.only(left: 10.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text("Net Banking",
+                                  maxLines: 10,
+                                  style: TextStyle(
+                                      fontSize: 15.0, color: Colors.black)),
+                              Radio<int>(
+                                  value: 0,
+                                  groupValue: radioValue,
+                                  onChanged: null),
+                            ],
+                          )),
+                      Divider(),
+                      _verticalD(),
+                      Container(
+                          padding: EdgeInsets.only(left: 10.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text("Credit / Debit / ATM Card",
+                                  maxLines: 10,
+                                  style: TextStyle(
+                                      fontSize: 15.0, color: Colors.black)),
+                              Radio<int>(
+                                  value: 0,
+                                  groupValue: 0,
+                                  onChanged: handleRadioValueChanged),
+                            ],
+                          )),
+                      Divider(),
+                      _verticalD(),
+                      Container(
+                          padding: EdgeInsets.only(left: 10.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text("Cash on Delivery",
+                                  maxLines: 10,
+                                  style: TextStyle(
+                                      fontSize: 15.0, color: Colors.black)),
+                              Radio<int>(
+                                  value: 0, groupValue: 0, onChanged: null),
+                            ],
+                          )),
+                      Divider(),
+                    ],
+                  )),
                 ),
               )),
           Container(
@@ -245,7 +240,8 @@ class PaymentState extends State<PaymentPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => PaymentGateway(amount:getTotal())));
+                                      builder: (context) =>
+                                          PaymentGateway(amount: getTotal())));
                             },
                             shape: new OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30.0),
@@ -260,7 +256,7 @@ class PaymentState extends State<PaymentPage> {
     );
   }
 
-  double getTotal(){
+  double getTotal() {
     double total = 0;
     for (Item item in globals.item_list) {
       total += item.itemQun * (item.itemPrice);
@@ -268,12 +264,11 @@ class PaymentState extends State<PaymentPage> {
     return total;
   }
 
-
   _verticalDivider() => Container(
-    padding: EdgeInsets.all(2.0),
-  );
+        padding: EdgeInsets.all(2.0),
+      );
 
   _verticalD() => Container(
-    margin: EdgeInsets.only(left: 5.0),
-  );
+        margin: EdgeInsets.only(left: 5.0),
+      );
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/controllers/controllers.dart';
+import 'package:flutter_app/buyer/controllers/controllers.dart';
 import 'package:flutter_app/views/loginpage.dart';
 
 class CollectPincode extends StatelessWidget {

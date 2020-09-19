@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/globals.dart' as globals;
-import 'package:flutter_app/models/item.dart';
+import 'package:flutter_app/buyer/models/item.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 import 'package:toast/toast.dart';
 import 'package:flutter_app/views/checkout.dart';
@@ -75,11 +75,19 @@ class CartState extends State<CartPage> {
 
     return new Scaffold(
       key: _scaffoldKey,
-      appBar:
-        AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(icon:Icon(Icons.keyboard_backspace), color: Colors.black,onPressed: (){Navigator.pop(context);},),
-        title: Text('My Cart',style: TextStyle(color: Colors.black),)),
+      appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: Icon(Icons.keyboard_backspace),
+            color: Colors.black,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: Text(
+            'My Cart',
+            style: TextStyle(color: Colors.black),
+          )),
       body: Column(
         children: <Widget>[
           //addres wala
@@ -476,7 +484,8 @@ class CartState extends State<CartPage> {
 //        fontSize: 16.0);
 //  }
   void showToast() {
-    Toast.show('Use delete icon to delete', context, duration: Toast.LENGTH_SHORT, gravity:Toast.CENTER);
+    Toast.show('Use delete icon to delete', context,
+        duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
   }
 
   showSnackBar(BuildContext context, Item deleted_item, int deleted_ind) {
