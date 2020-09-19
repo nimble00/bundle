@@ -44,6 +44,18 @@ class _StartPageState extends State<StartPage> {
           Spacer(
             flex: 1,
           ),
+          Card(
+            child: InkWell(
+              splashColor: Colors.blue.withAlpha(30),
+              onTap: () {
+                print('Card tapped.');
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                child: Text('A card that can be tapped'),
+              ),
+            ),
+          ),
           RaisedButton(
             child: Column(
               children: <Widget>[

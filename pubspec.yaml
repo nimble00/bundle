@@ -26,7 +26,7 @@ dependencies:
   countdown: ^0.1.0
   image_picker: ^0.6.7+7
   upi_pay: ^0.2.2
-
+  shared_preferences: ^0.5.10
   toast: ^0.1.5
 
 

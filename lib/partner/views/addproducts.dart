@@ -17,6 +17,10 @@ class _PartnerAddProductsState extends State<PartnerAddProducts> {
       child: Scaffold(
         appBar: TabBar(
           indicatorColor: Colors.black,
+          indicatorPadding: EdgeInsets.symmetric(
+            vertical: 5,
+            horizontal: 10,
+          ),
           labelColor: Colors.black,
           tabs: [
             Tab(
