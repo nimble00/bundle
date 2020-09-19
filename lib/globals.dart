@@ -12,6 +12,7 @@ Map<String, dynamic> products = new Map();
 
 //user pincode, later work :will update on start of app
 String pincode = '110016';
+String address = "";
 GeoPoint geopoint = new GeoPoint(48, 60);
 String phoneNumber;
 

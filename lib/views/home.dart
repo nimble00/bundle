@@ -1,13 +1,11 @@
+import 'package:flutter_app/globals.dart' as globals;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/shared/controllers/location.dart';
-// import 'package:geolocator/geolocator.dart';
 import 'package:flutter_app/views/account.dart';
 import 'package:flutter_app/buyer/views/bnearbyshops.dart';
 import 'package:flutter_app/views/cart.dart';
 import 'package:flutter_app/buyer/models/user.dart';
-import 'package:flutter/services.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,6 +28,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _auth = FirebaseAuth.instance;
     _getCurrentUser();
+    _getLocation();
     print('home.dart: here outside async');
   }
 
@@ -56,12 +55,16 @@ class _HomePageState extends State<HomePage> {
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
-    _currentAddress = first.toString();
+    _currentAddress = first.addressLine;
     prefs.setString("pincode", first.postalCode);
     prefs.setString("address", _currentAddress);
+    setState(() {
+      globals.pincode = first.postalCode;
+      globals.address = _currentAddress;
+    });
 
     // print number of retured addresses
-    debugPrint('${addresses.length}');
+    debugPrint('${addresses.toString()}');
     // print the best address
     debugPrint("${first.featureName} : ${first.addressLine}");
     //print other address names
@@ -77,8 +80,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Where are you?"),
-        centerTitle: true,
+        title: _currentAddress == null
+            ? Text("Detecting your location")
+            : Text(_currentAddress.toString()),
+        // centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.location_on),
           onPressed: () {
