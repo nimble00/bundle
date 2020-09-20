@@ -88,7 +88,7 @@ class _OrdersState extends State<Orders> {
             onPressed: () {
               reorder(orders_list[index]);
               setState(() {
-                _body = CartPage();
+                _body = BuyerCartPage();
               });
             },
           ),

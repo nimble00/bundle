@@ -88,8 +88,8 @@ class SpiritState extends State<SpiritPage> {
                 Icons.shopping_cart,
                 semanticLabel: 'cart',
               ),
-              onPressed: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => CartPage())),
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => BuyerCartPage())),
             ),
           ),
           Container(

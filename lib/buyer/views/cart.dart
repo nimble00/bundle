@@ -13,12 +13,12 @@ enum DialogDemoAction {
   agree,
 }
 
-class CartPage extends StatefulWidget {
+class BuyerCartPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => CartState();
 }
 
-class CartState extends State<CartPage> {
+class CartState extends State<BuyerCartPage> {
   CollectionReference product = Firestore.instance.collection('Products');
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -75,19 +75,6 @@ class CartState extends State<CartPage> {
 
     return new Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: Icon(Icons.keyboard_backspace),
-            color: Colors.black,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          title: Text(
-            'My Cart',
-            style: TextStyle(color: Colors.black),
-          )),
       body: Column(
         children: <Widget>[
           //addres wala
@@ -186,7 +173,7 @@ class CartState extends State<CartPage> {
                                 children: <Widget>[
                                   // to show image , name , quantity, price
                                   Container(
-                                    height: 120.0,
+                                    height: 100.0,
                                     width: dd,
                                     child: Card(
                                       child: Row(

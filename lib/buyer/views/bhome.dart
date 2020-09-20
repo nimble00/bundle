@@ -1,3 +1,6 @@
+import 'package:flutter_app/buyer/views/baccount.dart';
+import 'package:flutter_app/buyer/views/bservices.dart';
+import 'package:flutter_app/buyer/views/btoken.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,69 +36,203 @@ class _HomePageState extends State<HomePage> {
     print('home.dart: here outside async');
   }
 
+  int _index = 0;
+  List<Widget> _bodyList = [
+    BuyerNearbyShops(),
+    BuyerTokenPage(),
+    BuyerServicesPage(),
+    BuyerCartPage(),
+    BuyerAccountPage()
+  ];
+
+  List<Widget> _appBarList = [
+    AppBar(
+      title: Text("Dummy AppBar :::: NEVER TO BE USED"),
+    ),
+    AppBar(
+      leading: Icon(
+        Icons.store_mall_directory,
+        color: Colors.black,
+      ),
+      title: Text(
+        "My Shop",
+        style: TextStyle(color: Colors.black),
+      ),
+      // centerTitle: true,
+      backgroundColor: Colors.green,
+    ),
+    AppBar(
+      leading: Icon(
+        Icons.done_all,
+        color: Colors.black,
+      ),
+      title: Text(
+        "Past Orders",
+        style: TextStyle(color: Colors.black),
+      ),
+      // centerTitle: true,
+      backgroundColor: Colors.green,
+    ),
+    AppBar(
+      backgroundColor: Colors.green,
+      leading: Icon(
+        Icons.account_box,
+        color: Colors.black,
+        // size: 12,
+      ),
+      title: Text(
+        'My Cart',
+        style: TextStyle(color: Colors.black),
+      ),
+    ),
+    AppBar(
+      backgroundColor: Colors.green,
+      leading: Icon(
+        Icons.account_box,
+        color: Colors.black,
+        // size: 12,
+      ),
+      title: Text(
+        'My Account',
+        style: TextStyle(color: Colors.black),
+      ),
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.lightGreen,
-        title: _currentAddress == null
-            ? Text(
-                "Detecting your location",
-                softWrap: true,
-                style: TextStyle(fontSize: 14),
-              )
-            : Text(
-                _currentAddress.toString(),
-                softWrap: true,
-                style: TextStyle(fontSize: 14),
+      appBar: _index == 0
+          ? AppBar(
+              backgroundColor: Colors.lightGreen,
+              title: _currentAddress == null
+                  ? Text(
+                      "Detecting your location...",
+                      softWrap: true,
+                      style: TextStyle(fontSize: 14),
+                    )
+                  : _column,
+              leading: IconButton(
+                icon: Icon(Icons.location_on),
+                iconSize: 30,
+                color: Colors.white,
+                onPressed: () {
+                  _getLocation();
+                  // OPEN A LITTLE PAGE TO ENTER THE LOCATION MANUALLY
+                  // INSTEAD OF CALLING _getLocation()... it is already
+                  // being called in initState()
+                  // NO BIGGIE, WILL IMPLEMENT LATER
+                },
               ),
-        // centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.location_on),
-          onPressed: () {
-            _getLocation();
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(
+                    Icons.all_inclusive,
+                  ),
+                  iconSize: 35,
+                  onPressed: () {},
+                )
+              ],
+            )
+          : _appBarList[_index],
+      body: _bodyList[_index],
+      bottomNavigationBar: BottomNavigationBar(
+          elevation: 8,
+          currentIndex: _index,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.black38,
+          onTap: (newIndex) {
+            setState(() {
+              _index = newIndex;
+            });
           },
-        ),
-      ),
-      body: BuyerNearbyShops(),
-      bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Container(
-            // icon: Icon(Icons.account_box, color: Colors.grey),
-            child: IconButton(
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage())),
-                icon: Icon(Icons.home)),
-          ),
-          Container(
-            // icon: Icon(Icons.account_box, color: Colors.grey),
-            child: IconButton(
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Account(user: user))),
-                icon: Icon(Icons.add_circle_outline)),
-          ),
-          Container(
-            child: IconButton(
-              icon: Icon(Icons.shopping_cart),
-              onPressed: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => CartPage())),
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              title: Text(
+                "Home",
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.lightGreen,
+              icon: IconButton(
+                padding: EdgeInsets.all(0),
+                iconSize: 30,
+                icon: Icon(Icons.explore),
+                onPressed: () {
+                  setState(() {
+                    this._index = 0;
+                  });
+                },
+              ),
             ),
-          ),
-          Container(
-            // icon: Icon(Icons.account_box, color: Colors.grey),
-            child: IconButton(
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Account(user: user),
-                    )),
-                icon: Icon(Icons.account_circle)),
-          ),
-        ],
-      ),
+            BottomNavigationBarItem(
+              title: Text(
+                "Tokens",
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.lightGreen,
+              icon: IconButton(
+                padding: EdgeInsets.all(0),
+                iconSize: 30,
+                icon: Icon(Icons.store_mall_directory),
+                onPressed: () {
+                  setState(() {
+                    this._index = 1;
+                  });
+                },
+              ),
+            ),
+            BottomNavigationBarItem(
+              title: Text(
+                "Services",
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.lightGreen,
+              icon: IconButton(
+                padding: EdgeInsets.all(0),
+                iconSize: 30,
+                icon: Icon(Icons.check),
+                onPressed: () {
+                  setState(() {
+                    this._index = 2;
+                  });
+                },
+              ),
+            ),
+            BottomNavigationBarItem(
+              title: Text(
+                "Cart",
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.lightGreen,
+              icon: IconButton(
+                padding: EdgeInsets.all(0),
+                iconSize: 30,
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () {
+                  setState(() {
+                    this._index = 3;
+                  });
+                },
+              ),
+            ),
+            BottomNavigationBarItem(
+              title: Text(
+                "Account",
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.lightGreen,
+              icon: IconButton(
+                padding: EdgeInsets.all(0),
+                iconSize: 30,
+                icon: Icon(Icons.account_box),
+                onPressed: () {
+                  setState(() {
+                    this._index = 4;
+                  });
+                },
+              ),
+            ),
+          ]),
     );
   }
 
@@ -129,9 +266,10 @@ class _HomePageState extends State<HomePage> {
       globals.pincode = first.postalCode;
       globals.address = _currentAddress;
       _column = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Delivering to",
+            "Delivering to:",
             softWrap: true,
             style: TextStyle(fontSize: 14),
           ),
