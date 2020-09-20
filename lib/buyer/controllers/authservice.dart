@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/buyer/controllers/existcheck.dart';
 // import 'package:flutter_app/controllers/existcheck.dart';
-import 'package:flutter_app/views/adduserinfo.dart';
-import 'package:flutter_app/views/home.dart';
-import 'package:flutter_app/views/loginpage.dart';
+import 'package:flutter_app/buyer/views/adduserinfo.dart';
+import 'package:flutter_app/buyer/views/bhome.dart';
+import 'package:flutter_app/buyer/views/loginpage.dart';
 // import 'package:flutter_app/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 

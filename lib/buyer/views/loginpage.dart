@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/buyer/controllers/authservice.dart';
-import '../buyer/controllers/existcheck.dart';
+import '../controllers/existcheck.dart';
 import 'package:countdown/countdown.dart';
 
 class LoginPage extends StatefulWidget {

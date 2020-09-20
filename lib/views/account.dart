@@ -3,7 +3,7 @@ import 'package:flutter_app/buyer/controllers/authservice.dart';
 // import 'package:flutter_app/views/home.dart';
 import 'package:flutter_app/buyer/models/user.dart';
 
-import 'orders.dart';
+import '../buyer/views/orders.dart';
 
 // FirebaseUser globalUser;
 class Account extends StatefulWidget {

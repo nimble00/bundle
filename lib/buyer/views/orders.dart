@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_app/buyer/models/item.dart';
 import 'package:flutter_app/buyer/models/order.dart';
-import 'package:flutter_app/views/cart.dart';
-import 'package:flutter_app/views/checkout.dart';
+import 'package:flutter_app/buyer/views/cart.dart';
+import 'package:flutter_app/buyer/views/checkout.dart';
 
 class Orders extends StatefulWidget {
   @override

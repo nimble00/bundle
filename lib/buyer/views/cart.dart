@@ -4,7 +4,7 @@ import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_app/buyer/models/item.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 import 'package:toast/toast.dart';
-import 'package:flutter_app/views/checkout.dart';
+import 'package:flutter_app/buyer/views/checkout.dart';
 
 enum DialogDemoAction {
   cancel,

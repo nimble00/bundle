@@ -1,181 +1,157 @@
+import 'package:flutter_app/globals.dart' as globals;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/views/account.dart';
+import 'package:flutter_app/buyer/views/bnearbyshops.dart';
+import 'package:flutter_app/buyer/views/cart.dart';
+import 'package:flutter_app/buyer/models/user.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_app/buyer/views/baccount.dart';
 
-class BuyerHomepage extends StatefulWidget {
+class HomePage extends StatefulWidget {
+  //final User user;
+  //HomePage(this.user);
   @override
-  _BuyerHomepageState createState() => _BuyerHomepageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _BuyerHomepageState extends State<BuyerHomepage> {
-  int _index = 0;
-  List<Widget> _bodyList = [
-    BuyerActiveOrders(),
-    BuyerAddProducts(),
-    BuyerMyProducts(),
-    BuyerPastOrders(),
-    BuyerAccountPage()
-  ];
-  List<Widget> _appBarList = [
-    AppBar(
-      backgroundColor: Colors.white,
-      leading: IconButton(
-          color: Colors.black,
-          icon: Icon(Icons.location_on),
-          onPressed: () => {
-                // IMPLEMENT A FUNCTION THAT FETCHES LOCATION AND REPLACE THIS ARROW FUNCTION WITH IT!
-              }),
-      title: Column(children: <Widget>[
-        Text(
-          "Delivering to",
-          style: TextStyle(fontStyle: FontStyle.normal, color: Colors.black),
-        ),
-        Text(
-          "Street No. 01",
-          style: TextStyle(fontStyle: FontStyle.normal, color: Colors.black),
-        )
-      ]),
-      actions: [
-        Container(
-          child: Center(
-            child: Text(
-              "Offers",
-              style: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  fontSize: 15.0,
-                  color: Colors.black),
-            ),
-          ),
-        ),
-        IconButton(
-            color: Colors.black,
-            icon: Icon(Icons.local_offer),
-            onPressed: () => {
-                  // IMPLEMENT THE OFFERS PAGE HERE!
-                })
-      ],
-    ),
-    AppBar(
-      leading: Icon(
-        Icons.explore,
-        color: Colors.black,
-      ),
-      title: Text(
-        "Explore Products",
-        style: TextStyle(color: Colors.black),
-      ),
-      // centerTitle: true,
-      backgroundColor: Colors.green,
-    ),
-    AppBar(
-      leading: Icon(
-        Icons.store_mall_directory,
-        color: Colors.black,
-      ),
-      title: Text(
-        "My Shop",
-        style: TextStyle(color: Colors.black),
-      ),
-      // centerTitle: true,
-      backgroundColor: Colors.green,
-    ),
-    AppBar(
-      leading: Icon(
-        Icons.done_all,
-        color: Colors.black,
-      ),
-      title: Text(
-        "Past Orders",
-        style: TextStyle(color: Colors.black),
-      ),
-      // centerTitle: true,
-      backgroundColor: Colors.green,
-    ),
-    AppBar(
-        backgroundColor: Colors.green,
-        leading: Icon(
-          Icons.account_box,
-          color: Colors.black,
-          // size: 12,
-        ),
-        title: Text(
-          'My Account',
-          style: TextStyle(color: Colors.black),
-        )),
-  ];
+class _HomePageState extends State<HomePage> {
+  String _currentAddress;
+  String accountStatus;
+  FirebaseUser currentUser;
+  FirebaseAuth _auth;
+  User user;
+  Widget _column;
+  @override
+  void initState() {
+    super.initState();
+    _auth = FirebaseAuth.instance;
+    _getCurrentUser();
+    _getLocation();
+    print('home.dart: here outside async');
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appBarList[_index],
-      body: _bodyList[_index],
-      bottomNavigationBar: BottomNavigationBar(
-          elevation: 8,
-          currentIndex: _index,
-          selectedItemColor: Colors.black,
-          unselectedItemColor: Colors.grey,
-          onTap: (newIndex) {
-            setState(() {
-              _index = newIndex;
-            });
+      appBar: AppBar(
+        backgroundColor: Colors.lightGreen,
+        title: _currentAddress == null
+            ? Text(
+                "Detecting your location",
+                softWrap: true,
+                style: TextStyle(fontSize: 14),
+              )
+            : Text(
+                _currentAddress.toString(),
+                softWrap: true,
+                style: TextStyle(fontSize: 14),
+              ),
+        // centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.location_on),
+          onPressed: () {
+            _getLocation();
           },
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              title: Text(""),
-              icon: IconButton(
-                icon: Icon(Icons.home),
-                onPressed: () {
-                  setState(() {
-                    this._index = 0;
-                  });
-                },
-              ),
+        ),
+      ),
+      body: BuyerNearbyShops(),
+      bottomNavigationBar: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Container(
+            // icon: Icon(Icons.account_box, color: Colors.grey),
+            child: IconButton(
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage())),
+                icon: Icon(Icons.home)),
+          ),
+          Container(
+            // icon: Icon(Icons.account_box, color: Colors.grey),
+            child: IconButton(
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Account(user: user))),
+                icon: Icon(Icons.add_circle_outline)),
+          ),
+          Container(
+            child: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => CartPage())),
             ),
-            BottomNavigationBarItem(
-              title: Text(""),
-              icon: IconButton(
-                icon: Icon(Icons.explore),
-                onPressed: () {
-                  setState(() {
-                    this._index = 1;
-                  });
-                },
-              ),
-            ),
-            BottomNavigationBarItem(
-              title: Text(""),
-              icon: IconButton(
-                icon: Icon(Icons.store_mall_directory),
-                onPressed: () {
-                  setState(() {
-                    this._index = 2;
-                  });
-                },
-              ),
-            ),
-            BottomNavigationBarItem(
-              title: Text(""),
-              icon: IconButton(
-                icon: Icon(Icons.check),
-                onPressed: () {
-                  setState(() {
-                    this._index = 3;
-                  });
-                },
-              ),
-            ),
-            BottomNavigationBarItem(
-              title: Text(""),
-              icon: IconButton(
-                icon: Icon(Icons.account_box),
-                onPressed: () {
-                  setState(() {
-                    this._index = 4;
-                  });
-                },
-              ),
-            ),
-          ]),
+          ),
+          Container(
+            // icon: Icon(Icons.account_box, color: Colors.grey),
+            child: IconButton(
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Account(user: user),
+                    )),
+                icon: Icon(Icons.account_circle)),
+          ),
+        ],
+      ),
     );
+  }
+
+  _getCurrentUser() async {
+    currentUser = await _auth.currentUser();
+    print('home.dart: Hello ' + currentUser.displayName.toString());
+    setState(() {
+      currentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
+      print("home.dart: ACCOUNT STATUS: " + accountStatus);
+      user = User.fromFirebaseUser(currentUser);
+    });
+  }
+
+  _getLocation() async {
+    // bool isLocationEnabled = await isLocationServiceEnabled();
+    final prefs = await SharedPreferences.getInstance();
+    Position position =
+        await getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    debugPrint('location: ${position.latitude}');
+
+    final coordinates = new Coordinates(position.latitude, position.longitude);
+    debugPrint('coordinates is: $coordinates');
+
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+    _currentAddress = first.addressLine;
+    prefs.setString("pincode", first.postalCode);
+    prefs.setString("address", _currentAddress);
+    setState(() {
+      globals.pincode = first.postalCode;
+      globals.address = _currentAddress;
+      _column = Column(
+        children: <Widget>[
+          Text(
+            "Delivering to",
+            softWrap: true,
+            style: TextStyle(fontSize: 14),
+          ),
+          Text(
+            _currentAddress.toString(),
+            softWrap: true,
+            style: TextStyle(fontSize: 14),
+          )
+        ],
+      );
+    });
+
+    // print number of retured addresses
+    debugPrint('${addresses.toString()}');
+    // print the best address
+    debugPrint("${first.featureName} : ${first.addressLine}");
+    //print other address names
+    debugPrint(
+        "Country:${first.countryName} AdminArea:${first.adminArea} SubAdminArea:${first.subAdminArea}");
+    //print more address names
+    debugPrint("Locality:${first.locality}: Sublocality:${first.subLocality}");
   }
 }

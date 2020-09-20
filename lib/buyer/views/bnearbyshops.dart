@@ -5,7 +5,7 @@ import 'package:flutter/painting.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/views/category_list.dart';
 
-import '../../views/favorites_list.dart';
+import 'favorites_list.dart';
 
 import 'package:flutter_app/views/spirit.dart';
 

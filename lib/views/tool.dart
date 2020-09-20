@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/buyer/controllers/controllers.dart';
-import 'package:flutter_app/views/loginpage.dart';
+import 'package:flutter_app/buyer/views/loginpage.dart';
 
 class CollectPincode extends StatelessWidget {
   TextEditingController _pincodeController = TextEditingController();
