@@ -7,7 +7,7 @@ import 'package:flutter_app/views/category_list.dart';
 
 import 'favorites_list.dart';
 
-import 'package:flutter_app/views/spirit.dart';
+import 'package:flutter_app/buyer/views/spirit.dart';
 
 class Stack {}
 

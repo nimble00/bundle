@@ -5,7 +5,7 @@ import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_app/buyer/models/item.dart';
 import 'dart:math';
 
-import 'package:flutter_app/views/spirit.dart';
+import 'package:flutter_app/buyer/views/spirit.dart';
 
 class Category extends StatefulWidget {
   @override

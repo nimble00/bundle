@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/buyer/views/bhome.dart';
 import 'package:flutter_app/buyer/views/adduserinfo.dart';
 import 'package:flutter_app/globals.dart' as globals;
+import 'package:geocoder/geocoder.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ExistCheck extends StatefulWidget {
   // final String phone;
@@ -13,6 +16,9 @@ class ExistCheck extends StatefulWidget {
 }
 
 class _ExistCheckState extends State<ExistCheck> {
+  String _currentAddress;
+  Widget _column;
+
   Widget _body = Scaffold(
     // appBar: AppBar(
     //   backgroundColor: Colors.white,
@@ -32,7 +38,56 @@ class _ExistCheckState extends State<ExistCheck> {
     super.initState();
     _auth = FirebaseAuth.instance;
     _getCurrentUser();
-    print('here outside async');
+    _getLocation();
+    print('existcheck.dart :::: here outside async');
+  }
+
+  _getLocation() async {
+    // bool isLocationEnabled = await isLocationServiceEnabled();
+    final prefs = await SharedPreferences.getInstance();
+    Position position =
+        await getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    debugPrint('location: ${position.latitude}');
+
+    final coordinates = new Coordinates(position.latitude, position.longitude);
+    debugPrint('coordinates is: $coordinates');
+
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+    _currentAddress = first.addressLine;
+    prefs.setString("pincode", first.postalCode);
+    prefs.setString("address", _currentAddress);
+    setState(() {
+      globals.pincode = first.postalCode;
+      globals.address = _currentAddress;
+      globals.position = position;
+      _column = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            "Delivering to:",
+            softWrap: true,
+            style: TextStyle(fontSize: 14),
+          ),
+          Text(
+            _currentAddress.toString(),
+            softWrap: true,
+            style: TextStyle(fontSize: 14),
+          )
+        ],
+      );
+    });
+
+    // print number of retured addresses
+    debugPrint('${addresses.toString()}');
+    // print the best address
+    debugPrint("${first.featureName} : ${first.addressLine}");
+    //print other address names
+    debugPrint(
+        "Country:${first.countryName} AdminArea:${first.adminArea} SubAdminArea:${first.subAdminArea}");
+    //print more address names
+    debugPrint("Locality:${first.locality}: Sublocality:${first.subLocality}");
   }
 
   _getCurrentUser() async {

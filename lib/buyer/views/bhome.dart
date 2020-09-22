@@ -1,4 +1,5 @@
 import 'package:flutter_app/buyer/views/baccount.dart';
+import 'package:flutter_app/buyer/views/bbusinesses.dart';
 import 'package:flutter_app/buyer/views/bservices.dart';
 import 'package:flutter_app/buyer/views/btoken.dart';
 import 'package:flutter_app/globals.dart' as globals;
@@ -26,19 +27,19 @@ class _HomePageState extends State<HomePage> {
   FirebaseUser currentUser;
   FirebaseAuth _auth;
   User user;
-  Widget _column;
   @override
   void initState() {
     super.initState();
     _auth = FirebaseAuth.instance;
     _getCurrentUser();
-    _getLocation();
+    // _getLocation();
     print('home.dart: here outside async');
   }
 
   int _index = 0;
   List<Widget> _bodyList = [
-    BuyerNearbyShops(),
+    // BuyerNearbyShops(),
+    BuyerBusinessesPage(),
     BuyerTokenPage(),
     BuyerServicesPage(),
     BuyerCartPage(),
@@ -101,11 +102,26 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget _column = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          "Delivering to:",
+          softWrap: true,
+          style: TextStyle(fontSize: 14),
+        ),
+        Text(
+          globals.address,
+          softWrap: true,
+          style: TextStyle(fontSize: 14),
+        )
+      ],
+    );
     return Scaffold(
       appBar: _index == 0
           ? AppBar(
               backgroundColor: Colors.lightGreen,
-              title: _currentAddress == null
+              title: globals.address == null
                   ? Text(
                       "Detecting your location...",
                       softWrap: true,
@@ -118,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white,
                 onPressed: () {
                   _getLocation();
-                  // OPEN A LITTLE PAGE TO ENTER THE LOCATION MANUALLY
+                  // OPEN location.dart TO ENTER THE LOCATION MANUALLY
                   // INSTEAD OF CALLING _getLocation()... it is already
                   // being called in initState()
                   // NO BIGGIE, WILL IMPLEMENT LATER
@@ -265,6 +281,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       globals.pincode = first.postalCode;
       globals.address = _currentAddress;
+      globals.position = position;
       _column = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

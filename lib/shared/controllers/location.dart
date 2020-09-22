@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,17 +25,21 @@ class _LocationState extends State<Location> {
     );
   }
 
-  // _getCurrentLocation() async {
-  //   await getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-  //       .then((Position position) {
-  //     setState(() {
-  //       _currentPosition = position;
-  //     });
-  //     _getAddressFromLatLng();
-  //   }).catchError((e) {
-  //     print(e);
-  //   });
-  // }
+// Example: USE BELOW CODE TO GET PINCODE FROM THE ADDRESS
+// ENTERED BY THE USER # IN CASE AUTO-DETECT IS WRONG!!!
+
+// import 'package:geocoder/geocoder.dart';
+
+// // From a query
+// final query = "1600 Amphiteatre Parkway, Mountain View";
+// var addresses = await Geocoder.local.findAddressesFromQuery(query);
+// var first = addresses.first;
+// print("${first.featureName} : ${first.coordinates}");
+
+// // From coordinates
+// final coordinates = new Coordinates(1.10, 45.50);
+// addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+// first = addresses.first;
 
   _getLocation() async {
     // bool isLocationEnabled = await isLocationServiceEnabled();

@@ -16,24 +16,6 @@ class AuthService {
         stream: FirebaseAuth.instance.onAuthStateChanged,
         builder: (BuildContext context, snapshot) {
           if (snapshot.hasData) {
-            //   doesUserExist(snapshot.data.phoneNumber).then((value) {
-            //     print("VALUE: " + value.toString());
-            //     if (value) {
-            //       return HomePage();
-            //     } else {
-            //       return AddUser();
-            //     }
-            //   });
-            // } else {
-            //   return LoginPage();
-            // }
-            // doesUserExist(snapshot.data.phoneNumber);
-            // print("CHECK: " + check.toString());
-            // if (check) {
-            //   return HomePage();
-            // } else {
-            //   return AddUser();
-            // }
             return ExistCheck();
           } else {
             return LoginPage();
