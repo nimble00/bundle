@@ -102,21 +102,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _column = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          "Delivering to:",
-          softWrap: true,
-          style: TextStyle(fontSize: 14),
-        ),
-        Text(
-          globals.address,
-          softWrap: true,
-          style: TextStyle(fontSize: 14),
-        )
-      ],
-    );
     return Scaffold(
       appBar: _index == 0
           ? AppBar(
@@ -127,16 +112,29 @@ class _HomePageState extends State<HomePage> {
                       softWrap: true,
                       style: TextStyle(fontSize: 14),
                     )
-                  : _column,
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Delivering to:",
+                          softWrap: true,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        Text(
+                          globals.address,
+                          softWrap: true,
+                          style: TextStyle(fontSize: 14),
+                        )
+                      ],
+                    ),
               leading: IconButton(
                 icon: Icon(Icons.location_on),
                 iconSize: 30,
                 color: Colors.white,
                 onPressed: () {
-                  _getLocation();
+                  // _getLocation();
                   // OPEN location.dart TO ENTER THE LOCATION MANUALLY
-                  // INSTEAD OF CALLING _getLocation()... it is already
-                  // being called in initState()
+                  // INSTEAD OF CALLING _getLocation()...
                   // NO BIGGIE, WILL IMPLEMENT LATER
                 },
               ),
@@ -260,53 +258,5 @@ class _HomePageState extends State<HomePage> {
       print("home.dart: ACCOUNT STATUS: " + accountStatus);
       user = User.fromFirebaseUser(currentUser);
     });
-  }
-
-  _getLocation() async {
-    // bool isLocationEnabled = await isLocationServiceEnabled();
-    final prefs = await SharedPreferences.getInstance();
-    Position position =
-        await getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-    debugPrint('location: ${position.latitude}');
-
-    final coordinates = new Coordinates(position.latitude, position.longitude);
-    debugPrint('coordinates is: $coordinates');
-
-    var addresses =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    var first = addresses.first;
-    _currentAddress = first.addressLine;
-    prefs.setString("pincode", first.postalCode);
-    prefs.setString("address", _currentAddress);
-    setState(() {
-      globals.pincode = first.postalCode;
-      globals.address = _currentAddress;
-      globals.position = position;
-      _column = Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            "Delivering to:",
-            softWrap: true,
-            style: TextStyle(fontSize: 14),
-          ),
-          Text(
-            _currentAddress.toString(),
-            softWrap: true,
-            style: TextStyle(fontSize: 14),
-          )
-        ],
-      );
-    });
-
-    // print number of retured addresses
-    debugPrint('${addresses.toString()}');
-    // print the best address
-    debugPrint("${first.featureName} : ${first.addressLine}");
-    //print other address names
-    debugPrint(
-        "Country:${first.countryName} AdminArea:${first.adminArea} SubAdminArea:${first.subAdminArea}");
-    //print more address names
-    debugPrint("Locality:${first.locality}: Sublocality:${first.subLocality}");
   }
 }

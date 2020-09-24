@@ -18,8 +18,8 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
   @override
   void initState() {
     super.initState();
-    this.userPos = globals.position;
-    this.pinCheck = doWeServePincode(globals.pincode);
+    userPos = globals.position;
+    pinCheck = doWeServePincode(globals.pincode);
     print('bbusinesses.dart: here outside async');
   }
 
@@ -42,31 +42,12 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
     }
   }
 
-  // ignore: non_constant_identifier_names
-  List<Partner> display_list;
-
-  _productList(AsyncSnapshot snapshot) {
-    snapshot.data['partner_list'].forEach((k, v) {
-      Partner partner = new Partner(nearByShops['image_source'],
-          nearByShops['name'], k, nearByShops['location'], 'kiryana');
-      display_list.add(partner);
-    });
-  }
-
-  void filterList() {
-    if (globals.filter == 'Distance') {
-      display_list.sort((a, b) => distanceBetween(userPos.latitude,
-              userPos.longitude, a.location.latitude, a.location.longitude)
-          .compareTo(distanceBetween(userPos.latitude, userPos.longitude,
-              b.location.latitude, b.location.longitude)));
-    } else {
-      // sort by popularity
-      // currently, it's hardcoded to be sorted by distance
-      // display_list.sort((b, a) => a.no_of_orders.compareTo(b.no_of_orders));
-    }
-  }
-
-  List<Card> _generateCards(AsyncSnapshot snapshot) {
+  _generateCards(AsyncSnapshot snapshot) {
+    // if (!pinCheck) {
+    //   return Center(
+    //     child: Text("We don't serve your location yet!"),
+    //   );
+    // }
     display_list = new List();
     _productList(snapshot);
     filterList();
@@ -85,7 +66,8 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
                       MaterialPageRoute(
                           builder: (context) => SpiritPage(
                               display_list: display_list, index: index))),
-                  child: Image.asset(display_list[index].image),
+                  // child: Image.asset(display_list[index].image),
+                  child: Icon(Icons.image),
                 )),
             Padding(
               padding: EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 2.0),
@@ -94,7 +76,9 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Center(
-                      child: Text(display_list[index].name),
+                      child: Text(display_list[index].name == null
+                          ? "no name"
+                          : "has name"),
                     ),
                     // Center(
                     //   child:
@@ -161,12 +145,42 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
     return cards;
   }
 
+  // ignore: non_constant_identifier_names
+  List<Partner> display_list;
+
+  _productList(AsyncSnapshot snapshot) {
+    print("############");
+    print(snapshot.hasData);
+    print("############");
+    nearByShops = snapshot.data['partner_list'];
+    snapshot.data['partner_list'].forEach((k, v) {
+      Partner partner = new Partner(nearByShops['image_source'],
+          nearByShops['name'], k, nearByShops['location'], 'kiryana');
+      display_list.add(partner);
+    });
+  }
+
+  void filterList() {
+    if (globals.filter == 'Distance') {
+      display_list.sort((a, b) => distanceBetween(userPos.latitude,
+              userPos.longitude, a.location.latitude, a.location.longitude)
+          .compareTo(distanceBetween(userPos.latitude, userPos.longitude,
+              b.location.latitude, b.location.longitude)));
+    } else {
+      // sort by popularity
+      // currently, it's hardcoded to be sorted by distance
+      // display_list.sort((b, a) => a.no_of_orders.compareTo(b.no_of_orders));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
       stream: Firestore.instance
           .collection('pincodes')
           .document(globals.pincode)
+          .collection('retail_partners')
+          .document('partners')
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();

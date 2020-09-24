@@ -17,12 +17,8 @@ class ExistCheck extends StatefulWidget {
 
 class _ExistCheckState extends State<ExistCheck> {
   String _currentAddress;
-  Widget _column;
 
   Widget _body = Scaffold(
-    // appBar: AppBar(
-    //   backgroundColor: Colors.white,
-    // ),
     body: Center(
       child: CircularProgressIndicator(),
     ),
@@ -62,21 +58,6 @@ class _ExistCheckState extends State<ExistCheck> {
       globals.pincode = first.postalCode;
       globals.address = _currentAddress;
       globals.position = position;
-      _column = Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            "Delivering to:",
-            softWrap: true,
-            style: TextStyle(fontSize: 14),
-          ),
-          Text(
-            _currentAddress.toString(),
-            softWrap: true,
-            style: TextStyle(fontSize: 14),
-          )
-        ],
-      );
     });
 
     // print number of retured addresses
@@ -104,20 +85,6 @@ class _ExistCheckState extends State<ExistCheck> {
     });
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _auth = FirebaseAuth.instance;
-  //   _getCurrentUser();
-  // }
-
-  // _getCurrentUser() async {
-  //   currentUser = await _auth.currentUser();
-  //   setState(() {
-  //     _gotoHomeScreen(currentUser.phoneNumber);
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return _body;
@@ -133,15 +100,5 @@ class _ExistCheckState extends State<ExistCheck> {
       }
       return false;
     });
-
-    // AuthService.getuserPrefEmail().then((email) {
-    //   AuthService.email = email;
-    //   if (email == null) {
-    //     setState(() => _body = LoginScreen());
-    //   } else {
-    //     AuthService.uid = email;
-    //     setState(() => _body = HomeMenuScreen());
-    //   }
-    // });
   }
 }
