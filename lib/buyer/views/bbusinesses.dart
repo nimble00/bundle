@@ -78,6 +78,9 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
                     Center(
                       child: Text(display_list[index].name),
                     ),
+                    Center(
+                      child: Text(display_list[index].phone),
+                    ),
                     // Center(
                     //   child:
                     //       Text((display_list[index].partnerPrice).toString()),
