@@ -76,9 +76,7 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Center(
-                      child: Text(display_list[index].name == null
-                          ? "no name"
-                          : "has name"),
+                      child: Text(display_list[index].name),
                     ),
                     // Center(
                     //   child:
@@ -149,14 +147,12 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
   List<Partner> display_list;
 
   _productList(AsyncSnapshot snapshot) {
-    print("############");
-    print(snapshot.hasData);
-    print("############");
     nearByShops = snapshot.data['partner_list'];
     snapshot.data['partner_list'].forEach((k, v) {
-      Partner partner = new Partner(nearByShops['image_source'],
-          nearByShops['name'], k, nearByShops['location'], 'kiryana');
+      Partner partner = new Partner(
+          v['image_source'], v['name'], k, v['location'], 'kiryana');
       display_list.add(partner);
+      print(v);
     });
   }
 
