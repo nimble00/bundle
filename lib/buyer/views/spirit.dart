@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/buyer/models/partner.dart';
 import 'package:flutter_app/buyer/views/bnearbyshops.dart';
 import 'package:flutter_app/buyer/views/cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,7 +10,7 @@ import 'package:toast/toast.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 
 class SpiritPage extends StatefulWidget {
-  final List display_list;
+  final Partner display_list;
   final int index;
 
   SpiritPage({Key key, this.display_list, this.index}) : super(key: key);
@@ -20,7 +21,7 @@ class SpiritPage extends StatefulWidget {
 }
 
 class SpiritState extends State<SpiritPage> {
-  List display_list;
+  Partner display_list;
   int index;
   SpiritState({this.display_list, this.index});
   @override
@@ -28,44 +29,7 @@ class SpiritState extends State<SpiritPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
-        title: Text("Address"),
-        actions: [
-          IconButton(
-              icon: globals.favorite_name.contains(display_list[index].itemName)
-                  ? Icon(Icons.favorite, color: Colors.red)
-                  : Icon(Icons.favorite_border),
-              onPressed: () {
-                if (!globals.favorite_name
-                    .contains(display_list[index].itemName)) {
-                  globals.favorite_name.add(display_list[index].itemName);
-                  Firestore.instance
-                      .collection('users')
-                      .document(globals.phoneNumber)
-                      .updateData({
-                    'favorites.${display_list[index].itemName}.itemCategory':
-                        display_list[index].itemCategory,
-                    'favorites.${display_list[index].itemName}.itemIndex':
-                        display_list[index].itemIndex,
-                    'favorites.${display_list[index].itemName}.itemImage':
-                        display_list[index].itemImage,
-                    'favorites.${display_list[index].itemName}.itemPrice':
-                        display_list[index].itemPrice,
-                    'favorites.${display_list[index].itemName}.no_of_orders':
-                        display_list[index].no_of_orders
-                  });
-                } else {
-                  globals.favorite_name.remove(display_list[index].itemName);
-                  Firestore.instance
-                      .collection('users')
-                      .document(globals.phoneNumber)
-                      .updateData({
-                    'favorites.${display_list[index].itemName}':
-                        FieldValue.delete()
-                  });
-                }
-                setState(() {});
-              }),
-        ],
+        title: Text(display_list.name),
       ),
       body: _buildView(context, display_list, index),
       bottomNavigationBar: Row(
@@ -122,99 +86,99 @@ class SpiritState extends State<SpiritPage> {
 //    );
 //  }
 
-  Widget _buildView(BuildContext context, List display_list, int index) {
+  Widget _buildView(BuildContext context, Partner display_list, int index) {
     return Column(
-      children: <Widget>[
-        Image.asset(
-          display_list[index].itemImage,
-          height: 240,
-        ),
-        SizedBox(height: 40),
-        //NAME AND PRICE
-        Row(
-          children: <Widget>[
-            Spacer(),
-            Text(
-              display_list[index].itemName,
-            ),
-            Spacer(),
-            Text(
-              display_list[index].itemPrice.toString(),
-            ),
-            Spacer(),
-          ],
-        ),
-        //QUANTITY AND PRICE
-        Container(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Container(
-                child: Row(
-                  children: <Widget>[
-                    new IconButton(
-                      icon: Icon(Icons.add_circle),
-                      onPressed: () {
-                        display_list[index].incrementQuantity();
-                        print(display_list[index].itemQun);
-                        setState(() {});
-                      },
-                    ),
-//                    Spacer(),
-                    Text(
-                      '${(display_list[index].itemQun).toString()}',
-//                  '${(itemList[ind].itemQun).toString()}',
-                    ),
-//                    Spacer(),
-                    new IconButton(
-                      icon: Icon(Icons.remove_circle),
-                      onPressed: () {
-                        if (display_list[index].itemQun > 1) {
-                          display_list[index].decrementQuantity();
-                          print(display_list[index].itemQun);
-                          setState(() {});
-                        } else {
-                          showToast();
-                          print("toast was here");
-                        }
-                        //ADD SOMETHING SIMILAR TO SETSTATE
-                      },
-                    ),
-                    Spacer(),
-                    IconButton(
-                      icon: Icon(Icons.add_shopping_cart),
-                      onPressed: () {
-//                    itemList[ind].incrementQuantity();
-                        if (display_list[index].selected == false) {
-                          if (!globals.item_name
-                              .contains(display_list[index].itemName)) {
-                            display_list[index].selected = true;
-                            globals.item_name.add(display_list[index].itemName);
-                            globals.reference.updateData({
-                              'products.${display_list[index].itemCategory}.${display_list[index].itemIndex}.no_of_orders':
-                                  FieldValue.increment(1)
-                            });
-                            globals.item_list.add(display_list[index]);
-                          }
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        //DETAILS OF PRODUCT
-        Container(
-          padding: const EdgeInsets.all(32),
-          child: Text(
-            "display_list[index].Detail",
-            softWrap: true,
-          ),
-        ),
-      ],
-    );
+//       children: <Widget>[
+//         Image.asset(
+//           display_list.image,
+//           height: 240,
+//         ),
+//         SizedBox(height: 40),
+//         //NAME AND PRICE
+//         Row(
+//           children: <Widget>[
+//             Spacer(),
+//             Text(
+//               display_list[index],
+//             ),
+//             Spacer(),
+//             Text(
+//               display_list[index].itemPrice.toString(),
+//             ),
+//             Spacer(),
+//           ],
+//         ),
+//         //QUANTITY AND PRICE
+//         Container(
+//           padding: EdgeInsets.all(20),
+//           child: Column(
+//             children: [
+//               Container(
+//                 child: Row(
+//                   children: <Widget>[
+//                     new IconButton(
+//                       icon: Icon(Icons.add_circle),
+//                       onPressed: () {
+//                         display_list[index].incrementQuantity();
+//                         print(display_list[index].itemQun);
+//                         setState(() {});
+//                       },
+//                     ),
+// //                    Spacer(),
+//                     Text(
+//                       '${(display_list[index].itemQun).toString()}',
+// //                  '${(itemList[ind].itemQun).toString()}',
+//                     ),
+// //                    Spacer(),
+//                     new IconButton(
+//                       icon: Icon(Icons.remove_circle),
+//                       onPressed: () {
+//                         if (display_list[index].itemQun > 1) {
+//                           display_list[index].decrementQuantity();
+//                           print(display_list[index].itemQun);
+//                           setState(() {});
+//                         } else {
+//                           showToast();
+//                           print("toast was here");
+//                         }
+//                         //ADD SOMETHING SIMILAR TO SETSTATE
+//                       },
+//                     ),
+//                     Spacer(),
+//                     IconButton(
+//                       icon: Icon(Icons.add_shopping_cart),
+//                       onPressed: () {
+// //                    itemList[ind].incrementQuantity();
+//                         if (display_list[index].selected == false) {
+//                           if (!globals.item_name
+//                               .contains(display_list[index])) {
+//                             display_list[index].selected = true;
+//                             globals.item_name.add(display_list[index]);
+//                             globals.reference.updateData({
+//                               'products.${display_list[index].itemCategory}.${display_list[index].itemIndex}.no_of_orders':
+//                                   FieldValue.increment(1)
+//                             });
+//                             globals.item_list.add(display_list[index]);
+//                           }
+//                         }
+//                       },
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//         //DETAILS OF PRODUCT
+//         Container(
+//           padding: const EdgeInsets.all(32),
+//           child: Text(
+//             "display_list[index].Detail",
+//             softWrap: true,
+//           ),
+//         ),
+//       ],
+        );
   }
 
 //  void showToast(){

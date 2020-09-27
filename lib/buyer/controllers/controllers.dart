@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 Future<bool> pincodeController(String pincode) async {
   var response =
-      await http.get('https://pincode.saratchandra.in/api/pincode/${pincode}');
+      await http.get('https://pincode.saratchandra.in/api/pincode/' + pincode);
   if (response.statusCode == 200) {
     Map<String, dynamic> data = jsonDecode(response.body);
     if (data['status'] == 200) {

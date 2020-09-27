@@ -3,18 +3,18 @@ class Item {
   String itemName;
   int itemQun;
   int itemPrice;
-  int no_of_orders;
+  int numOrders;
   String itemCategory; //SPIRIT CATEGORY OF THE ITEM
   String itemIndex; //INDEX TO REFER TO THE PRODUCT MAP
   Item(
-      this.itemImage,
-      this.itemName,
-      this.itemQun,
-      this.itemPrice,
-      this.no_of_orders,
-      this.itemCategory,
-      this.itemIndex,
-      );
+    this.itemImage,
+    this.itemName,
+    this.itemQun,
+    this.itemPrice,
+    this.numOrders,
+    this.itemCategory,
+    this.itemIndex,
+  );
   void incrementQuantity() => itemQun += 1;
   void decrementQuantity() => itemQun -= 1;
 }

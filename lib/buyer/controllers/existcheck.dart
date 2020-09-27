@@ -9,8 +9,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ExistCheck extends StatefulWidget {
-  // final String phone;
-  // ExistCheck(this.phone);
   @override
   _ExistCheckState createState() => _ExistCheckState();
 }
@@ -18,16 +16,12 @@ class ExistCheck extends StatefulWidget {
 class _ExistCheckState extends State<ExistCheck> {
   String _currentAddress;
 
-  Widget _body = Scaffold(
-    body: Center(
-      child: CircularProgressIndicator(),
-    ),
-  );
   // Default Body
+  Widget _body = Scaffold(body: Center(child: CircularProgressIndicator()));
+
   FirebaseAuth _auth;
-  FirebaseUser currentUser;
+  User currentUser;
   bool loading = true;
-  String accountStatus;
 
   @override
   void initState() {
@@ -35,21 +29,19 @@ class _ExistCheckState extends State<ExistCheck> {
     _auth = FirebaseAuth.instance;
     _getCurrentUser();
     _getLocation();
-    print('existcheck.dart :::: here outside async');
   }
 
   _getLocation() async {
-    // bool isLocationEnabled = await isLocationServiceEnabled();
     final prefs = await SharedPreferences.getInstance();
+
     Position position =
         await getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-    debugPrint('location: ${position.latitude}');
 
     final coordinates = new Coordinates(position.latitude, position.longitude);
-    debugPrint('coordinates is: $coordinates');
 
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
+
     var first = addresses.first;
     _currentAddress = first.addressLine;
     prefs.setString("pincode", first.postalCode);
@@ -59,28 +51,12 @@ class _ExistCheckState extends State<ExistCheck> {
       globals.address = _currentAddress;
       globals.position = position;
     });
-
-    // print number of retured addresses
-    debugPrint('${addresses.toString()}');
-    // print the best address
-    debugPrint("${first.featureName} : ${first.addressLine}");
-    //print other address names
-    debugPrint(
-        "Country:${first.countryName} AdminArea:${first.adminArea} SubAdminArea:${first.subAdminArea}");
-    //print more address names
-    debugPrint("Locality:${first.locality}: Sublocality:${first.subLocality}");
   }
 
-  _getCurrentUser() async {
-    currentUser = await _auth.currentUser();
-    print('Hello ' + currentUser.displayName.toString());
+  _getCurrentUser() {
+    currentUser = _auth.currentUser;
     setState(() {
-      currentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
-      print("ACCOUNT STATUS: " + accountStatus);
-      // user = User.fromFirebaseUser(currentUser);
-      print("CURRENT USER: " + currentUser.phoneNumber);
       globals.phoneNumber = currentUser.phoneNumber;
-      print("PHONE: " + globals.phoneNumber);
       _gotoHomeScreen(globals.phoneNumber);
     });
   }
@@ -93,7 +69,6 @@ class _ExistCheckState extends State<ExistCheck> {
   _gotoHomeScreen(String phoneN) {
     globals.user.get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        print('DOCUMENT EXISTS IN THE DATABASE');
         setState(() => _body = HomePage());
       } else {
         setState(() => _body = AddUser());
