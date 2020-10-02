@@ -32,7 +32,7 @@ class _ExistCheckState extends State<ExistCheck> {
   }
 
   _getLocation() async {
-    final prefs = await SharedPreferences.getInstance();
+    // final prefs = await SharedPreferences.getInstance();
 
     Position position =
         await getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
@@ -44,8 +44,8 @@ class _ExistCheckState extends State<ExistCheck> {
 
     var first = addresses.first;
     _currentAddress = first.addressLine;
-    prefs.setString("pincode", first.postalCode);
-    prefs.setString("address", _currentAddress);
+    // prefs.setString("pincode", first.postalCode);
+    // prefs.setString("address", _currentAddress);
     setState(() {
       globals.pincode = first.postalCode;
       globals.address = _currentAddress;

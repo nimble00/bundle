@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/buyer/models/partner.dart';
 import 'package:flutter_app/buyer/views/spirit.dart';
@@ -11,15 +13,24 @@ class BuyerBusinessesPage extends StatefulWidget {
 }
 
 class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
-  bool pinCheck;
-  Position userPos;
-  Map nearByShops;
+  bool _pinCheck;
+  Position _userPos;
+  Map _nearByShops;
+  Stream<DocumentSnapshot> _stream;
+
   @override
   void initState() {
     super.initState();
-    userPos = globals.position;
-    pinCheck = doWeServePincode(globals.pincode);
-    print('bbusinesses.dart: here outside async');
+    _userPos = globals.position;
+    _stream = FirebaseFirestore.instance
+        .collection('pincodes')
+        .doc(globals.pincode)
+        .collection('retail_partners')
+        .doc('partners')
+        .snapshots()
+        .asBroadcastStream();
+
+    _pinCheck = doWeServePincode(globals.pincode);
   }
 
   doWeServePincode(pincode) {
@@ -31,7 +42,6 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
           .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           print('WE SERVE AT THIS PINCODE');
-          this.nearByShops = documentSnapshot.data()['partner_list'];
           return true;
         }
         return false;
@@ -42,7 +52,7 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
   }
 
   _generateCards(AsyncSnapshot snapshot) {
-    // if (!pinCheck) {
+    // if (!_pinCheck) {
     //   return Center(
     //     child: Text("We don't serve your location yet!"),
     //   );
@@ -150,7 +160,11 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
   List<Partner> display_list;
 
   _productList(AsyncSnapshot snapshot) {
-    nearByShops = snapshot.data.data()['partner_list'];
+    if (snapshot.data.data() == null) {
+      doWeServePincode(globals.pincode);
+      return;
+    }
+    _nearByShops = snapshot.data.data()['partner_list'];
     snapshot.data.data()['partner_list'].forEach((k, v) {
       Partner partner = new Partner(
           v['image_source'], v['name'], k, v['location'], 'kiryana');
@@ -160,9 +174,10 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
 
   void filterList() {
     if (globals.filter == 'Distance') {
-      display_list.sort((a, b) => distanceBetween(userPos.latitude,
-              userPos.longitude, a.location.latitude, a.location.longitude)
-          .compareTo(distanceBetween(userPos.latitude, userPos.longitude,
+      if (_userPos == null) return;
+      display_list.sort((a, b) => distanceBetween(_userPos.latitude,
+              _userPos.longitude, a.location.latitude, a.location.longitude)
+          .compareTo(distanceBetween(_userPos.latitude, _userPos.longitude,
               b.location.latitude, b.location.longitude)));
     } else {
       // sort by popularity
@@ -174,13 +189,11 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('pincodes')
-          .doc(globals.pincode)
-          .collection('retail_partners')
-          .doc('partners')
-          .snapshots(),
+      stream: _stream,
       builder: (context, snapshot) {
+        if (snapshot.hasError)
+          return Center(
+              child: Text("Check your internet connection and try again!"));
         if (!snapshot.hasData) return LinearProgressIndicator();
         return ListView(
           physics: const ScrollPhysics(),
