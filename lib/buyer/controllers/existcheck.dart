@@ -35,7 +35,6 @@ class _ExistCheckState extends State<ExistCheck> {
     _auth = FirebaseAuth.instance;
     _getCurrentUser();
     _getLocation();
-    print('existcheck.dart :::: here outside async');
   }
 
   _getLocation() async {
@@ -73,14 +72,8 @@ class _ExistCheckState extends State<ExistCheck> {
 
   _getCurrentUser() async {
     currentUser = await _auth.currentUser();
-    print('Hello ' + currentUser.displayName.toString());
     setState(() {
-      currentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
-      print("ACCOUNT STATUS: " + accountStatus);
-      // user = User.fromFirebaseUser(currentUser);
-      print("CURRENT USER: " + currentUser.phoneNumber);
       globals.phoneNumber = currentUser.phoneNumber;
-      print("PHONE: " + globals.phoneNumber);
       _gotoHomeScreen(globals.phoneNumber);
     });
   }
@@ -93,7 +86,6 @@ class _ExistCheckState extends State<ExistCheck> {
   _gotoHomeScreen(String phoneN) {
     globals.user.get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        print('DOCUMENT EXISTS IN THE DATABASE');
         setState(() => _body = HomePage());
       } else {
         setState(() => _body = AddUser());

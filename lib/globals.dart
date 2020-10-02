@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/buyer/models/item.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 //shoping cart list
 List<Item> item_list = new List();
@@ -22,9 +23,15 @@ DocumentReference shops =
 DocumentReference reference;
 DocumentReference user =
     Firestore.instance.collection('users').document(phoneNumber);
+
+DocumentReference partner =
+Firestore.instance.collection('partner').document(phoneNumber);
 //list of fav items
 List<String> favorite_name = new List();
 List<Item> favorites_list;
 
 String category = 'all', filter = 'Distance';
 int current = 0;
+
+//---------Storage partner-------
+FirebaseStorage storage;

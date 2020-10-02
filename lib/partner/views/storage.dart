@@ -13,51 +13,76 @@ import 'package:uuid/uuid.dart';
 final String name = 'madira_test';
 final String kTestString = 'test';
 
+void main() async {
+  print("start");
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final FirebaseOptions options = const FirebaseOptions(
+    googleAppID: '1:668312398180:android:0043f8431f6989ae733271',
+    gcmSenderID: '668312398180',
+    apiKey: 'AIzaSyAG6nkQB3kWQWifGyFrnQdjoyR_XMVniS4',
+  );
+  final FirebaseApp app= await FirebaseApp.configure(
+    name: name,
+    options: options,
+  );
+  final FirebaseStorage storage = FirebaseStorage(
+      app: app, storageBucket: 'gs://shrine00-21700.appspot.com');
+  globals.storage=storage;
+//  print(storage);
+  print("end");
+
+//    StorageHomePageApp map=new StorageHomePageApp(storage: storage);
+}
+
 class StorageHomePage {
   //final User user;
   //HomePage(this.user);
 
-  void main() async {
-    WidgetsFlutterBinding.ensureInitialized();
-
-    final FirebaseOptions options = const FirebaseOptions(
-      googleAppID: '1:668312398180:android:0043f8431f6989ae733271',
-      gcmSenderID: '668312398180',
-      apiKey: 'AIzaSyAG6nkQB3kWQWifGyFrnQdjoyR_XMVniS4',
-    );
-    final FirebaseApp app= await FirebaseApp.configure(
-      name: name,
-      options: options,
-    );
-    final FirebaseStorage storage = FirebaseStorage(
-        app: app, storageBucket: 'gs://shrine00-21700.appspot.com');
-    StorageHomePageApp map=new StorageHomePageApp(storage: storage);
-  }
+//  void main() async {
+//    WidgetsFlutterBinding.ensureInitialized();
+//
+//    final FirebaseOptions options = const FirebaseOptions(
+//      googleAppID: '1:668312398180:android:0043f8431f6989ae733271',
+//      gcmSenderID: '668312398180',
+//      apiKey: 'AIzaSyAG6nkQB3kWQWifGyFrnQdjoyR_XMVniS4',
+//    );
+//    final FirebaseApp app= await FirebaseApp.configure(
+//      name: name,
+//      options: options,
+//    );
+//    final FirebaseStorage storage = FirebaseStorage(
+//        app: app, storageBucket: 'gs://shrine00-21700.appspot.com');
+//
+////    StorageHomePageApp map=new StorageHomePageApp(storage: storage);
+//  }
 
 }
 class StorageHomePageApp extends StatelessWidget {
-  StorageHomePageApp({this.storage});
-  final FirebaseStorage storage;
-
+//  StorageHomePageApp({this.storage});
+//  FirebaseStorage storage;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Storage',
-      home: StorageMyHomePage(storage: storage),
+      home: StorageMyHomePage(),
     );
   }
 }
 class StorageMyHomePage extends StatefulWidget {
-  StorageMyHomePage({this.storage});
-  final FirebaseStorage storage;
+  StorageMyHomePage();
 
+//    StorageHomePage();
+//    storage=globals.storage;
   @override
   _StorageHomePageState createState() => _StorageHomePageState();
 }
 
 class _StorageHomePageState extends State<StorageMyHomePage> {
-  _StorageHomePageState({this.storage});
-  final FirebaseStorage storage;
+  _StorageHomePageState();
+  FirebaseStorage storage;
+
+
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   List<StorageUploadTask> _tasks = <StorageUploadTask>[];
@@ -114,6 +139,43 @@ class _StorageHomePageState extends State<StorageMyHomePage> {
     ));
   }
 
+//  void main(FirebaseStorage storage) async {
+//    WidgetsFlutterBinding.ensureInitialized();
+//
+//    final FirebaseOptions options = const FirebaseOptions(
+//      googleAppID: '1:668312398180:android:0043f8431f6989ae733271',
+//      gcmSenderID: '668312398180',
+//      apiKey: 'AIzaSyAG6nkQB3kWQWifGyFrnQdjoyR_XMVniS4',
+//    );
+//    final FirebaseApp app= await FirebaseApp.configure(
+//      name: name,
+//      options: options,
+//    );
+//    storage = FirebaseStorage(
+//        app: app, storageBucket: 'gs://shrine00-21700.appspot.com');
+//
+////    StorageHomePageApp map=new StorageHomePageApp(storage: storage);
+//  }
+//
+//  @override
+//  void initState() {
+//    super.initState();
+//    main(storage);
+////    StorageHomePage();
+////    storage=globals.storage;
+//
+//  }
+
+  @override
+  void initState(){
+    super.initState();
+    print("hi");
+    main();
+    storage=globals.storage;
+    StorageReference listRef=storage.ref().child("products");
+    listRef.listAll()
+
+  }
 
   @override
   Widget build(BuildContext context) {
