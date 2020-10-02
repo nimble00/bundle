@@ -10,7 +10,7 @@ class AddUser extends StatefulWidget {
 
 class _AddUserState extends State<AddUser> {
   String accountStatus;
-  FirebaseUser currentUser;
+  User currentUser;
   FirebaseAuth _auth;
   // User user;
 
@@ -23,16 +23,13 @@ class _AddUserState extends State<AddUser> {
   }
 
   _getCurrentUser() async {
-    currentUser = await _auth.currentUser();
+    currentUser = _auth.currentUser;
     // Position position = await Geolocator()
     //     .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     print('Hello ' + currentUser.displayName.toString());
     setState(() {
       currentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
       print("ACCOUNT STATUS: " + accountStatus);
-      // user = User.fromFirebaseUser(currentUser);
-      // user.location = position;
-      // print('POSITION: ' + user.location.toString());
     });
   }
 
@@ -47,7 +44,7 @@ class _AddUserState extends State<AddUser> {
   @override
   Widget build(BuildContext context) {
     // Create a CollectionReference called users that references the firestore collection
-    CollectionReference users = Firestore.instance.collection('users');
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     Future<void> addUser(
       String uname,
@@ -58,8 +55,8 @@ class _AddUserState extends State<AddUser> {
     ) {
       // Call the users CollectionReference to add a new user
       return users
-          .document(currentUser.phoneNumber)
-          .setData({
+          .doc(currentUser.phoneNumber)
+          .set({
             'username': uname, // John Doe
             'pincode': pin, // Stokes and Sons
             // 'govt_ID': ageproof,

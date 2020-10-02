@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:geolocator/geolocator.dart';
 
 class User {
@@ -21,8 +20,8 @@ class User {
     this.address,
     this.location,
   });
-  User.fromFirebaseUser(FirebaseUser user) {
+  User.fromFirebaseUser(User user) {
     // this.uid = user.uid;
-    this.phone = user.phoneNumber;
+    this.phone = user.phone;
   }
 }

@@ -5,7 +5,6 @@ import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_app/buyer/models/item.dart';
 import 'package:flutter_app/buyer/models/order.dart';
 import 'package:flutter_app/buyer/views/cart.dart';
-import 'package:flutter_app/buyer/views/checkout.dart';
 
 class Orders extends StatefulWidget {
   @override
@@ -13,20 +12,23 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
-  List<Order> orders_list;
+  List<Order> ordersList;
   Widget _body;
+
+  @override
   void initState() {
+    super.initState();
     _body = _create();
   }
 
   void _orderList(AsyncSnapshot snapshot) {
     Map orders = snapshot.data['orders'];
-    for (int i = 0; i < orders['no_of_orders']; i++) {
-      add_order_from_database(orders['details']['$i']);
+    for (int i = 0; i < orders['numOrders']; i++) {
+      addOrderFromDatabase(orders['details']['$i']);
     }
   }
 
-  void add_order_from_database(Map _order) {
+  void addOrderFromDatabase(Map _order) {
     Order order = new Order();
     order.item_list = new List();
     order.total = _order['total'];
@@ -38,12 +40,12 @@ class _OrdersState extends State<Orders> {
           k,
           _order['items'][k]['itemQun'],
           _order['items'][k]['itemPrice'],
-          _order['items'][k]['no_of_orders'],
+          _order['items'][k]['numOrders'],
           _order['items'][k]['itemCategory'],
           _order['items'][k]['itemIndex']);
       order.item_list.add(item);
     });
-    orders_list.add(order);
+    ordersList.add(order);
   }
 
   String _orderDetails(Order order) {
@@ -62,31 +64,31 @@ class _OrdersState extends State<Orders> {
     for (int i = 0; i < order.item_list.length; i++) {
       globals.item_list.add(order.item_list[i]);
       globals.item_name.add(order.item_list[i].itemName);
-      globals.reference.updateData({
-        '${order.item_list[i].itemCategory}.${order.item_list[i].itemIndex}.no_of_orders':
+      globals.reference.update({
+        '${order.item_list[i].itemCategory}.${order.item_list[i].itemIndex}.numOrders':
             FieldValue.increment(order.item_list[i].itemQun)
       });
     }
   }
 
   List<Card> _generateCards(AsyncSnapshot snapshot) {
-    orders_list = new List();
+    ordersList = new List();
     _orderList(snapshot);
     List<Card> cards = List.generate(
-      orders_list.length,
+      ordersList.length,
       (int index) => Card(
         clipBehavior: Clip.antiAlias,
         child: ListTile(
           title: Text(
-            _orderDetails(orders_list[index]),
+            _orderDetails(ordersList[index]),
             style: TextStyle(
                 fontStyle: FontStyle.italic, fontSize: 20.0, color: Colors.red),
           ),
-          trailing: Text(orders_list[index].total.toString()),
+          trailing: Text(ordersList[index].total.toString()),
           leading: RaisedButton(
             child: Text("Reorder"),
             onPressed: () {
-              reorder(orders_list[index]);
+              reorder(ordersList[index]);
               setState(() {
                 _body = BuyerCartPage();
               });

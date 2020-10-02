@@ -19,7 +19,7 @@ String address = "";
 GeoPoint geopoint = new GeoPoint(48, 60);
 String phoneNumber;
 DocumentReference shops =
-    Firestore.instance.collection('pincodes').document(pincode);
+    FirebaseFirestore.instance.collection('pincodes').doc(pincode);
 DocumentReference reference;
 DocumentReference user =
     Firestore.instance.collection('users').document(phoneNumber);

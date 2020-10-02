@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/buyer/controllers/authservice.dart';
-import '../controllers/existcheck.dart';
 import 'package:countdown/countdown.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,18 +14,8 @@ class _LoginPageState extends State<LoginPage> {
   String phoneNo, verificationId, smsCode;
   String otpWaitTimeLabel = "";
   bool _isResendEnable = false;
-
   bool codeSent = false;
-  bool _isButtonDisabled;
-  // bool newUser = true;
 
-/*
-  @override
-  void initState() {
-    super.initState();
-    startTimer();
-  }
-*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,6 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                               children: <Widget>[
                                 Container(
                                   child: IconButton(
+                                    onPressed: () {},
                                     icon: Icon(Icons.timer,
                                         color: Colors.amber.shade500),
                                   ),
@@ -178,8 +168,8 @@ class _LoginPageState extends State<LoginPage> {
     };
 
     final PhoneVerificationFailed verificationfailed =
-        (AuthException authException) {
-      print('${authException.message}');
+        (Exception authException) {
+      print('${authException.toString()}');
     };
 
     final PhoneCodeSent smsSent = (String verId, [int forceResend]) {

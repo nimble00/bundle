@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/buyer/models/partner.dart';
 import 'package:flutter_app/buyer/views/spirit.dart';
@@ -25,14 +24,14 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
 
   doWeServePincode(pincode) {
     try {
-      Firestore.instance
+      FirebaseFirestore.instance
           .collection('pincodes')
-          .document(pincode)
+          .doc(pincode)
           .get()
           .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           print('WE SERVE AT THIS PINCODE');
-          this.nearByShops = documentSnapshot.data['partner_list'];
+          this.nearByShops = documentSnapshot.data()['partner_list'];
           return true;
         }
         return false;
@@ -65,7 +64,8 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => SpiritPage(
-                              display_list: display_list, index: index))),
+                              display_list: display_list[index],
+                              index: index))),
                   // child: Image.asset(display_list[index].image),
                   child: Icon(Icons.image),
                 )),
@@ -150,12 +150,11 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
   List<Partner> display_list;
 
   _productList(AsyncSnapshot snapshot) {
-    nearByShops = snapshot.data['partner_list'];
-    snapshot.data['partner_list'].forEach((k, v) {
+    nearByShops = snapshot.data.data()['partner_list'];
+    snapshot.data.data()['partner_list'].forEach((k, v) {
       Partner partner = new Partner(
           v['image_source'], v['name'], k, v['location'], 'kiryana');
       display_list.add(partner);
-      print(v);
     });
   }
 
@@ -175,11 +174,11 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
-      stream: Firestore.instance
+      stream: FirebaseFirestore.instance
           .collection('pincodes')
-          .document(globals.pincode)
+          .doc(globals.pincode)
           .collection('retail_partners')
-          .document('partners')
+          .doc('partners')
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();

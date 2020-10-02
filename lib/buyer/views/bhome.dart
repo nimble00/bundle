@@ -6,13 +6,7 @@ import 'package:flutter_app/globals.dart' as globals;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/views/account.dart';
-import 'package:flutter_app/buyer/views/bnearbyshops.dart';
 import 'package:flutter_app/buyer/views/cart.dart';
-import 'package:flutter_app/buyer/models/user.dart';
-import 'package:geocoder/geocoder.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   //final User user;
@@ -22,9 +16,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String _currentAddress;
   String accountStatus;
-  FirebaseUser currentUser;
+  User currentUser;
   FirebaseAuth _auth;
   User user;
   @override
@@ -250,13 +243,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _getCurrentUser() async {
-    currentUser = await _auth.currentUser();
+  _getCurrentUser() {
+    currentUser = _auth.currentUser;
     print('home.dart: Hello ' + currentUser.displayName.toString());
     setState(() {
       currentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
-      print("home.dart: ACCOUNT STATUS: " + accountStatus);
-      user = User.fromFirebaseUser(currentUser);
+      print("bhome.dart: ACCOUNT STATUS: " + accountStatus);
+      // user = User.fromFirebaseUser(currentUser);
     });
   }
 }
