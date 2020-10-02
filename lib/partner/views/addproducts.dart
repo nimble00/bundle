@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_app/partner/views/customproduct.dart';
 
 // I added android: ... = "true" in android/ap/src/main/AndroidManifest.xml
@@ -10,64 +13,156 @@ class PartnerAddProducts extends StatefulWidget {
 }
 
 class _PartnerAddProductsState extends State<PartnerAddProducts> {
+  List<Text> list = [];
+  bool loaded = false;
+  FirebaseStorage storage;
+  FirebaseFirestore firestore;
+  List<Reference> allProducts = [];
+  List<Reference> snackAndDrinks;
+  List<Reference> kitchenEssentials;
+  List<Reference> dairyAndBakery;
+  List<Reference> householdItems;
+  List<Reference> personalCare;
+  List<Reference> miscellaneous;
+
+  @override
+  void initState() {
+    super.initState();
+    storage = FirebaseStorage.instance;
+    firestore = FirebaseFirestore.instance;
+    _getStorageReferences();
+  }
+
+  _getStorageReferences() {
+    // storage.ref('/products').listAll().then((value) {
+    //   allProducts = value.items;
+    // });
+    storage.ref('/products/dairy and bakery').listAll().then((value) {
+      dairyAndBakery = value.items;
+      print("adding dnb");
+      allProducts.addAll(value.items);
+
+      dairyAndBakery.forEach((element) {
+        firestore
+            .collection("products")
+            .doc("all")
+            .update({
+              '${element.name}': {"category": "DNB", "path": element.fullPath}
+            })
+            .then((value) => print("element Added"))
+            .catchError((error) => print("Failed to add element: $error"));
+        print(element.toString() + " :::: " + element.fullPath);
+      });
+      setState(() {
+        loaded = true;
+      });
+    });
+    // storage.ref('/products/home care').listAll().then((value) {
+    //   householdItems = value.items;
+    //   print("adding hhi");
+    //   allProducts.addAll(value.items);
+    // });
+    // storage.ref('/products/kitchen essentials').listAll().then((value) {
+    //   kitchenEssentials = value.items;
+    //   print("adding ke");
+    //   allProducts.addAll(value.items);
+    // });
+    // storage.ref('/products/personal care').listAll().then((value) {
+    //   personalCare = value.items;
+    //   print("adding pe");
+    //   allProducts.addAll(value.items);
+    // });
+    // storage.ref('/products/snacks and drinks').listAll().then((value) {
+    //   snackAndDrinks = value.items;
+    //   print("adding snd");
+    //   allProducts.addAll(value.items);
+    // });
+    // storage.ref('/products/miscellaneous').listAll().then((value) {
+    //   miscellaneous = value.items;
+    //   print("adding misc");
+    //   allProducts.addAll(value.items);
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 6,
+      length: 7,
       child: Scaffold(
         appBar: TabBar(
-          indicatorColor: Colors.black,
-          indicatorPadding: EdgeInsets.symmetric(
-            vertical: 5,
-            horizontal: 10,
-          ),
-          labelColor: Colors.black,
+          isScrollable: true,
+          indicatorWeight: 1,
+          indicatorColor: Colors.black54,
+          labelColor: Colors.white,
+          labelPadding: EdgeInsets.all(0),
+          unselectedLabelColor: Colors.black54,
           tabs: [
-            Tab(
-              text: "All",
+            Container(
+              color: Colors.green[400],
+              child: Tab(
+                text: "All",
+              ),
+              width: 100,
             ),
-            Tab(
-              text: "Dairy and Bakery",
+            Container(
+              color: Colors.green[400],
+              child: Tab(
+                text: "Snacks and Drinks",
+              ),
+              width: 160,
             ),
-            Tab(
-              text: "Personal Care",
+            Container(
+              color: Colors.green[400],
+              child: Tab(
+                text: "Dairy and Bakery",
+              ),
+              width: 150,
             ),
-            Tab(
-              text: "Snacks and Drinks",
+            Container(
+              color: Colors.green[400],
+              child: Tab(
+                text: "Personal Care",
+              ),
+              width: 130,
             ),
-            Tab(
-              text: "Kitchen Essentials",
+            Container(
+              color: Colors.green[400],
+              child: Tab(
+                text: "Kitchen Essentials",
+              ),
+              width: 170,
             ),
-            Tab(
-              text: "Miscellaneous",
+            Container(
+              color: Colors.green[400],
+              child: Tab(
+                text: "Household Items",
+              ),
+              width: 150,
+            ),
+            Container(
+              color: Colors.green[400],
+              child: Tab(
+                text: "Miscellaneous",
+              ),
+              width: 130,
             ),
           ],
         ),
         body: TabBarView(
           children: [
-            // Container(
-            //   child: StreamBuilder(
-            //     stream: Firestore.instance.collection('productList').snapshots(),
-            //     builder: (context, snapshot) {
-            //       if (!snapshot.hasData) {
-            //         return Center(
-            //           child: CircularProgressIndicator(
-            //             valueColor: AlwaysStoppedAnimation<Color>(themeColor),
-            //           ),
-            //         );
-            //       } else {
-            //         return ListView.builder(
-            //           padding: EdgeInsets.all(10.0),
-            //           itemBuilder: (context, index) =>
-            //               buildItem(context, snapshot.data.documents[index]),
-            //           itemCount: snapshot.data.documents.length,
-            //         );
-            //       }
-            //     },
-            //   ),
-            // ),
-            Center(
-              child: Text("IMPLEMENT THE LISTVIEW OF ALL THE PRODUCTS HERE!"),
+            ListView.builder(
+              itemBuilder: (context, index) {
+                if (!loaded) return LinearProgressIndicator();
+                allProducts.forEach((element) {
+                  list.add(Text(element.name));
+                });
+
+                return ListView(
+                  physics: const ScrollPhysics(),
+                  shrinkWrap: true,
+                  children: list,
+                );
+              },
             ),
             Center(
               child: Text("IMPLEMENT THE LISTVIEW OF DnB PRODUCTS HERE!"),
@@ -84,6 +179,9 @@ class _PartnerAddProductsState extends State<PartnerAddProducts> {
             Center(
               child: Text("IMPLEMENT THE LISTVIEW OF Misc. THE PRODUCTS HERE!"),
             ),
+            Center(
+              child: Text("IMPLEMENT THE LISTVIEW OF Misc. THE PRODUCTS HERE!"),
+            ),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -95,7 +193,12 @@ class _PartnerAddProductsState extends State<PartnerAddProducts> {
               ),
             );
           },
-          child: Icon(Icons.navigation),
+          elevation: 20,
+          child: Icon(
+            Icons.add_circle,
+            color: Colors.black38,
+            size: 40,
+          ),
           backgroundColor: Colors.green,
         ),
       ),
