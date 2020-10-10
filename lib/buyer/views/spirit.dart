@@ -1,37 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/buyer/models/partner.dart';
-import 'package:flutter_app/buyer/views/bnearbyshops.dart';
 import 'package:flutter_app/buyer/views/cart.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_app/buyer/models/item.dart';
-import 'package:flutter_app/globals.dart' as globals;
+// import 'package:flutter_app/globals.dart' as globals;
 import 'package:toast/toast.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 
 class SpiritPage extends StatefulWidget {
-  final Partner display_list;
+  final Partner displayList;
   final int index;
 
-  SpiritPage({Key key, this.display_list, this.index}) : super(key: key);
+  SpiritPage({Key key, this.displayList, this.index}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() =>
-      SpiritState(display_list: display_list, index: index);
+      SpiritState(displayList: displayList, index: index);
 }
 
 class SpiritState extends State<SpiritPage> {
-  Partner display_list;
+  Partner displayList;
   int index;
-  SpiritState({this.display_list, this.index});
+  SpiritState({this.displayList, this.index});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
-        title: Text(display_list.name),
+        title: Text(displayList.name),
       ),
-      body: _buildView(context, display_list, index),
+      body: _buildView(context, displayList, index),
       bottomNavigationBar: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -86,11 +82,11 @@ class SpiritState extends State<SpiritPage> {
 //    );
 //  }
 
-  Widget _buildView(BuildContext context, Partner display_list, int index) {
+  Widget _buildView(BuildContext context, Partner displayList, int index) {
     return Column(
 //       children: <Widget>[
 //         Image.asset(
-//           display_list.image,
+//           displayList.image,
 //           height: 240,
 //         ),
 //         SizedBox(height: 40),
@@ -99,11 +95,11 @@ class SpiritState extends State<SpiritPage> {
 //           children: <Widget>[
 //             Spacer(),
 //             Text(
-//               display_list[index],
+//               displayList[index],
 //             ),
 //             Spacer(),
 //             Text(
-//               display_list[index].itemPrice.toString(),
+//               displayList[index].itemPrice.toString(),
 //             ),
 //             Spacer(),
 //           ],
@@ -119,23 +115,23 @@ class SpiritState extends State<SpiritPage> {
 //                     new IconButton(
 //                       icon: Icon(Icons.add_circle),
 //                       onPressed: () {
-//                         display_list[index].incrementQuantity();
-//                         print(display_list[index].itemQun);
+//                         displayList[index].incrementQuantity();
+//                         print(displayList[index].itemQun);
 //                         setState(() {});
 //                       },
 //                     ),
 // //                    Spacer(),
 //                     Text(
-//                       '${(display_list[index].itemQun).toString()}',
+//                       '${(displayList[index].itemQun).toString()}',
 // //                  '${(itemList[ind].itemQun).toString()}',
 //                     ),
 // //                    Spacer(),
 //                     new IconButton(
 //                       icon: Icon(Icons.remove_circle),
 //                       onPressed: () {
-//                         if (display_list[index].itemQun > 1) {
-//                           display_list[index].decrementQuantity();
-//                           print(display_list[index].itemQun);
+//                         if (displayList[index].itemQun > 1) {
+//                           displayList[index].decrementQuantity();
+//                           print(displayList[index].itemQun);
 //                           setState(() {});
 //                         } else {
 //                           showToast();
@@ -149,16 +145,16 @@ class SpiritState extends State<SpiritPage> {
 //                       icon: Icon(Icons.add_shopping_cart),
 //                       onPressed: () {
 // //                    itemList[ind].incrementQuantity();
-//                         if (display_list[index].selected == false) {
+//                         if (displayList[index].selected == false) {
 //                           if (!globals.item_name
-//                               .contains(display_list[index])) {
-//                             display_list[index].selected = true;
-//                             globals.item_name.add(display_list[index]);
+//                               .contains(displayList[index])) {
+//                             displayList[index].selected = true;
+//                             globals.item_name.add(displayList[index]);
 //                             globals.reference.updateData({
-//                               'products.${display_list[index].itemCategory}.${display_list[index].itemIndex}.no_of_orders':
+//                               'products.${displayList[index].itemCategory}.${displayList[index].itemIndex}.no_of_orders':
 //                                   FieldValue.increment(1)
 //                             });
-//                             globals.item_list.add(display_list[index]);
+//                             globals.item_list.add(displayList[index]);
 //                           }
 //                         }
 //                       },
@@ -173,7 +169,7 @@ class SpiritState extends State<SpiritPage> {
 //         Container(
 //           padding: const EdgeInsets.all(32),
 //           child: Text(
-//             "display_list[index].Detail",
+//             "displayList[index].Detail",
 //             softWrap: true,
 //           ),
 //         ),

@@ -17,72 +17,74 @@ class _PartnerAddProductsState extends State<PartnerAddProducts> {
   bool loaded = false;
   FirebaseStorage storage;
   FirebaseFirestore firestore;
-  List<Reference> allProducts = [];
-  List<Reference> snackAndDrinks;
-  List<Reference> kitchenEssentials;
-  List<Reference> dairyAndBakery;
-  List<Reference> householdItems;
-  List<Reference> personalCare;
-  List<Reference> miscellaneous;
+  List allProducts = [];
+  List snackAndDrinks;
+  List kitchenEssentials;
+  List dairyAndBakery;
+  List householdItems;
+  List personalCare;
+  List miscellaneous;
 
   @override
   void initState() {
     super.initState();
-    storage = FirebaseStorage.instance;
     firestore = FirebaseFirestore.instance;
-    _getStorageReferences();
+    // storage = FirebaseStorage.instance;
+    // _getStorageReferences();
   }
 
-  _getStorageReferences() {
-    // storage.ref('/products').listAll().then((value) {
-    //   allProducts = value.items;
-    // });
-    storage.ref('/products/dairy and bakery').listAll().then((value) {
-      dairyAndBakery = value.items;
-      print("adding dnb");
-      allProducts.addAll(value.items);
+  // A FUNC. TO COMMUNINCATE WITH FIREBASE STORAGE
+  // NO LONGER IN USE, MAY BECOME USEFUL IN FUTURE
+  // _getStorageReferences() {
+  //   storage.ref('/products').listAll().then((value) {
+  //     allProducts = value.items;
+  //   });
+  //   storage.ref('/products/dairy and bakery').listAll().then((value) {
+  //     dairyAndBakery = value.items;
+  //     print("adding dnb");
+  //     allProducts.addAll(value.items);
 
-      dairyAndBakery.forEach((element) {
-        firestore
-            .collection("products")
-            .doc("all")
-            .update({
-              '${element.name}': {"category": "DNB", "path": element.fullPath}
-            })
-            .then((value) => print("element Added"))
-            .catchError((error) => print("Failed to add element: $error"));
-        print(element.toString() + " :::: " + element.fullPath);
-      });
-      setState(() {
-        loaded = true;
-      });
-    });
-    // storage.ref('/products/home care').listAll().then((value) {
-    //   householdItems = value.items;
-    //   print("adding hhi");
-    //   allProducts.addAll(value.items);
-    // });
-    // storage.ref('/products/kitchen essentials').listAll().then((value) {
-    //   kitchenEssentials = value.items;
-    //   print("adding ke");
-    //   allProducts.addAll(value.items);
-    // });
-    // storage.ref('/products/personal care').listAll().then((value) {
-    //   personalCare = value.items;
-    //   print("adding pe");
-    //   allProducts.addAll(value.items);
-    // });
-    // storage.ref('/products/snacks and drinks').listAll().then((value) {
-    //   snackAndDrinks = value.items;
-    //   print("adding snd");
-    //   allProducts.addAll(value.items);
-    // });
-    // storage.ref('/products/miscellaneous').listAll().then((value) {
-    //   miscellaneous = value.items;
-    //   print("adding misc");
-    //   allProducts.addAll(value.items);
-    // }
-  }
+  //     dairyAndBakery.forEach((element) {
+  //       firestore
+  //           .collection("products")
+  //           .doc("all")
+  //           .update({
+  //             '${element.name}': {"category": "DNB", "path": element.fullPath}
+  //           })
+  //           .then((value) => print("element Added"))
+  //           .catchError((error) => print("Failed to add element: $error"));
+  //       print(element.toString() + " :::: " + element.fullPath);
+  //     });
+  //     setState(() {
+  //       loaded = true;
+  //     });
+  //   });
+  //   storage.ref('/products/home care').listAll().then((value) {
+  //     householdItems = value.items;
+  //     print("adding hhi");
+  //     allProducts.addAll(value.items);
+  //   });
+  //   storage.ref('/products/kitchen essentials').listAll().then((value) {
+  //     kitchenEssentials = value.items;
+  //     print("adding ke");
+  //     allProducts.addAll(value.items);
+  //   });
+  //   storage.ref('/products/personal care').listAll().then((value) {
+  //     personalCare = value.items;
+  //     print("adding pe");
+  //     allProducts.addAll(value.items);
+  //   });
+  //   storage.ref('/products/snacks and drinks').listAll().then((value) {
+  //     snackAndDrinks = value.items;
+  //     print("adding snd");
+  //     allProducts.addAll(value.items);
+  //   });
+  //   storage.ref('/products/miscellaneous').listAll().then((value) {
+  //     miscellaneous = value.items;
+  //     print("adding misc");
+  //     allProducts.addAll(value.items);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

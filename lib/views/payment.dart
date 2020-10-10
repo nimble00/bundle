@@ -23,9 +23,7 @@ class PaymentState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-
-    final double height = MediaQuery.of(context).size.height;
+    // final double height = MediaQuery.of(context).size.height;
 
     return new Scaffold(
       key: _scaffoldKey,
@@ -258,7 +256,7 @@ class PaymentState extends State<PaymentPage> {
 
   double getTotal() {
     double total = 0;
-    for (Item item in globals.item_list) {
+    for (Item item in globals.itemList) {
       total += item.itemQun * (item.itemPrice);
     }
     return total;

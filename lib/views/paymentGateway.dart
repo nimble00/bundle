@@ -18,11 +18,13 @@ class _PaymentGatewayState extends State<PaymentGateway> {
   int attempt = 0;
   _PaymentGatewayState({this.amount});
 
+  // ignore: unused_field
   String _upiAddrError;
 
   final _upiAddressController = TextEditingController();
   final _amountController = TextEditingController();
 
+  // ignore: unused_field
   bool _isUpiEditable = false;
   Future<List<ApplicationMeta>> _appsFuture;
 
@@ -42,17 +44,17 @@ class _PaymentGatewayState extends State<PaymentGateway> {
     super.dispose();
   }
 
-  void _generateAmount() {
-    setState(() {
-      _amountController.text = (amount + 1).toStringAsFixed(2);
-    });
-  }
+  // void _generateAmount() {
+  //   setState(() {
+  //     _amountController.text = (amount + 1).toStringAsFixed(2);
+  //   });
+  // }
 
   void delay() {
-    Timer _timer = new Timer(const Duration(milliseconds: 800), () {
-      Navigator.pop(context);
-      setState(() {});
-    });
+    // Timer _timer = new Timer(const Duration(milliseconds: 800), () {
+    //   Navigator.pop(context);
+    //   setState(() {});
+    // });
   }
 
 //  Future<void> showAlert(){

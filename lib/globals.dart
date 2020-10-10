@@ -6,8 +6,8 @@ import 'package:flutter_app/buyer/models/item.dart';
 import 'package:geolocator/geolocator.dart';
 
 //shoping cart list
-List<Item> item_list = new List();
-List<String> item_name = new List();
+List<Item> itemList = new List();
+List<String> itemName = new List();
 
 Map<String, dynamic> products = new Map();
 
@@ -23,8 +23,8 @@ DocumentReference reference;
 DocumentReference user =
     FirebaseFirestore.instance.collection('users').doc(phoneNumber);
 //list of fav items
-List<String> favorite_name = new List();
-List<Item> favorites_list;
+List<String> favoriteName = new List();
+List<Item> favoritesList;
 
 String category = 'all', filter = 'Distance';
 int current = 0;

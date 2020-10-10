@@ -8,14 +8,14 @@ class StorageApi extends StatefulWidget {
 
 class _StorageApiState extends State<StorageApi> {
   FirebaseStorage storage;
-  List<Reference> productCategories;
+  List productCategories;
   @override
   void initState() {
     super.initState();
     storage = FirebaseStorage.instance;
-    storage.ref('products').listAll().then((value) {
-      productCategories = value.items;
-    });
+    // storage.ref('products').listAll().then((value) {
+    //   productCategories = value.items;
+    // });
   }
 
   @override

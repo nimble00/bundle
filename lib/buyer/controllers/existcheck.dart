@@ -6,7 +6,7 @@ import 'package:flutter_app/buyer/views/adduserinfo.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 class ExistCheck extends StatefulWidget {
   @override

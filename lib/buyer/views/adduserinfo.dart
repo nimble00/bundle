@@ -28,7 +28,7 @@ class _AddUserState extends State<AddUser> {
     //     .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     print('Hello ' + currentUser.displayName.toString());
     setState(() {
-      currentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
+      accountStatus = currentUser != null ? 'Signed In' : 'Not Signed In';
       print("ACCOUNT STATUS: " + accountStatus);
     });
   }
