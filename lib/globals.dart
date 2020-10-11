@@ -9,6 +9,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 //shoping cart list
 List<Item> item_list = new List();
 List<String> item_name = new List();
+//list of fav items
+List<String> favorite_name = new List();
+List<Item> favorites_list;
 
 Map<String, dynamic> products = new Map();
 
@@ -18,17 +21,19 @@ Position position;
 String address = "";
 GeoPoint geopoint = new GeoPoint(48, 60);
 String phoneNumber;
+
+// buyer-partner
+String userType;
+
 DocumentReference shops =
     FirebaseFirestore.instance.collection('pincodes').doc(pincode);
 DocumentReference reference;
 DocumentReference user =
-    Firestore.instance.collection('users').document(phoneNumber);
+    FirebaseFirestore.instance.collection('users').doc(phoneNumber);
 
 DocumentReference partner =
-Firestore.instance.collection('partner').document(phoneNumber);
-//list of fav items
-List<String> favorite_name = new List();
-List<Item> favorites_list;
+FirebaseFirestore.instance.collection('partner').doc(phoneNumber);
+
 
 String category = 'all', filter = 'Distance';
 int current = 0;

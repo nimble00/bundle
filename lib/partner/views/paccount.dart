@@ -47,11 +47,20 @@ class _PartnerAccountPageState extends State<PartnerAccountPage> {
             padding: EdgeInsets.only(top: 20, bottom: 20),
             child: Text('Testing'),
             onPressed: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => StorageHomePageApp())
-                ),
+//              Navigator.push(
+//                context,
+//                MaterialPageRoute(
+//                  builder: (context) => StorageHomePageApp())
+//                ),
+            }, // IMPL THE COMPLETE PAYMENTS PAGE
+          ),
+          RaisedButton(
+            color: Colors.white,
+            elevation: 10,
+            padding: EdgeInsets.only(top: 20, bottom: 20),
+            child: Text('Sign Out'),
+            onPressed: () => {
+
             }, // IMPL THE COMPLETE PAYMENTS PAGE
           ),
           Spacer(flex: 4)

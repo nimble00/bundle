@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/buyer/views/bhome.dart';
+import 'package:flutter_app/globals.dart' as globals;
 
 class AddUser extends StatefulWidget {
   @override
@@ -48,9 +49,7 @@ class _AddUserState extends State<AddUser> {
 
     Future<void> addUser(
       String uname,
-      String pin,
-      String address,
-      String dob,
+      String userType,
       // String ageproof,
     ) {
       // Call the users CollectionReference to add a new user
@@ -58,10 +57,7 @@ class _AddUserState extends State<AddUser> {
           .doc(currentUser.phoneNumber)
           .set({
             'username': uname, // John Doe
-            'pincode': pin, // Stokes and Sons
-            // 'govt_ID': ageproof,
-            'dateOfBirth': dob,
-            'address': address,
+            'userType': userType,
             'orders.no_of_orders': 0,
           })
           .then((value) => print("User Added"))
@@ -86,54 +82,10 @@ class _AddUserState extends State<AddUser> {
             ),
           ),
           SizedBox(height: 10),
-          TextFormField(
-            controller: dateCtl,
-            decoration: InputDecoration(
-              labelText: "Date of birth",
-              hintText: "Ex. Insert your dob",
-              border: new OutlineInputBorder(
-                borderSide: new BorderSide(color: Colors.teal),
-              ),
-            ),
-            onTap: () async {
-              DateTime date = DateTime(1900);
-              FocusScope.of(context).requestFocus(new FocusNode());
-
-              date = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(1900),
-                  lastDate: DateTime(2100));
-
-              dateCtl.text = date.toIso8601String();
-            },
-          ),
-          SizedBox(height: 10),
-          TextField(
-            controller: addressCtl,
-            decoration: InputDecoration(
-              labelText: 'Address',
-              border: new OutlineInputBorder(
-                borderSide: new BorderSide(color: Colors.teal),
-              ),
-            ),
-          ),
-          SizedBox(height: 10),
-          TextField(
-            controller: pincodeCtl,
-            decoration: InputDecoration(
-              labelText: 'PINCODE',
-              border: new OutlineInputBorder(
-                borderSide: new BorderSide(color: Colors.teal),
-              ),
-            ),
-          ),
-          SizedBox(height: 10),
           RaisedButton(
             onPressed: () async => {
               addUser(
-                nameCtl.text, pincodeCtl.text,
-                addressCtl.text, dateCtl.text,
+                nameCtl.text,globals.userType,
                 // ageProof.text    IMPL DROP DOWN AND UPLOAD FROM DEVICE OPTION FOR ID PROOF
                 // IMPL ACCESS DEVICE LOCATION
               ),

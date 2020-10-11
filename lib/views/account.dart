@@ -79,7 +79,7 @@ class _AccountState extends State<Account> {
             child: Text('Logout'),
             onPressed: () async {
               // IMPL THE AUTH SERVICE HERE: DONE!
-              dynamic result = await AuthService().signOut();
+              dynamic result = await AuthService().signOut(context);
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

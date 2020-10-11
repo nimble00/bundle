@@ -10,6 +10,7 @@ class User {
   String pincode;
   String address;
   GeoPoint location;
+  String userType;
   User({
     this.uid,
     this.email,
@@ -19,6 +20,7 @@ class User {
     this.pincode,
     this.address,
     this.location,
+    this.userType
   });
   User.fromFirebaseUser(User user) {
     // this.uid = user.uid;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/partner/views/phome.dart';
 import 'buyer/controllers/authservice.dart';
+import 'package:flutter_app/globals.dart' as globals;
 
 class StartPage extends StatefulWidget {
   @override
@@ -33,12 +34,15 @@ class _StartPageState extends State<StartPage> {
                 Icon(Icons.local_grocery_store),
               ],
             ),
-            onPressed: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PartnerHomepage(),
+            onPressed: () => {
+                globals.userType="partner",
+                Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AuthService().handleAuth(),
+                ),
               ),
-            ),
+            },
             padding: EdgeInsets.all(10.0),
           ),
           Spacer(
@@ -63,12 +67,15 @@ class _StartPageState extends State<StartPage> {
                 Icon(Icons.local_mall),
               ],
             ),
-            onPressed: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AuthService().handleAuth(),
+            onPressed: () => {
+                globals.userType="buyer",
+                Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AuthService().handleAuth(),
+                ),
               ),
-            ),
+            },
             padding: EdgeInsets.all(10.0),
           ),
           Spacer(
