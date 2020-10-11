@@ -7,11 +7,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 //shoping cart list
-List<Item> item_list = new List();
-List<String> item_name = new List();
-//list of fav items
-List<String> favorite_name = new List();
-List<Item> favorites_list;
+
+List<Item> itemList = new List();
+List<String> itemName = new List();
 
 Map<String, dynamic> products = new Map();
 
@@ -31,9 +29,13 @@ DocumentReference reference;
 DocumentReference user =
     FirebaseFirestore.instance.collection('users').doc(phoneNumber);
 
+
 DocumentReference partner =
 FirebaseFirestore.instance.collection('partner').doc(phoneNumber);
 
+//list of fav items
+List<String> favoriteName = new List();
+List<Item> favoritesList;
 
 String category = 'all', filter = 'Distance';
 int current = 0;

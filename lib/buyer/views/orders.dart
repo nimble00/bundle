@@ -30,7 +30,7 @@ class _OrdersState extends State<Orders> {
 
   void addOrderFromDatabase(Map _order) {
     Order order = new Order();
-    order.item_list = new List();
+    order.itemList = new List();
     order.total = _order['total'];
     order.status = _order['status'];
     order.date = _order['date'];
@@ -43,30 +43,30 @@ class _OrdersState extends State<Orders> {
           _order['items'][k]['numOrders'],
           _order['items'][k]['itemCategory'],
           _order['items'][k]['itemIndex']);
-      order.item_list.add(item);
+      order.itemList.add(item);
     });
     ordersList.add(order);
   }
 
   String _orderDetails(Order order) {
     String details = "";
-    for (int i = 0; i < order.item_list.length; i++) {
-      details += "${order.item_list[i].itemQun}" +
+    for (int i = 0; i < order.itemList.length; i++) {
+      details += "${order.itemList[i].itemQun}" +
           "x" +
-          order.item_list[i].itemName +
+          order.itemList[i].itemName +
           ", ";
     }
     return details;
   }
 
   void reorder(Order order) {
-    globals.item_list = new List();
-    for (int i = 0; i < order.item_list.length; i++) {
-      globals.item_list.add(order.item_list[i]);
-      globals.item_name.add(order.item_list[i].itemName);
+    globals.itemList = new List();
+    for (int i = 0; i < order.itemList.length; i++) {
+      globals.itemList.add(order.itemList[i]);
+      globals.itemName.add(order.itemList[i].itemName);
       globals.reference.update({
-        '${order.item_list[i].itemCategory}.${order.item_list[i].itemIndex}.numOrders':
-            FieldValue.increment(order.item_list[i].itemQun)
+        '${order.itemList[i].itemCategory}.${order.itemList[i].itemIndex}.numOrders':
+            FieldValue.increment(order.itemList[i].itemQun)
       });
     }
   }

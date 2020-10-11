@@ -29,8 +29,8 @@ dependencies:
   upi_pay: ^0.2.2
   shared_preferences: ^0.5.10
   toast: ^0.1.5
-  # firebase_storage: ^3.1.6
-  firebase_storage: ^5.0.0-dev.1
+  # firebase_storage: ^5.0.0-dev.1
+  firebase_storage: ^4.0.1
 
 
 

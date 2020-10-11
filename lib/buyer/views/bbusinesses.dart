@@ -13,8 +13,10 @@ class BuyerBusinessesPage extends StatefulWidget {
 }
 
 class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
+  // ignore: unused_field
   bool _pinCheck;
   Position _userPos;
+  // ignore: unused_field
   Map _nearByShops;
   Stream<DocumentSnapshot> _stream;
 
@@ -22,6 +24,7 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
   void initState() {
     super.initState();
     _userPos = globals.position;
+    _pinCheck = doWeServePincode(globals.pincode);
     _stream = FirebaseFirestore.instance
         .collection('pincodes')
         .doc(globals.pincode)
@@ -29,8 +32,6 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
         .doc('partners')
         .snapshots()
         .asBroadcastStream();
-
-    _pinCheck = doWeServePincode(globals.pincode);
   }
 
   doWeServePincode(pincode) {
@@ -74,8 +75,7 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => SpiritPage(
-                              display_list: display_list[index],
-                              index: index))),
+                              displayList: display_list[index], index: index))),
                   // child: Image.asset(display_list[index].image),
                   child: Icon(Icons.image),
                 )),

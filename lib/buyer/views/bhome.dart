@@ -247,7 +247,7 @@ class _HomePageState extends State<HomePage> {
     currentUser = _auth.currentUser;
     print('home.dart: Hello ' + currentUser.displayName.toString());
     setState(() {
-      currentUser != null ? accountStatus = 'Signed In' : 'Not Signed In';
+      accountStatus = currentUser != null ? 'Signed In' : 'Not Signed In';
       print("bhome.dart: ACCOUNT STATUS: " + accountStatus);
       // user = User.fromFirebaseUser(currentUser);
     });

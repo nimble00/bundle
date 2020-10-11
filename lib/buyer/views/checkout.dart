@@ -34,8 +34,6 @@ class CheckoutState extends State<Checkout> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-
     // final double height = MediaQuery.of(context).size.height;
 
     return new Scaffold(
@@ -443,7 +441,7 @@ class CheckoutState extends State<Checkout> {
                   left: 12.0, top: 5.0, right: 12.0, bottom: 5.0),
               height: 170.0,
               child: ListView.builder(
-                  itemCount: globals.item_list.length,
+                  itemCount: globals.itemList.length,
                   itemBuilder: (BuildContext cont, int ind) {
                     return SafeArea(
                         child: Column(
@@ -456,19 +454,19 @@ class CheckoutState extends State<Checkout> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text(globals.item_list[ind].itemName,
+                              Text(globals.itemList[ind].itemName,
                                   style: TextStyle(
                                       fontSize: 16.0,
                                       color: Colors.black87,
                                       fontWeight: FontWeight.bold)),
-                              Text(globals.item_list[ind].itemQun.toString(),
+                              Text(globals.itemList[ind].itemQun.toString(),
                                   style: TextStyle(
                                       fontSize: 16.0,
                                       color: Colors.black87,
                                       fontWeight: FontWeight.bold)),
                               Text(
-                                  (globals.item_list[ind].itemQun *
-                                          globals.item_list[ind].itemPrice)
+                                  (globals.itemList[ind].itemQun *
+                                          globals.itemList[ind].itemPrice)
                                       .toString(),
                                   style: TextStyle(
                                       fontSize: 16.0,
@@ -533,7 +531,7 @@ class CheckoutState extends State<Checkout> {
 
   double getTotal() {
     double total = 0;
-    for (Item item in globals.item_list) {
+    for (Item item in globals.itemList) {
       total += item.itemQun * (item.itemPrice);
     }
     return total;
@@ -541,36 +539,51 @@ class CheckoutState extends State<Checkout> {
 
   void addOrderToDatabase() {
     int sum = 0;
-    for (int i = 0; i < globals.item_list.length; i++) {
+    for (int i = 0; i < globals.itemList.length; i++) {
       globals.user.update({
-        'orders.details.${numOrders}.items.${globals.item_list[i].itemName}.itemCategory':
-            globals.item_list[i].itemCategory
+        'orders.details.' +
+                numOrders.toString() +
+                '.items.${globals.itemList[i].itemName}.itemCategory':
+            globals.itemList[i].itemCategory
       });
       globals.user.update({
-        'orders.details.${numOrders}.items.${globals.item_list[i].itemName}.itemPrice':
-            globals.item_list[i].itemPrice
+        'orders.details.' +
+                numOrders.toString() +
+                '.items.${globals.itemList[i].itemName}.itemPrice':
+            globals.itemList[i].itemPrice
       });
       globals.user.update({
-        'orders.details.${numOrders}.items.${globals.item_list[i].itemName}.itemQun':
-            globals.item_list[i].itemQun
+        'orders.details.' +
+                numOrders.toString() +
+                '.items.${globals.itemList[i].itemName}.itemQun':
+            globals.itemList[i].itemQun
       });
       globals.user.update({
-        'orders.details.${numOrders}.items.${globals.item_list[i].itemName}.itemIndex':
-            globals.item_list[i].itemIndex
+        'orders.details.' +
+                numOrders.toString() +
+                '.items.${globals.itemList[i].itemName}.itemIndex':
+            globals.itemList[i].itemIndex
       });
       globals.user.update({
-        'orders.details.${numOrders}.items.${globals.item_list[i].itemName}.itemImage':
-            globals.item_list[i].itemImage
+        'orders.details.' +
+                numOrders.toString() +
+                '.items.${globals.itemList[i].itemName}.itemImage':
+            globals.itemList[i].itemImage
       });
       globals.user.update({
-        'orders.details.${numOrders}.items.${globals.item_list[i].itemName}.numOrders':
-            globals.item_list[i].numOrders
+        'orders.details.' +
+                numOrders.toString() +
+                '.items.${globals.itemList[i].itemName}.numOrders':
+            globals.itemList[i].numOrders
       });
-      sum += globals.item_list[i].itemPrice * globals.item_list[i].itemQun;
+      sum += globals.itemList[i].itemPrice * globals.itemList[i].itemQun;
     }
-    globals.user.update({'orders.details.${numOrders}.total': sum});
-    globals.user.update({'orders.details.${numOrders}.status': "Delievered"});
-    globals.user.update({'orders.details.${numOrders}.date': "20 July"});
+    globals.user
+        .update({'orders.details.' + numOrders.toString() + '.total': sum});
+    globals.user.update(
+        {'orders.details.' + numOrders.toString() + '.status': "Delievered"});
+    globals.user.update(
+        {'orders.details.' + numOrders.toString() + '.date': "20 July"});
     globals.user.update({'orders.numOrders': FieldValue.increment(1)});
   }
 

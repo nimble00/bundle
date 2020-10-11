@@ -19,45 +19,75 @@ class BuyerCartPage extends StatefulWidget {
 }
 
 class CartState extends State<BuyerCartPage> {
-  CollectionReference product = Firestore.instance.collection('Products');
+  CollectionReference product =
+      FirebaseFirestore.instance.collection('Products');
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  IconData _backIcon() {
-    switch (Theme.of(context).platform) {
-      case TargetPlatform.android:
-      case TargetPlatform.fuchsia:
-        return Icons.arrow_back;
-      case TargetPlatform.iOS:
-        return Icons.arrow_back_ios;
-    }
-    assert(false);
-    return null;
-  }
+  // IconData _backIcon() {
+  //   switch (Theme.of(context).platform) {
+  //     case TargetPlatform.android:
+  //     case TargetPlatform.fuchsia:
+  //       return Icons.arrow_back;
+  //       break;
+  //     case TargetPlatform.iOS:
+  //       return Icons.arrow_back_ios;
+  //       break;
+  //     case TargetPlatform.linux:
+  //       return Icons.arrow_back;
+  //       break;
+  //     case TargetPlatform.macOS:
+  //       return Icons.arrow_back;
+  //       break;
+  //     case TargetPlatform.windows:
+  //       return Icons.arrow_back;
+  //       break;
+  //   }
+  //   assert(false);
+  //   return null;
+  // }
 
   String pincode;
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-
-    IconData _add_icon() {
+    IconData _addIcon() {
       switch (Theme.of(context).platform) {
         case TargetPlatform.android:
         case TargetPlatform.fuchsia:
           return Icons.add_circle;
         case TargetPlatform.iOS:
           return Icons.add_circle;
+        case TargetPlatform.linux:
+          return Icons.add_circle;
+          break;
+        case TargetPlatform.macOS:
+          return Icons.add_circle;
+          break;
+        case TargetPlatform.windows:
+          return Icons.add_circle;
+          break;
       }
       assert(false);
       return null;
     }
 
-    IconData _sub_icon() {
+    IconData _subIcon() {
       switch (Theme.of(context).platform) {
         case TargetPlatform.android:
         case TargetPlatform.fuchsia:
           return Icons.remove_circle;
+          break;
         case TargetPlatform.iOS:
           return Icons.remove_circle;
+          break;
+        case TargetPlatform.linux:
+          return Icons.remove_circle;
+          break;
+        case TargetPlatform.macOS:
+          return Icons.remove_circle;
+          break;
+        case TargetPlatform.windows:
+          return Icons.remove_circle;
+          break;
       }
       assert(false);
       return null;
@@ -68,10 +98,10 @@ class CartState extends State<BuyerCartPage> {
 
     double dd = width * 0.77;
     double hh = height - 215.0;
-    int item = 0;
-    final ThemeData theme = Theme.of(context);
-    final TextStyle dialogTextStyle =
-        theme.textTheme.subhead.copyWith(color: theme.textTheme.caption.color);
+    // int item = 0;
+    // final ThemeData theme = Theme.of(context);
+    // final TextStyle dialogTextStyle = theme.textTheme.subtitle1
+    //     .copyWith(color: theme.textTheme.caption.color);
 
     return new Scaffold(
       key: _scaffoldKey,
@@ -160,7 +190,7 @@ class CartState extends State<BuyerCartPage> {
                   top: 5.0), // left: 12.0, right: 12.0, bottom: 10.0
               height: hh,
               child: ListView.builder(
-                  itemCount: globals.item_list.length,
+                  itemCount: globals.itemList.length,
                   itemBuilder: (BuildContext cont, int ind) {
                     return SafeArea(
                         child: Container(
@@ -183,8 +213,7 @@ class CartState extends State<BuyerCartPage> {
                                               height: 110.0,
                                               width: 100.0,
                                               child: Image.asset(
-                                                globals
-                                                    .item_list[ind].itemImage,
+                                                globals.itemList[ind].itemImage,
                                                 fit: BoxFit.fill,
                                               )),
                                           SizedBox(
@@ -203,7 +232,7 @@ class CartState extends State<BuyerCartPage> {
                                                               .start,
                                                       children: <Widget>[
                                                         Text(
-                                                          globals.item_list[ind]
+                                                          globals.itemList[ind]
                                                               .itemName,
                                                           style: TextStyle(
                                                               fontWeight:
@@ -231,8 +260,7 @@ class CartState extends State<BuyerCartPage> {
                                                           child: Text.rich(
                                                             TextSpan(
                                                               text: globals
-                                                                  .item_list[
-                                                                      ind]
+                                                                  .itemList[ind]
                                                                   .itemPrice
                                                                   .toString(),
 //                                                                  debugPrint(itemList[ind].itemPrice),
@@ -258,18 +286,17 @@ class CartState extends State<BuyerCartPage> {
                                                               .center,
                                                       children: <Widget>[
                                                         new IconButton(
-                                                          icon: Icon(
-                                                              _add_icon(),
+                                                          icon: Icon(_addIcon(),
                                                               color: Colors
                                                                   .amber
                                                                   .shade500),
                                                           onPressed: () {
                                                             globals
-                                                                .item_list[ind]
+                                                                .itemList[ind]
                                                                 .incrementQuantity();
                                                             globals.reference
-                                                                .updateData({
-                                                              'products.${globals.item_list[ind].itemCategory}.${globals.item_list[ind].itemIndex}.no_of_orders':
+                                                                .update({
+                                                              'products.${globals.itemList[ind].itemCategory}.${globals.itemList[ind].itemIndex}.no_of_orders':
                                                                   FieldValue
                                                                       .increment(
                                                                           1)
@@ -284,7 +311,7 @@ class CartState extends State<BuyerCartPage> {
                                                         ),
 //
                                                         Text(
-                                                          '${(globals.item_list[ind].itemQun).toString()}',
+                                                          '${(globals.itemList[ind].itemQun).toString()}',
                                                         ),
                                                         Container(
                                                           margin:
@@ -292,23 +319,22 @@ class CartState extends State<BuyerCartPage> {
                                                                   right: 2.0),
                                                         ),
                                                         new IconButton(
-                                                          icon: Icon(
-                                                              _sub_icon(),
+                                                          icon: Icon(_subIcon(),
                                                               color: Colors
                                                                   .amber
                                                                   .shade500),
                                                           onPressed: () {
                                                             if (globals
-                                                                    .item_list[
+                                                                    .itemList[
                                                                         ind]
                                                                     .itemQun >
                                                                 1) {
-                                                              globals.item_list[
-                                                                      ind]
+                                                              globals
+                                                                  .itemList[ind]
                                                                   .decrementQuantity();
                                                               globals.reference
-                                                                  .updateData({
-                                                                'products.${globals.item_list[ind].itemCategory}.${globals.item_list[ind].itemIndex}.no_of_orders':
+                                                                  .update({
+                                                                'products.${globals.itemList[ind].itemCategory}.${globals.itemList[ind].itemIndex}.no_of_orders':
                                                                     FieldValue
                                                                         .increment(
                                                                             -1)
@@ -343,9 +369,9 @@ class CartState extends State<BuyerCartPage> {
                                             padding:
                                                 const EdgeInsets.only(top: 20),
                                             child: Text.rich(TextSpan(
-                                              text: (globals.item_list[ind]
+                                              text: (globals.itemList[ind]
                                                           .itemQun *
-                                                      (globals.item_list[ind]
+                                                      (globals.itemList[ind]
                                                           .itemPrice))
                                                   .toString(),
                                             )),
@@ -356,22 +382,22 @@ class CartState extends State<BuyerCartPage> {
                                               semanticLabel: 'delete',
                                             ),
                                             onPressed: () {
-                                              Item deleted_item =
-                                                  globals.item_list[ind];
-                                              int deleted_ind = ind;
-                                              globals.item_name.remove(globals
-                                                  .item_list[ind].itemName);
-                                              globals.reference.updateData({
-                                                'products.${globals.item_list[ind].itemCategory}.${globals.item_list[ind].itemIndex}.no_of_orders':
+                                              Item deletedItem =
+                                                  globals.itemList[ind];
+                                              int deletedInd = ind;
+                                              globals.itemName.remove(globals
+                                                  .itemList[ind].itemName);
+                                              globals.reference.update({
+                                                'products.${globals.itemList[ind].itemCategory}.${globals.itemList[ind].itemIndex}.no_of_orders':
                                                     FieldValue.increment(
-                                                        -globals.item_list[ind]
+                                                        -globals.itemList[ind]
                                                             .itemQun)
                                               });
-                                              globals.item_list.removeAt(ind);
+                                              globals.itemList.removeAt(ind);
                                               setState(() {});
                                               print("snackbar calling");
-                                              showSnackBar(cont, deleted_item,
-                                                  deleted_ind);
+                                              showSnackBar(cont, deletedItem,
+                                                  deletedInd);
                                               print("snackbar complete");
                                             },
                                           ),
@@ -402,7 +428,7 @@ class CartState extends State<BuyerCartPage> {
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      getTotal(globals.item_list).toString(),
+                      getTotal(globals.itemList).toString(),
                       style: TextStyle(fontSize: 17.0, color: Colors.black54),
                     ),
                     Padding(
@@ -475,18 +501,18 @@ class CartState extends State<BuyerCartPage> {
         duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
   }
 
-  showSnackBar(BuildContext context, Item deleted_item, int deleted_ind) {
+  showSnackBar(BuildContext context, Item deletedItem, int deletedInd) {
     print("snackbar inside");
     final snackBar = SnackBar(
-      content: Text('You have deleted ${deleted_item.itemName}'),
+      content: Text('You have deleted ${deletedItem.itemName}'),
       action: SnackBarAction(
         label: 'Undo',
         onPressed: () {
-          globals.item_name.add(deleted_item.itemName);
-          globals.item_list.insert(deleted_ind, deleted_item);
-          globals.reference.updateData({
-            'products.${globals.item_list[deleted_ind].itemCategory}.${globals.item_list[deleted_ind].itemIndex}.no_of_orders':
-                FieldValue.increment(-globals.item_list[deleted_ind].itemQun)
+          globals.itemName.add(deletedItem.itemName);
+          globals.itemList.insert(deletedInd, deletedItem);
+          globals.reference.update({
+            'products.${globals.itemList[deletedInd].itemCategory}.${globals.itemList[deletedInd].itemIndex}.no_of_orders':
+                FieldValue.increment(-globals.itemList[deletedInd].itemQun)
           });
           setState(() {});
         },

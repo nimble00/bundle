@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:flutter_app/partner/views/phome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 import '../../globals.dart';
 
 class ExistCheck extends StatefulWidget {
