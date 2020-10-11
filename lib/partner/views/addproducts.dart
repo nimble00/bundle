@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/partner/models/product.dart';
+import 'package:flutter_app/partner/models/product_repo.dart';
 
 import 'package:flutter_app/partner/views/customproduct.dart';
 
@@ -28,6 +30,7 @@ class _PartnerAddProductsState extends State<PartnerAddProducts> {
   @override
   void initState() {
     super.initState();
+    allProducts = ProductsRepository.loadProducts(Category.all);
     firestore = FirebaseFirestore.instance;
     // storage = FirebaseStorage.instance;
     // _getStorageReferences();
@@ -86,24 +89,33 @@ class _PartnerAddProductsState extends State<PartnerAddProducts> {
   //   }
   // }
 
-  _buildGridCards() {
+  _buildGridCards(BuildContext context) {
     // if (!_pinCheck) {
     //   return Center(
     //     child: Text("We don't serve your location yet!"),
     //   );
     // }
-    var displayList = new List();
+    var displayList = allProducts;
+    // debugPrint('total no. of products: ' + allProducts[0].toString());
+    debugPrint('total no. of products: ' + allProducts.length.toString());
     List<Card> cards = List.generate(
       displayList.length,
-      (int index) => Card(
-        elevation: 5.0,
+      (int i) => Card(
+        elevation: 8.0,
         clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(6))),
         child: Column(
           children: <Widget>[
             AspectRatio(
               aspectRatio: 40.0 / 11.0,
-              child: Image.asset(displayList[index].image),
               // child: Icon(Icons.image),
+              child: Image.asset(
+                    'assets/products/' +
+                        displayList[i].name.toString().replaceAll(' ', '-'),
+                    fit: BoxFit.contain,
+                  ) ??
+                  Icon(Icons.image),
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 2.0),
@@ -112,56 +124,55 @@ class _PartnerAddProductsState extends State<PartnerAddProducts> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Center(
-                      child: Text(displayList[index].name),
+                      child: Text(displayList[i].name),
                     ),
-                    // Center(
-                    //   child:
-                    //       Text((displayList[index].partnerPrice).toString()),
-                    // ),
+                    Center(
+                      child: Text(displayList[i].getCategory()),
+                    ),
                     // Center(
                     //   child: IconButton(
                     //       icon: Icon(Icons.add_shopping_cart),
                     //       onPressed: () {
                     //         if (!globals.partner_name
-                    //             .contains(displayList[index].partnerName)) {
+                    //             .contains(displayList[i].partnerName)) {
                     //           globals.partner_name
-                    //               .add(displayList[index].partnerName);
+                    //               .add(displayList[i].partnerName);
                     //           globals.reference.updateData({
-                    //             'products.${displayList[index].partnerCategory}.${displayList[index].partnerIndex}.no_of_orders':
+                    //             'products.${displayList[i].partnerCategory}.${displayList[i].partneri}.no_of_orders':
                     //                 FieldValue.increment(1)
                     //           });
-                    //           globals.partner_list.add(displayList[index]);
+                    //           globals.partner_list.add(displayList[i]);
                     //         }
                     //       }),
                     // ),
                     // Center(
                     //   child: IconButton(
                     //       icon: globals.favorite_name
-                    //               .contains(displayList[index].partnerName)
+                    //               .contains(displayList[i].partnerName)
                     //           ? Icon(Icons.favorite, color: Colors.red)
                     //           : Icon(Icons.favorite_border),
                     //       onPressed: () {
                     //         if (!globals.favorite_name
-                    //             .contains(displayList[index].partnerName)) {
+                    //             .contains(displayList[i].partnerName)) {
                     //           globals.favorite_name
-                    //               .add(displayList[index].partnerName);
+                    //               .add(displayList[i].partnerName);
                     //           globals.user.updateData({
-                    //             'favorites.${displayList[index].partnerName}.partnerCategory':
-                    //                 displayList[index].partnerCategory,
-                    //             'favorites.${displayList[index].partnerName}.partnerIndex':
-                    //                 displayList[index].partnerIndex,
-                    //             'favorites.${displayList[index].partnerName}.partnerImage':
-                    //                 displayList[index].partnerImage,
-                    //             'favorites.${displayList[index].partnerName}.partnerPrice':
-                    //                 displayList[index].partnerPrice,
-                    //             'favorites.${displayList[index].partnerName}.no_of_orders':
-                    //                 displayList[index].no_of_orders
+                    //             'favorites.${displayList[i].partnerName}.partnerCategory':
+                    //                 displayList[i].partnerCategory,
+                    //             'favorites.${displayList[i].partnerName}.partneri':
+                    //                 displayList[i].partneri,
+                    //             'favorites.${displayList[i].partnerName}.partnerImage':
+                    //                 displayList[i].partnerImage,
+                    //             'favorites.${displayList[i].partnerName}.partnerPrice':
+                    //                 displayList[i].partnerPrice,
+                    //             'favorites.${displayList[i].partnerName}.no_of_orders':
+                    //                 displayList[i].no_of_orders
                     //           });
                     //         } else {
                     //           globals.favorite_name
-                    //               .remove(displayList[index].partnerName);
+                    //               .remove(displayList[i].partnerName);
                     //           globals.user.updateData({
-                    //             'favorites.${displayList[index].partnerName}':
+                    //             'favorites.${displayList[i].partnerName}':
                     //                 FieldValue.delete()
                     //           });
                     //         }
@@ -249,7 +260,7 @@ class _PartnerAddProductsState extends State<PartnerAddProducts> {
               crossAxisCount: 2,
               padding: EdgeInsets.all(16.0),
               childAspectRatio: 8.0 / 9.0,
-              children: _buildGridCards(),
+              children: _buildGridCards(context),
             ),
             Center(
               child: Text("IMPLEMENT THE LISTVIEW OF DnB PRODUCTS HERE!"),
