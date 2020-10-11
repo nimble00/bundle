@@ -6,6 +6,7 @@ import 'package:flutter_app/startpage.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await firebase_core.Firebase.initializeApp();
+  debugPrint = (String message, {int wrapWidth}) {};
   runApp(MyApp());
 }
 

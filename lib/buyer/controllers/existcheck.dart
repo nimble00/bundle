@@ -6,7 +6,11 @@ import 'package:flutter_app/buyer/views/adduserinfo.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_app/partner/views/phome.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+import '../../globals.dart';
 
 class ExistCheck extends StatefulWidget {
   @override
@@ -53,11 +57,12 @@ class _ExistCheckState extends State<ExistCheck> {
     });
   }
 
-  _getCurrentUser() {
-    currentUser = _auth.currentUser;
+  _getCurrentUser() async {
+    currentUser = await _auth.currentUser;
     setState(() {
       globals.phoneNumber = currentUser.phoneNumber;
       _gotoHomeScreen(globals.phoneNumber);
+
     });
   }
 
@@ -68,9 +73,19 @@ class _ExistCheckState extends State<ExistCheck> {
 
   _gotoHomeScreen(String phoneN) {
     globals.user.get().then((DocumentSnapshot documentSnapshot) {
+
       if (documentSnapshot.exists) {
-        setState(() => _body = HomePage());
+        print(documentSnapshot.data().toString());
+        if(documentSnapshot.data()["userType"]=="buyer"){
+          globals.userType="buyer";
+          setState(() => _body = HomePage());
+        }
+        else{
+          globals.userType="partner";
+          setState(() => _body = PartnerHomepage());
+        }
       } else {
+        debugPrint("adduser called");
         setState(() => _body = AddUser());
       }
       return false;
