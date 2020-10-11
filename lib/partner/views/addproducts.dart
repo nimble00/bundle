@@ -106,85 +106,115 @@ class _PartnerAddProductsState extends State<PartnerAddProducts> {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(6))),
         child: Column(
-          children: <Widget>[
-            AspectRatio(
-              aspectRatio: 40.0 / 11.0,
-              // child: Icon(Icons.image),
-              child: Image.asset(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Image.asset(
                     'assets/products/' +
                         displayList[i].name.toString().replaceAll(' ', '-'),
-                    fit: BoxFit.contain,
+                    fit: BoxFit.scaleDown,
                   ) ??
                   Icon(Icons.image),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 2.0),
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Center(
-                      child: Text(displayList[i].name),
-                    ),
-                    Center(
-                      child: Text(displayList[i].getCategory()),
-                    ),
-                    // Center(
-                    //   child: IconButton(
-                    //       icon: Icon(Icons.add_shopping_cart),
-                    //       onPressed: () {
-                    //         if (!globals.partner_name
-                    //             .contains(displayList[i].partnerName)) {
-                    //           globals.partner_name
-                    //               .add(displayList[i].partnerName);
-                    //           globals.reference.updateData({
-                    //             'products.${displayList[i].partnerCategory}.${displayList[i].partneri}.no_of_orders':
-                    //                 FieldValue.increment(1)
-                    //           });
-                    //           globals.partner_list.add(displayList[i]);
-                    //         }
-                    //       }),
-                    // ),
-                    // Center(
-                    //   child: IconButton(
-                    //       icon: globals.favorite_name
-                    //               .contains(displayList[i].partnerName)
-                    //           ? Icon(Icons.favorite, color: Colors.red)
-                    //           : Icon(Icons.favorite_border),
-                    //       onPressed: () {
-                    //         if (!globals.favorite_name
-                    //             .contains(displayList[i].partnerName)) {
-                    //           globals.favorite_name
-                    //               .add(displayList[i].partnerName);
-                    //           globals.user.updateData({
-                    //             'favorites.${displayList[i].partnerName}.partnerCategory':
-                    //                 displayList[i].partnerCategory,
-                    //             'favorites.${displayList[i].partnerName}.partneri':
-                    //                 displayList[i].partneri,
-                    //             'favorites.${displayList[i].partnerName}.partnerImage':
-                    //                 displayList[i].partnerImage,
-                    //             'favorites.${displayList[i].partnerName}.partnerPrice':
-                    //                 displayList[i].partnerPrice,
-                    //             'favorites.${displayList[i].partnerName}.no_of_orders':
-                    //                 displayList[i].no_of_orders
-                    //           });
-                    //         } else {
-                    //           globals.favorite_name
-                    //               .remove(displayList[i].partnerName);
-                    //           globals.user.updateData({
-                    //             'favorites.${displayList[i].partnerName}':
-                    //                 FieldValue.delete()
-                    //           });
-                    //         }
-                    //         setState(() {});
-                    //       }),
-                    // )
-                  ],
-                ),
+              Center(
+                child: Text(displayList[i].name),
               ),
-            ),
-          ],
-        ),
+              // Center(
+              //   child: Text(displayList[i].getCategory()),
+              // ),
+            ]),
+
+        // Column(
+        //   children: <Widget>[
+        //     AspectRatio(
+        //       aspectRatio: 40.0 / 11.0,
+        //       // child: Icon(Icons.image),
+        //       child: Column(
+        //           crossAxisAlignment: CrossAxisAlignment.start,
+        //           children: <Widget>[
+        //             Image.asset(
+        //                   'assets/products/' +
+        //                       displayList[i]
+        //                           .name
+        //                           .toString()
+        //                           .replaceAll(' ', '-'),
+        //                   fit: BoxFit.scaleDown,
+        //                 ) ??
+        //                 Icon(Icons.image),
+        //             Center(
+        //               child: Text(displayList[i].name),
+        //             ),
+        //             Center(
+        //               child: Text(displayList[i].getCategory()),
+        //             ),
+        //           ]),
+        //     ),
+        //     // Padding(
+        //     //   padding: EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 2.0),
+        //     //   child: Center(
+        //     //     child: Column(
+        //     //       crossAxisAlignment: CrossAxisAlignment.start,
+        //     //       children: <Widget>[
+        //     //         Center(
+        //     //           child: Text(displayList[i].name),
+        //     //         ),
+        //     //         Center(
+        //     //           child: Text(displayList[i].getCategory()),
+        //     //         ),
+        //     //         // Center(
+        //     //         //   child: IconButton(
+        //     //         //       icon: Icon(Icons.add_shopping_cart),
+        //     //         //       onPressed: () {
+        //     //         //         if (!globals.partner_name
+        //     //         //             .contains(displayList[i].partnerName)) {
+        //     //         //           globals.partner_name
+        //     //         //               .add(displayList[i].partnerName);
+        //     //         //           globals.reference.updateData({
+        //     //         //             'products.${displayList[i].partnerCategory}.${displayList[i].partneri}.no_of_orders':
+        //     //         //                 FieldValue.increment(1)
+        //     //         //           });
+        //     //         //           globals.partner_list.add(displayList[i]);
+        //     //         //         }
+        //     //         //       }),
+        //     //         // ),
+        //     //         // Center(
+        //     //         //   child: IconButton(
+        //     //         //       icon: globals.favorite_name
+        //     //         //               .contains(displayList[i].partnerName)
+        //     //         //           ? Icon(Icons.favorite, color: Colors.red)
+        //     //         //           : Icon(Icons.favorite_border),
+        //     //         //       onPressed: () {
+        //     //         //         if (!globals.favorite_name
+        //     //         //             .contains(displayList[i].partnerName)) {
+        //     //         //           globals.favorite_name
+        //     //         //               .add(displayList[i].partnerName);
+        //     //         //           globals.user.updateData({
+        //     //         //             'favorites.${displayList[i].partnerName}.partnerCategory':
+        //     //         //                 displayList[i].partnerCategory,
+        //     //         //             'favorites.${displayList[i].partnerName}.partneri':
+        //     //         //                 displayList[i].partneri,
+        //     //         //             'favorites.${displayList[i].partnerName}.partnerImage':
+        //     //         //                 displayList[i].partnerImage,
+        //     //         //             'favorites.${displayList[i].partnerName}.partnerPrice':
+        //     //         //                 displayList[i].partnerPrice,
+        //     //         //             'favorites.${displayList[i].partnerName}.no_of_orders':
+        //     //         //                 displayList[i].no_of_orders
+        //     //         //           });
+        //     //         //         } else {
+        //     //         //           globals.favorite_name
+        //     //         //               .remove(displayList[i].partnerName);
+        //     //         //           globals.user.updateData({
+        //     //         //             'favorites.${displayList[i].partnerName}':
+        //     //         //                 FieldValue.delete()
+        //     //         //           });
+        //     //         //         }
+        //     //         //         setState(() {});
+        //     //         //       }),
+        //     //         // )
+        //     //       ],
+        //     //     ),
+        //     //   ),
+        //     // ),
+        //   ],
+        // ),
       ),
     );
     return cards;
