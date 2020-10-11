@@ -44,7 +44,7 @@ class _PartnerLoginPageState extends State<PartnerLoginPage> {
 //                                  BorderSide(color: Colors.red, width: 5.0),
                         ),
                         border: OutlineInputBorder(),
-                        hintText: 'Phone Number',
+                        hintText: 'Phone Number p',
                         prefixIcon:
                         const Icon(Icons.phone, color: Colors.grey),
                         prefixText: ' ',

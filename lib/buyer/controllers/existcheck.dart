@@ -74,11 +74,15 @@ class _ExistCheckState extends State<ExistCheck> {
     globals.user.get().then((DocumentSnapshot documentSnapshot) {
 
       if (documentSnapshot.exists) {
-        debugPrint(documentSnapshot.data().toString());
-        if(documentSnapshot.data()["userType"]=="buyer")
+        print(documentSnapshot.data().toString());
+        if(documentSnapshot.data()["userType"]=="buyer"){
+          globals.userType="buyer";
           setState(() => _body = HomePage());
-        else
+        }
+        else{
+          globals.userType="partner";
           setState(() => _body = PartnerHomepage());
+        }
       } else {
         debugPrint("adduser called");
         setState(() => _body = AddUser());

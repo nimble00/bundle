@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/partner/views/storage.dart';
+import 'package:flutter_app/buyer/controllers/authservice.dart';
 
 class PartnerAccountPage extends StatefulWidget {
   @override
@@ -60,7 +61,7 @@ class _PartnerAccountPageState extends State<PartnerAccountPage> {
             padding: EdgeInsets.only(top: 20, bottom: 20),
             child: Text('Sign Out'),
             onPressed: () => {
-
+              AuthService().signOut(context),
             }, // IMPL THE COMPLETE PAYMENTS PAGE
           ),
           Spacer(flex: 4)

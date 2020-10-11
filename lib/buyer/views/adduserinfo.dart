@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/buyer/views/bhome.dart';
 import 'package:flutter_app/globals.dart' as globals;
+import 'package:flutter_app/partner/views/phome.dart';
 
 class AddUser extends StatefulWidget {
   @override
@@ -89,8 +90,13 @@ class _AddUserState extends State<AddUser> {
                 // ageProof.text    IMPL DROP DOWN AND UPLOAD FROM DEVICE OPTION FOR ID PROOF
                 // IMPL ACCESS DEVICE LOCATION
               ),
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomePage()))
+              if(globals.userType=="buyer"){
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => HomePage()))
+              }else{
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => PartnerHomepage()))
+              }
             },
             child: Text("Submit"),
           ),
