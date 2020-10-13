@@ -1,7 +1,6 @@
 library my_prj.globals;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/buyer/models/item.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -20,6 +19,7 @@ String address = "";
 GeoPoint geopoint = new GeoPoint(48, 60);
 String phoneNumber;
 
+bool fromStartPage=false;
 // buyer-partner
 String userType;
 
@@ -28,8 +28,6 @@ DocumentReference shops =
 DocumentReference reference;
 DocumentReference user =
     FirebaseFirestore.instance.collection('users').doc(phoneNumber);
-
-
 DocumentReference partner =
 FirebaseFirestore.instance.collection('partner').doc(phoneNumber);
 

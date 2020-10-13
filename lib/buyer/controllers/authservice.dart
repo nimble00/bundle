@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/buyer/controllers/existcheck.dart';
-import 'package:flutter_app/buyer/views/loginpage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_app/partner/views/partner_login.dart';
@@ -19,10 +18,8 @@ class AuthService {
           if (snapshot.hasData) {
             return ExistCheck();
           } else {
-            if(globals.userType=="buyer")
-              return LoginPage();
-            else
-              return PartnerLoginPage();
+              globals.fromStartPage=true;
+              return StartPage();
           }
         });
   }
@@ -46,23 +43,26 @@ class AuthService {
   //Sign out
   signOut(BuildContext context) {
     FirebaseAuth.instance.signOut();
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => StartPage(),
-      ),
-          (route) => false,
-    );
+//    Navigator.pushAndRemoveUntil(
+//      context,
+//      MaterialPageRoute(
+//        builder: (BuildContext context) => StartPage(),
+//      ),
+//          (route) => false,
+//    );
   }
 
   //SignIn
   signIn(AuthCredential authCreds) {
     FirebaseAuth.instance.signInWithCredential(authCreds);
+    print('yeah signin');
   }
 
   signInWithOTP(smsCode, verId) {
     AuthCredential authCreds =
         PhoneAuthProvider.credential(verificationId: verId, smsCode: smsCode);
+    print('----------------------------------------');
+    print("otp in");
     signIn(authCreds);
   }
 

@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/partner/views/phome.dart';
 import 'buyer/controllers/authservice.dart';
 import 'package:flutter_app/globals.dart' as globals;
+import 'package:flutter_app/buyer/views/loginpage.dart';
+import 'package:path_provider/path_provider.dart';
 
 class StartPage extends StatefulWidget {
   @override
@@ -9,6 +11,19 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
+  }
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/info.txt');
+  }
+  Future<File> addData(String text) async {
+    final file = await _localFile;
+    return file.writeAsString('$text');
+//    return file.writeAsString('$text\r\n', mode: FileMode.append);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,10 +51,11 @@ class _StartPageState extends State<StartPage> {
             ),
             onPressed: () => {
                 globals.userType="partner",
+              addData(globals.userType),
                 Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AuthService().handleAuth(),
+                  builder: (context) => LoginPage(),
                 ),
               ),
             },
@@ -69,10 +85,11 @@ class _StartPageState extends State<StartPage> {
             ),
             onPressed: () => {
                 globals.userType="buyer",
+              addData(globals.userType),
                 Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AuthService().handleAuth(),
+                  builder: (context) => LoginPage(),
                 ),
               ),
             },

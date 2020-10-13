@@ -127,6 +127,8 @@ class _LoginPageState extends State<LoginPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20)),
                             onPressed: () {
+                              print('----------------------------------------');
+                              print(codeSent);
                               codeSent
                                   ? AuthService()
                                       .signInWithOTP(smsCode, verificationId)

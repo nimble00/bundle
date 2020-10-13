@@ -37,11 +37,6 @@ class _AddUserState extends State<AddUser> {
 
   final TextEditingController nameCtl = TextEditingController();
   final TextEditingController lnameCtl = TextEditingController();
-  final TextEditingController pincodeCtl = TextEditingController();
-  final TextEditingController addressCtl = TextEditingController();
-  final TextEditingController dobCtl = TextEditingController();
-  final TextEditingController ageProofCtl = TextEditingController();
-  final TextEditingController dateCtl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
