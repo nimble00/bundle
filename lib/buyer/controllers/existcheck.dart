@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/buyer/views/bhome.dart';
-import 'package:flutter_app/buyer/views/adduserinfo.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
@@ -27,7 +25,7 @@ class _ExistCheckState extends State<ExistCheck> {
   void initState() {
     super.initState();
     _auth = FirebaseAuth.instance;
-    _getCurrentUser();
+    _gotoHomeScreen(_auth.currentUser.phoneNumber);
     _getLocation();
   }
 
@@ -46,19 +44,9 @@ class _ExistCheckState extends State<ExistCheck> {
     _currentAddress = first.addressLine;
     // prefs.setString("pincode", first.postalCode);
     // prefs.setString("address", _currentAddress);
-    setState(() {
-      globals.pincode = first.postalCode;
-      globals.address = _currentAddress;
-      globals.position = position;
-    });
-  }
-
-  _getCurrentUser() {
-    currentUser = _auth.currentUser;
-    setState(() {
-      globals.phoneNumber = currentUser.phoneNumber;
-      _gotoHomeScreen(globals.phoneNumber);
-    });
+    globals.pincode = first.postalCode;
+    globals.address = _currentAddress;
+    globals.position = position;
   }
 
   @override
@@ -67,21 +55,14 @@ class _ExistCheckState extends State<ExistCheck> {
   }
 
   _gotoHomeScreen(String phoneN) {
-    globals.user.get().then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        print(documentSnapshot.data().toString());
-        if (documentSnapshot.data()["userType"] == "buyer") {
-          globals.userType = "buyer";
-          setState(() => _body = HomePage());
-        } else {
-          globals.userType = "partner";
-          setState(() => _body = PartnerHomepage());
-        }
-      } else {
-        debugPrint("adduser called");
-        setState(() => _body = AddUser());
+    if (globals.userType == 'buyer') {
+      if (mounted) {
+        setState(() => _body = HomePage());
       }
-      return false;
-    });
+    } else {
+      if (mounted) {
+        setState(() => _body = PartnerHomepage());
+      }
+    }
   }
 }

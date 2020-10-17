@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:flutter/material.dart';
-import 'package:flutter_app/startpage.dart';
+// import 'package:flutter_app/startpage.dart';
+
+import 'buyer/controllers/authservice.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,8 +18,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Madira',
       theme: ThemeData(primaryColor: Colors.green, fontFamily: "Google Sans"),
-      // home: AuthService().handleAuth(),
-      home: StartPage(),
+      home: AuthService().handleAuth(),
+      // home: StartPage(),
     );
   }
 }

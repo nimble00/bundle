@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'buyer/controllers/authservice.dart';
 import 'package:flutter_app/globals.dart' as globals;
+
+import 'buyer/controllers/authservice.dart';
 
 class StartPage extends StatefulWidget {
   @override
@@ -33,14 +34,15 @@ class _StartPageState extends State<StartPage> {
                 Icon(Icons.local_grocery_store),
               ],
             ),
-            onPressed: () => {
-              globals.userType = "partner",
+            onPressed: () {
+              globals.userType = "partner";
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => AuthService().handleAuth(),
+                  // builder: (context) => LoginPage(),
                 ),
-              ),
+              );
             },
             padding: EdgeInsets.all(10.0),
           ),
@@ -66,14 +68,19 @@ class _StartPageState extends State<StartPage> {
                 Icon(Icons.local_mall),
               ],
             ),
-            onPressed: () => {
-              globals.userType = "buyer",
+            onPressed: () {
+              // getApplicationDocumentsDirectory().then((dir) {
+              //   File file = new File('${dir.path}/userType.txt');
+              //   file.writeAsString("buyer");
+              // });
+              globals.userType = "buyer";
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => AuthService().handleAuth(),
+                  // builder: (context) => LoginPage(),
                 ),
-              ),
+              );
             },
             padding: EdgeInsets.all(10.0),
           ),

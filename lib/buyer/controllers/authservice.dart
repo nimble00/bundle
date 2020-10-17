@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/buyer/controllers/existcheck.dart';
-import 'package:flutter_app/buyer/views/loginpage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_app/globals.dart' as globals;
+import 'package:flutter_app/buyer/views/loginpage.dart';
 import 'package:flutter_app/partner/views/partner_login.dart';
 import 'package:flutter_app/startpage.dart';
+import 'package:flutter_app/globals.dart' as globals;
 
 class AuthService {
   bool check = false;
@@ -19,16 +19,20 @@ class AuthService {
           if (snapshot.hasData) {
             return ExistCheck();
           } else {
-            if(globals.userType=="buyer")
+            if (globals.userType == "buyer") {
               return LoginPage();
-            else
+            } else if (globals.userType == "partner") {
               return PartnerLoginPage();
+            } else {
+              return StartPage();
+            }
           }
         });
   }
 
   // Does User Exist?
-  doesUserExist(phoneNum) {   //partner db krna he
+  doesUserExist(phoneNum) {
+    //partner db krna he
     FirebaseFirestore.instance
         .collection('users')
         .doc(phoneNum)
@@ -45,14 +49,15 @@ class AuthService {
 
   //Sign out
   signOut(BuildContext context) {
+    globals.userType = '';
     FirebaseAuth.instance.signOut();
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => StartPage(),
-      ),
-          (route) => false,
-    );
+    // Navigator.pushAndRemoveUntil(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (BuildContext context) => StartPage(),
+    //   ),
+    //   (route) => false,
+    // );
   }
 
   //SignIn

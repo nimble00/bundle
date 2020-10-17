@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/buyer/controllers/authservice.dart';
 import 'package:countdown/countdown.dart';
+import 'package:flutter_app/globals.dart' as globals;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -51,9 +53,11 @@ class _LoginPageState extends State<LoginPage> {
                             prefixText: ' ',
                           ),
                           onChanged: (val) {
-                            setState(() {
-                              this.phoneNo = '+91 ' + val;
-                            });
+                            if (mounted) {
+                              setState(() {
+                                this.phoneNo = '+91 ' + val;
+                              });
+                            }
                           },
                         )),
                     codeSent
@@ -65,9 +69,11 @@ class _LoginPageState extends State<LoginPage> {
                               decoration:
                                   InputDecoration(hintText: 'Enter OTP'),
                               onChanged: (val) {
-                                setState(() {
-                                  this.smsCode = val;
-                                });
+                                if (mounted) {
+                                  setState(() {
+                                    this.smsCode = val;
+                                  });
+                                }
                               },
                             ))
                         : Container(
@@ -157,14 +163,29 @@ class _LoginPageState extends State<LoginPage> {
         );
   }
 
+  _registerUser() {
+    CollectionReference collectionReference =
+        FirebaseFirestore.instance.collection(globals.userType);
+    // Call the users CollectionReference to add a new user
+    return collectionReference
+        .doc(FirebaseAuth.instance.currentUser.phoneNumber)
+        .set({
+          'userType': globals.userType,
+          'orders.no_of_orders': 0,
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
+
   Future<void> verifyPhone(phoneNo) async {
     startTimer();
 
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
       AuthService().signIn(authResult);
-      // setState(() {
-      //   this.otpMatched = true;
-      // });
+      // #######################################################################
+      // REGISTER THE USER
+      _registerUser();
+      // #######################################################################
     };
 
     final PhoneVerificationFailed verificationfailed =
@@ -174,9 +195,11 @@ class _LoginPageState extends State<LoginPage> {
 
     final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
       this.verificationId = verId;
-      setState(() {
-        this.codeSent = true;
-      });
+      if (mounted) {
+        setState(() {
+          this.codeSent = true;
+        });
+      }
     };
 
     final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
@@ -193,24 +216,30 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void startTimer() {
-    setState(() {
-      _isResendEnable = false;
-    });
+    if (mounted) {
+      setState(() {
+        _isResendEnable = false;
+      });
+    }
 
     var sub = CountDown(Duration(seconds: 30)) // ignore: cancel_subscriptions
         .stream
         .listen(null);
     sub.onData((Duration d) {
-      setState(() {
-        int sec = d.inSeconds % 60;
-        otpWaitTimeLabel = d.inMinutes.toString() + ":" + sec.toString();
-      });
+      if (mounted) {
+        setState(() {
+          int sec = d.inSeconds % 60;
+          otpWaitTimeLabel = d.inMinutes.toString() + ":" + sec.toString();
+        });
+      }
     });
 
     sub.onDone(() {
-      setState(() {
-        _isResendEnable = true;
-      });
+      if (mounted) {
+        setState(() {
+          _isResendEnable = true;
+        });
+      }
     });
   }
 }
