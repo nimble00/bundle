@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/buyer/views/bhome.dart';
@@ -42,8 +43,6 @@ class _ExistCheckState extends State<ExistCheck> {
 
     var first = addresses.first;
     _currentAddress = first.addressLine;
-    // prefs.setString("pincode", first.postalCode);
-    // prefs.setString("address", _currentAddress);
     globals.pincode = first.postalCode;
     globals.address = _currentAddress;
     globals.position = position;
@@ -54,7 +53,29 @@ class _ExistCheckState extends State<ExistCheck> {
     return _body;
   }
 
+  _registerUser() {
+    CollectionReference collectionReference =
+        FirebaseFirestore.instance.collection(globals.userType);
+    // Call the users CollectionReference to add a new user
+    return collectionReference
+        .doc(FirebaseAuth.instance.currentUser.phoneNumber)
+        .set({'userType': globals.userType, 'pincode': globals.pincode})
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
+
   _gotoHomeScreen(String phoneN) {
+    FirebaseFirestore.instance
+        .collection(globals.userType)
+        .doc(phoneN)
+        .get()
+        .then((value) {
+      if (!value.exists) {
+        // ##################### REGISTER THE USER #############################
+        _registerUser();
+        // #####################################################################
+      }
+    });
     if (globals.userType == 'buyer') {
       if (mounted) {
         setState(() => _body = HomePage());

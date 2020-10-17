@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/buyer/controllers/authservice.dart';
 import 'package:countdown/countdown.dart';
-import 'package:flutter_app/globals.dart' as globals;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -163,29 +161,11 @@ class _LoginPageState extends State<LoginPage> {
         );
   }
 
-  _registerUser() {
-    CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection(globals.userType);
-    // Call the users CollectionReference to add a new user
-    return collectionReference
-        .doc(FirebaseAuth.instance.currentUser.phoneNumber)
-        .set({
-          'userType': globals.userType,
-          'orders.no_of_orders': 0,
-        })
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
-  }
-
   Future<void> verifyPhone(phoneNo) async {
     startTimer();
 
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
       AuthService().signIn(authResult);
-      // #######################################################################
-      // REGISTER THE USER
-      _registerUser();
-      // #######################################################################
     };
 
     final PhoneVerificationFailed verificationfailed =
