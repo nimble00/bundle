@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/partner/views/phome.dart';
 import 'buyer/controllers/authservice.dart';
 import 'package:flutter_app/globals.dart' as globals;
 
@@ -35,8 +34,8 @@ class _StartPageState extends State<StartPage> {
               ],
             ),
             onPressed: () => {
-                globals.userType="partner",
-                Navigator.pushReplacement(
+              globals.userType = "partner",
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => AuthService().handleAuth(),
@@ -68,8 +67,8 @@ class _StartPageState extends State<StartPage> {
               ],
             ),
             onPressed: () => {
-                globals.userType="buyer",
-                Navigator.pushReplacement(
+              globals.userType = "buyer",
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => AuthService().handleAuth(),
