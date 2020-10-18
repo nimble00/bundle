@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/partner/views/storage.dart';
 import 'package:flutter_app/buyer/controllers/authservice.dart';
 
 class PartnerAccountPage extends StatefulWidget {

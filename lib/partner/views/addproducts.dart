@@ -5,6 +5,7 @@ import 'package:flutter_app/partner/models/product.dart';
 import 'package:flutter_app/partner/models/product_repo.dart';
 
 import 'package:flutter_app/partner/views/customproduct.dart';
+import 'package:flutter_app/partner/views/productPage.dart';
 
 // I added android: ... = "true" in android/ap/src/main/AndroidManifest.xml
 // to make 'imagepicker' backward compatible.
@@ -108,12 +109,22 @@ class _PartnerAddProductsState extends State<PartnerAddProducts> {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Image.asset(
-                    'assets/products/' +
-                        displayList[i].name.toString().replaceAll(' ', '-'),
-                    fit: BoxFit.scaleDown,
-                  ) ??
-                  Icon(Icons.image),
+
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProductPage(displayList: displayList,index: i),
+                    ),
+                  );
+                }, // handle your image tap here
+                child: Image.asset(
+                  'assets/products/' +
+                      displayList[i].name.toString().replaceAll(' ', '-'),
+                  fit: BoxFit.scaleDown,
+                ) ?? Icon(Icons.image),
+              ),
               Center(
                 child: Text(displayList[i].name),
               ),

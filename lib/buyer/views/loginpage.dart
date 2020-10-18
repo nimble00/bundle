@@ -51,9 +51,11 @@ class _LoginPageState extends State<LoginPage> {
                             prefixText: ' ',
                           ),
                           onChanged: (val) {
-                            setState(() {
-                              this.phoneNo = '+91 ' + val;
-                            });
+                            if (mounted) {
+                              setState(() {
+                                this.phoneNo = '+91 ' + val;
+                              });
+                            }
                           },
                         )),
                     codeSent
@@ -65,9 +67,11 @@ class _LoginPageState extends State<LoginPage> {
                               decoration:
                                   InputDecoration(hintText: 'Enter OTP'),
                               onChanged: (val) {
-                                setState(() {
-                                  this.smsCode = val;
-                                });
+                                if (mounted) {
+                                  setState(() {
+                                    this.smsCode = val;
+                                  });
+                                }
                               },
                             ))
                         : Container(
@@ -164,9 +168,6 @@ class _LoginPageState extends State<LoginPage> {
 
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
       AuthService().signIn(authResult);
-      // setState(() {
-      //   this.otpMatched = true;
-      // });
     };
 
     final PhoneVerificationFailed verificationfailed =
@@ -176,9 +177,11 @@ class _LoginPageState extends State<LoginPage> {
 
     final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
       this.verificationId = verId;
-      setState(() {
-        this.codeSent = true;
-      });
+      if (mounted) {
+        setState(() {
+          this.codeSent = true;
+        });
+      }
     };
 
     final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
@@ -195,24 +198,30 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void startTimer() {
-    setState(() {
-      _isResendEnable = false;
-    });
+    if (mounted) {
+      setState(() {
+        _isResendEnable = false;
+      });
+    }
 
     var sub = CountDown(Duration(seconds: 30)) // ignore: cancel_subscriptions
         .stream
         .listen(null);
     sub.onData((Duration d) {
-      setState(() {
-        int sec = d.inSeconds % 60;
-        otpWaitTimeLabel = d.inMinutes.toString() + ":" + sec.toString();
-      });
+      if (mounted) {
+        setState(() {
+          int sec = d.inSeconds % 60;
+          otpWaitTimeLabel = d.inMinutes.toString() + ":" + sec.toString();
+        });
+      }
     });
 
     sub.onDone(() {
-      setState(() {
-        _isResendEnable = true;
-      });
+      if (mounted) {
+        setState(() {
+          _isResendEnable = true;
+        });
+      }
     });
   }
 }
