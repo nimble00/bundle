@@ -54,12 +54,15 @@ class _ExistCheckState extends State<ExistCheck> {
   }
 
   _registerUser() {
-    CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection(globals.userType);
     // Call the users CollectionReference to add a new user
-    return collectionReference
+    return FirebaseFirestore.instance
+        .collection(globals.userType)
         .doc(FirebaseAuth.instance.currentUser.phoneNumber)
-        .set({'userType': globals.userType, 'pincode': globals.pincode})
+        .set({
+          'userType': globals.userType,
+          'pincode': globals.pincode,
+          'loggedIn': true
+        })
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
   }
@@ -75,12 +78,14 @@ class _ExistCheckState extends State<ExistCheck> {
           // ##################### REGISTER THE USER #############################
           _registerUser();
           // #####################################################################
+        } else {
+          FirebaseFirestore.instance
+              .collection(globals.userType)
+              .doc(phoneN)
+              .update({'loggedIn': true});
         }
       });
-      FirebaseFirestore.instance
-          .collection(globals.userType)
-          .doc(phoneN)
-          .update({'loggedIn': true});
+
       if (globals.userType == 'buyer') {
         if (mounted) {
           setState(() => _body = HomePage());

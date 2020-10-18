@@ -30,11 +30,14 @@ class AuthService {
   //Sign out
   signOut(BuildContext context) {
     globals.userType = '';
+    FirebaseAuth.instance.signOut();
+  }
+
+  signOutFirebase(BuildContext context) {
     FirebaseFirestore.instance
         .collection(globals.userType)
         .doc(FirebaseAuth.instance.currentUser.phoneNumber)
         .update({'loggedIn': false});
-    FirebaseAuth.instance.signOut();
   }
 
   //SignIn

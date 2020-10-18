@@ -59,8 +59,9 @@ class _PartnerAccountPageState extends State<PartnerAccountPage> {
             elevation: 10,
             padding: EdgeInsets.only(top: 20, bottom: 20),
             child: Text('Sign Out'),
-            onPressed: () => {
-              AuthService().signOut(context),
+            onPressed: () {
+              AuthService().signOut(context);
+              AuthService().signOutFirebase(context);
             }, // IMPL THE COMPLETE PAYMENTS PAGE
           ),
           Spacer(flex: 4)
