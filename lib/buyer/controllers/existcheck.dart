@@ -65,25 +65,50 @@ class _ExistCheckState extends State<ExistCheck> {
   }
 
   _gotoHomeScreen(String phoneN) {
-    FirebaseFirestore.instance
-        .collection(globals.userType)
-        .doc(phoneN)
-        .get()
-        .then((value) {
-      if (!value.exists) {
-        // ##################### REGISTER THE USER #############################
-        _registerUser();
-        // #####################################################################
-      }
-    });
-    if (globals.userType == 'buyer') {
-      if (mounted) {
-        setState(() => _body = HomePage());
+    if (globals.userType != null) {
+      FirebaseFirestore.instance
+          .collection(globals.userType)
+          .doc(phoneN)
+          .get()
+          .then((value) {
+        if (!value.exists) {
+          // ##################### REGISTER THE USER #############################
+          _registerUser();
+          // #####################################################################
+        }
+      });
+      FirebaseFirestore.instance
+          .collection(globals.userType)
+          .doc(phoneN)
+          .update({'loggedIn': true});
+      if (globals.userType == 'buyer') {
+        if (mounted) {
+          setState(() => _body = HomePage());
+        }
+      } else {
+        if (mounted) {
+          setState(() => _body = PartnerHomepage());
+        }
       }
     } else {
-      if (mounted) {
-        setState(() => _body = PartnerHomepage());
-      }
+      FirebaseFirestore.instance
+          .collection('buyer')
+          .doc(phoneN)
+          .get()
+          .then((DocumentSnapshot snapshot) {
+        var data = snapshot.data();
+        if (data != null) {
+          if (data['loggedIn']) {
+            if (mounted) {
+              setState(() => _body = HomePage());
+            }
+          }
+        } else {
+          if (mounted) {
+            setState(() => _body = PartnerHomepage());
+          }
+        }
+      });
     }
   }
 }

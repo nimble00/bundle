@@ -29,9 +29,8 @@ DocumentReference reference;
 DocumentReference user =
     FirebaseFirestore.instance.collection('users').doc(phoneNumber);
 
-
 DocumentReference partner =
-FirebaseFirestore.instance.collection('partner').doc(phoneNumber);
+    FirebaseFirestore.instance.collection('partner').doc(phoneNumber);
 
 //list of fav items
 List<String> favoriteName = new List();

@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
 //                                  BorderSide(color: Colors.red, width: 5.0),
                             ),
                             border: OutlineInputBorder(),
-                            hintText: 'Phone Number b',
+                            hintText: 'Phone Number',
                             prefixIcon:
                                 const Icon(Icons.phone, color: Colors.grey),
                             prefixText: ' ',
@@ -64,8 +64,26 @@ class _LoginPageState extends State<LoginPage> {
                                 left: 25.0, right: 25.0, bottom: 15.0),
                             child: TextFormField(
                               keyboardType: TextInputType.phone,
-                              decoration:
-                                  InputDecoration(hintText: 'Enter OTP'),
+                              decoration: InputDecoration(
+                                filled: true,
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: BorderSide(
+                                      color: Colors.amber.shade500, width: 5.0),
+//                                  color: Colors.greenAccent, width: 5.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: BorderSide(
+                                      color: Colors.grey, width: 5.0),
+//                                  BorderSide(color: Colors.red, width: 5.0),
+                                ),
+                                border: OutlineInputBorder(),
+                                hintText: 'Enter OTP',
+                                prefixIcon: const Icon(Icons.verified_user,
+                                    color: Colors.grey),
+                                prefixText: ' ',
+                              ),
                               onChanged: (val) {
                                 if (mounted) {
                                   setState(() {
