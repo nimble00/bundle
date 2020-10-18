@@ -32,15 +32,23 @@ class _ExistCheckState extends State<ExistCheck> {
 
   _registerUser() {
     // Call the users CollectionReference to add a new user
-    if (globals.userType == 'partner') {
+    if (globals.userType == 'partner' && globals.pincode != '') {
       FirebaseFirestore.instance
           .collection('pincodes')
           .doc(globals.pincode)
           .set({
-            'userType': globals.userType,
-            'pincode': globals.pincode,
-            'loggedIn': true
-          })
+            'partners': {
+              '${globals.phoneNumber}': {
+                'userType': globals.userType,
+                'pincode': globals.pincode,
+                'products': {},
+                'location': GeoPoint(
+                    globals.position.latitude, globals.position.longitude),
+                'image_source': '',
+                'name': ''
+              }
+            },
+          }, SetOptions(merge: true))
           .then((value) => print("User Added"))
           .catchError((error) => print("Failed to add user: $error"));
     }
@@ -58,15 +66,6 @@ class _ExistCheckState extends State<ExistCheck> {
 
   _gotoHomeScreen(String phoneN) {
     if (globals.userType != '') {
-      print("###################");
-      print("###################");
-      print("###################");
-      print("###################");
-      print("USERTYPE IS NOT '' ");
-      print("###################");
-      print("###################");
-      print("###################");
-      print("###################");
       FirebaseFirestore.instance
           .collection(globals.userType)
           .doc(phoneN)
