@@ -65,7 +65,7 @@ class _ExistCheckState extends State<ExistCheck> {
   }
 
   _gotoHomeScreen(String phoneN) {
-    if (globals.userType != null) {
+    if (globals.userType != '') {
       FirebaseFirestore.instance
           .collection(globals.userType)
           .doc(phoneN)
@@ -98,14 +98,16 @@ class _ExistCheckState extends State<ExistCheck> {
           .then((DocumentSnapshot snapshot) {
         var data = snapshot.data();
         if (data != null) {
-          if (data['loggedIn']) {
+          if (data['loggedIn'] != null && data['loggedIn'] == true) {
+            globals.userType = 'buyer';
             if (mounted) {
               setState(() => _body = HomePage());
             }
-          }
-        } else {
-          if (mounted) {
-            setState(() => _body = PartnerHomepage());
+          } else {
+            globals.userType = 'partner';
+            if (mounted) {
+              setState(() => _body = PartnerHomepage());
+            }
           }
         }
       });

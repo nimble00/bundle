@@ -21,7 +21,7 @@ GeoPoint geopoint = new GeoPoint(48, 60);
 String phoneNumber;
 
 // buyer-partner
-String userType;
+String userType = '';
 
 DocumentReference shops =
     FirebaseFirestore.instance.collection('pincodes').doc(pincode);
