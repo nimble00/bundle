@@ -29,7 +29,6 @@ class AuthService {
 
   //Sign out
   signOut(BuildContext context) {
-    globals.userType = '';
     FirebaseAuth.instance.signOut();
   }
 
@@ -38,6 +37,7 @@ class AuthService {
         .collection(globals.userType)
         .doc(FirebaseAuth.instance.currentUser.phoneNumber)
         .update({'loggedIn': false});
+    globals.userType = '';
   }
 
   //SignIn
