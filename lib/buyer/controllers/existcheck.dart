@@ -69,6 +69,15 @@ class _ExistCheckState extends State<ExistCheck> {
 
   _gotoHomeScreen(String phoneN) {
     if (globals.userType != '') {
+      print("###################");
+      print("###################");
+      print("###################");
+      print("###################");
+      print("USERTYPE IS NOT '' ");
+      print("###################");
+      print("###################");
+      print("###################");
+      print("###################");
       FirebaseFirestore.instance
           .collection(globals.userType)
           .doc(phoneN)
@@ -102,18 +111,18 @@ class _ExistCheckState extends State<ExistCheck> {
           .get()
           .then((DocumentSnapshot snapshot) {
         var data = snapshot.data();
+        print('phoneN: ' + phoneN + data.toString());
         if (data != null) {
           if (data['loggedIn'] != null && data['loggedIn'] == true) {
             globals.userType = 'buyer';
-            if (mounted) {
-              setState(() => _body = HomePage());
-            }
+            setState(() => _body = HomePage());
           } else {
             globals.userType = 'partner';
-            if (mounted) {
-              setState(() => _body = PartnerHomepage());
-            }
+            setState(() => _body = PartnerHomepage());
           }
+        } else {
+          globals.userType = 'partner';
+          setState(() => _body = PartnerHomepage());
         }
       });
     }
