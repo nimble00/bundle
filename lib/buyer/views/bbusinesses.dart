@@ -28,8 +28,6 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
     _stream = FirebaseFirestore.instance
         .collection('pincodes')
         .doc(globals.pincode)
-        .collection('retail_partners')
-        .doc('partners')
         .snapshots()
         .asBroadcastStream();
   }
@@ -58,11 +56,11 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
     //     child: Text("We don't serve your location yet!"),
     //   );
     // }
-    display_list = new List();
+    displayList = new List();
     _productList(snapshot);
     filterList();
     List<Card> cards = List.generate(
-      display_list.length,
+      displayList.length,
       (int index) => Card(
         elevation: 5.0,
         clipBehavior: Clip.antiAlias,
@@ -75,8 +73,8 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => SpiritPage(
-                              displayList: display_list[index], index: index))),
-                  // child: Image.asset(display_list[index].image),
+                              displayList: displayList[index], index: index))),
+                  // child: Image.asset(displayList[index].image),
                   child: Icon(Icons.image),
                 )),
             Padding(
@@ -86,59 +84,59 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Center(
-                      child: Text(display_list[index].name),
+                      child: Text(displayList[index].name),
                     ),
                     Center(
-                      child: Text(display_list[index].phone),
+                      child: Text(displayList[index].phone),
                     ),
                     // Center(
                     //   child:
-                    //       Text((display_list[index].partnerPrice).toString()),
+                    //       Text((displayList[index].partnerPrice).toString()),
                     // ),
                     // Center(
                     //   child: IconButton(
                     //       icon: Icon(Icons.add_shopping_cart),
                     //       onPressed: () {
                     //         if (!globals.partner_name
-                    //             .contains(display_list[index].partnerName)) {
+                    //             .contains(displayList[index].partnerName)) {
                     //           globals.partner_name
-                    //               .add(display_list[index].partnerName);
+                    //               .add(displayList[index].partnerName);
                     //           globals.reference.updateData({
-                    //             'products.${display_list[index].partnerCategory}.${display_list[index].partnerIndex}.no_of_orders':
+                    //             'products.${displayList[index].partnerCategory}.${displayList[index].partnerIndex}.no_of_orders':
                     //                 FieldValue.increment(1)
                     //           });
-                    //           globals.partner_list.add(display_list[index]);
+                    //           globals.partner_list.add(displayList[index]);
                     //         }
                     //       }),
                     // ),
                     // Center(
                     //   child: IconButton(
                     //       icon: globals.favorite_name
-                    //               .contains(display_list[index].partnerName)
+                    //               .contains(displayList[index].partnerName)
                     //           ? Icon(Icons.favorite, color: Colors.red)
                     //           : Icon(Icons.favorite_border),
                     //       onPressed: () {
                     //         if (!globals.favorite_name
-                    //             .contains(display_list[index].partnerName)) {
+                    //             .contains(displayList[index].partnerName)) {
                     //           globals.favorite_name
-                    //               .add(display_list[index].partnerName);
+                    //               .add(displayList[index].partnerName);
                     //           globals.user.updateData({
-                    //             'favorites.${display_list[index].partnerName}.partnerCategory':
-                    //                 display_list[index].partnerCategory,
-                    //             'favorites.${display_list[index].partnerName}.partnerIndex':
-                    //                 display_list[index].partnerIndex,
-                    //             'favorites.${display_list[index].partnerName}.partnerImage':
-                    //                 display_list[index].partnerImage,
-                    //             'favorites.${display_list[index].partnerName}.partnerPrice':
-                    //                 display_list[index].partnerPrice,
-                    //             'favorites.${display_list[index].partnerName}.no_of_orders':
-                    //                 display_list[index].no_of_orders
+                    //             'favorites.${displayList[index].partnerName}.partnerCategory':
+                    //                 displayList[index].partnerCategory,
+                    //             'favorites.${displayList[index].partnerName}.partnerIndex':
+                    //                 displayList[index].partnerIndex,
+                    //             'favorites.${displayList[index].partnerName}.partnerImage':
+                    //                 displayList[index].partnerImage,
+                    //             'favorites.${displayList[index].partnerName}.partnerPrice':
+                    //                 displayList[index].partnerPrice,
+                    //             'favorites.${displayList[index].partnerName}.no_of_orders':
+                    //                 displayList[index].no_of_orders
                     //           });
                     //         } else {
                     //           globals.favorite_name
-                    //               .remove(display_list[index].partnerName);
+                    //               .remove(displayList[index].partnerName);
                     //           globals.user.updateData({
-                    //             'favorites.${display_list[index].partnerName}':
+                    //             'favorites.${displayList[index].partnerName}':
                     //                 FieldValue.delete()
                     //           });
                     //         }
@@ -157,32 +155,32 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
   }
 
   // ignore: non_constant_identifier_names
-  List<Partner> display_list;
+  List<Partner> displayList;
 
   _productList(AsyncSnapshot snapshot) {
     if (snapshot.data.data() == null) {
       doWeServePincode(globals.pincode);
       return;
     }
-    _nearByShops = snapshot.data.data()['partner_list'];
-    snapshot.data.data()['partner_list'].forEach((k, v) {
+    _nearByShops = snapshot.data.data()['partners'];
+    snapshot.data.data()['partners'].forEach((k, v) {
       Partner partner = new Partner(
           v['image_source'], v['name'], k, v['location'], 'kiryana');
-      display_list.add(partner);
+      displayList.add(partner);
     });
   }
 
   void filterList() {
     if (globals.filter == 'Distance') {
       if (_userPos == null) return;
-      display_list.sort((a, b) => distanceBetween(_userPos.latitude,
+      displayList.sort((a, b) => distanceBetween(_userPos.latitude,
               _userPos.longitude, a.location.latitude, a.location.longitude)
           .compareTo(distanceBetween(_userPos.latitude, _userPos.longitude,
               b.location.latitude, b.location.longitude)));
     } else {
       // sort by popularity
       // currently, it's hardcoded to be sorted by distance
-      // display_list.sort((b, a) => a.no_of_orders.compareTo(b.no_of_orders));
+      // displayList.sort((b, a) => a.no_of_orders.compareTo(b.no_of_orders));
     }
   }
 

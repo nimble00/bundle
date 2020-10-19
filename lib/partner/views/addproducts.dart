@@ -31,7 +31,6 @@ class _PartnerAddProductsState extends State<PartnerAddProducts> {
   @override
   void initState() {
     super.initState();
-    allProducts = ProductsRepository.loadProducts(Category.all);
     firestore = FirebaseFirestore.instance;
     // storage = FirebaseStorage.instance;
     // _getStorageReferences();
@@ -90,15 +89,8 @@ class _PartnerAddProductsState extends State<PartnerAddProducts> {
   //   }
   // }
 
-  _buildGridCards(BuildContext context) {
-    // if (!_pinCheck) {
-    //   return Center(
-    //     child: Text("We don't serve your location yet!"),
-    //   );
-    // }
-    var displayList = allProducts;
-    // debugPrint('total no. of products: ' + allProducts[0].toString());
-    debugPrint('total no. of products: ' + allProducts.length.toString());
+  _buildGridCards(BuildContext context, Category category) {
+    var displayList = ProductsRepository.loadProducts(category);
     List<Card> cards = List.generate(
       displayList.length,
       (int i) => Card(
@@ -109,7 +101,6 @@ class _PartnerAddProductsState extends State<PartnerAddProducts> {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-
               GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -126,38 +117,13 @@ class _PartnerAddProductsState extends State<PartnerAddProducts> {
                 ) ?? Icon(Icons.image),
               ),
               Center(
-                child: Text(displayList[i].name),
+                child: Text(
+                  displayList[i].name.split('.').first,
+                ),
               ),
-              // Center(
-              //   child: Text(displayList[i].getCategory()),
-              // ),
-            ]),
+            ],
+      ),
 
-        // Column(
-        //   children: <Widget>[
-        //     AspectRatio(
-        //       aspectRatio: 40.0 / 11.0,
-        //       // child: Icon(Icons.image),
-        //       child: Column(
-        //           crossAxisAlignment: CrossAxisAlignment.start,
-        //           children: <Widget>[
-        //             Image.asset(
-        //                   'assets/products/' +
-        //                       displayList[i]
-        //                           .name
-        //                           .toString()
-        //                           .replaceAll(' ', '-'),
-        //                   fit: BoxFit.scaleDown,
-        //                 ) ??
-        //                 Icon(Icons.image),
-        //             Center(
-        //               child: Text(displayList[i].name),
-        //             ),
-        //             Center(
-        //               child: Text(displayList[i].getCategory()),
-        //             ),
-        //           ]),
-        //     ),
         //     // Padding(
         //     //   padding: EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 2.0),
         //     //   child: Center(
@@ -301,25 +267,43 @@ class _PartnerAddProductsState extends State<PartnerAddProducts> {
               crossAxisCount: 2,
               padding: EdgeInsets.all(16.0),
               childAspectRatio: 8.0 / 9.0,
-              children: _buildGridCards(context),
+              children: _buildGridCards(context, Category.all),
             ),
-            Center(
-              child: Text("IMPLEMENT THE LISTVIEW OF DnB PRODUCTS HERE!"),
+            GridView.count(
+              crossAxisCount: 2,
+              padding: EdgeInsets.all(16.0),
+              childAspectRatio: 8.0 / 9.0,
+              children: _buildGridCards(context, Category.dnb),
             ),
-            Center(
-              child: Text("IMPLEMENT THE LISTVIEW OF PC PRODUCTS HERE!"),
+            GridView.count(
+              crossAxisCount: 2,
+              padding: EdgeInsets.all(16.0),
+              childAspectRatio: 8.0 / 9.0,
+              children: _buildGridCards(context, Category.pc),
             ),
-            Center(
-              child: Text("IMPLEMENT THE LISTVIEW OF SnD PRODUCTS HERE!"),
+            GridView.count(
+              crossAxisCount: 2,
+              padding: EdgeInsets.all(16.0),
+              childAspectRatio: 8.0 / 9.0,
+              children: _buildGridCards(context, Category.snd),
             ),
-            Center(
-              child: Text("IMPLEMENT THE LISTVIEW OF K.E PRODUCTS HERE!"),
+            GridView.count(
+              crossAxisCount: 2,
+              padding: EdgeInsets.all(16.0),
+              childAspectRatio: 8.0 / 9.0,
+              children: _buildGridCards(context, Category.ke),
             ),
-            Center(
-              child: Text("IMPLEMENT THE LISTVIEW OF HHI PRODUCTS HERE!"),
+            GridView.count(
+              crossAxisCount: 2,
+              padding: EdgeInsets.all(16.0),
+              childAspectRatio: 8.0 / 9.0,
+              children: _buildGridCards(context, Category.hhi),
             ),
-            Center(
-              child: Text("IMPLEMENT THE LISTVIEW OF Misc. PRODUCTS HERE!"),
+            GridView.count(
+              crossAxisCount: 2,
+              padding: EdgeInsets.all(16.0),
+              childAspectRatio: 8.0 / 9.0,
+              children: _buildGridCards(context, Category.misc),
             ),
           ],
         ),

@@ -32,6 +32,7 @@ dependencies:
   # firebase_storage: ^5.0.0-dev.1
   firebase_storage: ^4.0.1
   path_provider: ^1.6.21
+  lite_rolling_switch: ^0.1.1
 
 
 

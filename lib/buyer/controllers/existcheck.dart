@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/buyer/views/bhome.dart';
 import 'package:flutter_app/globals.dart' as globals;
-import 'package:geocoder/geocoder.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:flutter_app/partner/views/phome.dart';
 
 class ExistCheck extends StatefulWidget {
@@ -13,8 +11,6 @@ class ExistCheck extends StatefulWidget {
 }
 
 class _ExistCheckState extends State<ExistCheck> {
-  String _currentAddress;
-
   // Default Body
   Widget _body = Scaffold(body: Center(child: CircularProgressIndicator()));
 
@@ -27,25 +23,6 @@ class _ExistCheckState extends State<ExistCheck> {
     super.initState();
     _auth = FirebaseAuth.instance;
     _gotoHomeScreen(_auth.currentUser.phoneNumber);
-    _getLocation();
-  }
-
-  _getLocation() async {
-    // final prefs = await SharedPreferences.getInstance();
-
-    Position position =
-        await getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-
-    final coordinates = new Coordinates(position.latitude, position.longitude);
-
-    var addresses =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
-
-    var first = addresses.first;
-    _currentAddress = first.addressLine;
-    globals.pincode = first.postalCode;
-    globals.address = _currentAddress;
-    globals.position = position;
   }
 
   @override
@@ -54,36 +31,88 @@ class _ExistCheckState extends State<ExistCheck> {
   }
 
   _registerUser() {
-    CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection(globals.userType);
     // Call the users CollectionReference to add a new user
-    return collectionReference
+    if (globals.userType == 'partner' && globals.pincode != '') {
+      FirebaseFirestore.instance
+          .collection('pincodes')
+          .doc(globals.pincode)
+          .set({
+            'partners': {
+              '${globals.phoneNumber}': {
+                'userType': globals.userType,
+                'pincode': globals.pincode,
+                'products': {},
+                'location': GeoPoint(
+                    globals.position.latitude, globals.position.longitude),
+                'image_source': '',
+                'name': ''
+              }
+            },
+          }, SetOptions(merge: true))
+          .then((value) => print("User Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
+    return FirebaseFirestore.instance
+        .collection(globals.userType)
         .doc(FirebaseAuth.instance.currentUser.phoneNumber)
-        .set({'userType': globals.userType, 'pincode': globals.pincode})
+        .set({
+          'userType': globals.userType,
+          'pincode': globals.pincode,
+          'loggedIn': true
+        })
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
   }
 
   _gotoHomeScreen(String phoneN) {
-    FirebaseFirestore.instance
-        .collection(globals.userType)
-        .doc(phoneN)
-        .get()
-        .then((value) {
-      if (!value.exists) {
-        // ##################### REGISTER THE USER #############################
-        _registerUser();
-        // #####################################################################
-      }
-    });
-    if (globals.userType == 'buyer') {
-      if (mounted) {
-        setState(() => _body = HomePage());
+    if (globals.userType != '') {
+      FirebaseFirestore.instance
+          .collection(globals.userType)
+          .doc(phoneN)
+          .get()
+          .then((value) {
+        if (!value.exists) {
+          // ##################### REGISTER THE USER #############################
+          _registerUser();
+          // #####################################################################
+        } else {
+          FirebaseFirestore.instance
+              .collection(globals.userType)
+              .doc(phoneN)
+              .update({'loggedIn': true});
+        }
+      });
+
+      if (globals.userType == 'buyer') {
+        if (mounted) {
+          setState(() => _body = HomePage());
+        }
+      } else {
+        if (mounted) {
+          setState(() => _body = PartnerHomepage());
+        }
       }
     } else {
-      if (mounted) {
-        setState(() => _body = PartnerHomepage());
-      }
+      FirebaseFirestore.instance
+          .collection('buyer')
+          .doc(phoneN)
+          .get()
+          .then((DocumentSnapshot snapshot) {
+        var data = snapshot.data();
+        print('phoneN: ' + phoneN + data.toString());
+        if (data != null) {
+          if (data['loggedIn'] != null && data['loggedIn'] == true) {
+            globals.userType = 'buyer';
+            setState(() => _body = HomePage());
+          } else {
+            globals.userType = 'partner';
+            setState(() => _body = PartnerHomepage());
+          }
+        } else {
+          globals.userType = 'partner';
+          setState(() => _body = PartnerHomepage());
+        }
+      });
     }
   }
 }
