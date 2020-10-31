@@ -164,9 +164,11 @@ class _BuyerBusinessesPageState extends State<BuyerBusinessesPage> {
     }
     _nearByShops = snapshot.data.data()['partners'];
     snapshot.data.data()['partners'].forEach((k, v) {
-      Partner partner = new Partner(
-          v['image_source'], v['name'], k, v['location'], 'kiryana');
-      displayList.add(partner);
+      if (v['name'] != null) {
+        Partner partner = new Partner(
+            v['image_source'], v['name'], k, v['location'], 'kiryana');
+        displayList.add(partner);
+      }
     });
   }
 

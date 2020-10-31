@@ -4,10 +4,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_app/partner/models/product.dart';
 import 'package:flutter_app/partner/views/customproduct.dart';
-import 'package:flutter_app/partner/views/productPage.dart';
 
 import 'myProductPage.dart';
-
 
 class PartnerMyProducts extends StatefulWidget {
   @override
@@ -29,7 +27,6 @@ class _PartnerMyProductsState extends State<PartnerMyProducts> {
 
   List displayList;
 
-
   @override
   void initState() {
     super.initState();
@@ -39,13 +36,14 @@ class _PartnerMyProductsState extends State<PartnerMyProducts> {
     // _getStorageReferences();
   }
 
-  _buildGridCards(BuildContext context, Category category,AsyncSnapshot snapshot) {
-    displayList=snapshot.data["productList"];
+  _buildGridCards(
+      BuildContext context, Category category, AsyncSnapshot snapshot) {
+    displayList = snapshot.data["productList"];
 //      print("####################################################################"+displayList[0]);
 
     List<Card> cards = List.generate(
       displayList.length,
-          (int i) => Card(
+      (int i) => Card(
         elevation: 8.0,
         clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
@@ -58,14 +56,16 @@ class _PartnerMyProductsState extends State<PartnerMyProducts> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MyProductPage(displayList: displayList,index: i),
+                    builder: (context) =>
+                        MyProductPage(displayList: displayList, index: i),
                   ),
                 );
               }, // handle your image tap here
               child: Image.asset(
-                displayList[i]["imageLoc"],
-                fit: BoxFit.scaleDown,
-              ) ?? Icon(Icons.image),
+                    displayList[i]["imageLoc"],
+                    fit: BoxFit.scaleDown,
+                  ) ??
+                  Icon(Icons.image),
             ),
             Center(
               child: Text(
@@ -278,138 +278,143 @@ class _PartnerMyProductsState extends State<PartnerMyProducts> {
 //      ),
 //    );
     return StreamBuilder<DocumentSnapshot>(
-        stream: globals.partner.collection("products").doc("productDoc")
+        stream: globals.partner
+            .collection("products")
+            .doc("productDoc")
             .snapshots(),
-    builder: (context, snapshot) {
-      if (!snapshot.hasData) return LinearProgressIndicator();
-      return  DefaultTabController(
-      length: 7,
-      child: Scaffold(
-        appBar: TabBar(
-          isScrollable: true,
-          indicatorWeight: 1,
-          indicatorColor: Colors.black54,
-          labelColor: Colors.white,
-          labelPadding: EdgeInsets.all(0),
-          unselectedLabelColor: Colors.black54,
-          tabs: [
-            Container(
-              color: Colors.green[400],
-              child: Tab(
-                text: "All",
-              ),
-              width: 100,
-            ),
-            Container(
-              color: Colors.green[400],
-              child: Tab(
-                text: "Snacks and Drinks",
-              ),
-              width: 160,
-            ),
-            Container(
-              color: Colors.green[400],
-              child: Tab(
-                text: "Dairy and Bakery",
-              ),
-              width: 150,
-            ),
-            Container(
-              color: Colors.green[400],
-              child: Tab(
-                text: "Personal Care",
-              ),
-              width: 130,
-            ),
-            Container(
-              color: Colors.green[400],
-              child: Tab(
-                text: "Kitchen Essentials",
-              ),
-              width: 170,
-            ),
-            Container(
-              color: Colors.green[400],
-              child: Tab(
-                text: "Household Items",
-              ),
-              width: 150,
-            ),
-            Container(
-              color: Colors.green[400],
-              child: Tab(
-                text: "Miscellaneous",
-              ),
-              width: 130,
-            ),
-          ],
-        ),
-        body: TabBarView(
-          children: [
-            GridView.count(
-              crossAxisCount: 2,
-              padding: EdgeInsets.all(16.0),
-              childAspectRatio: 8.0 / 9.0,
-              children: _buildGridCards(context, Category.all,snapshot),
-            ),
-            GridView.count(
-              crossAxisCount: 2,
-              padding: EdgeInsets.all(16.0),
-              childAspectRatio: 8.0 / 9.0,
-              children: _buildGridCards(context, Category.dnb,snapshot),
-            ),
-            GridView.count(
-              crossAxisCount: 2,
-              padding: EdgeInsets.all(16.0),
-              childAspectRatio: 8.0 / 9.0,
-              children: _buildGridCards(context, Category.pc,snapshot),
-            ),
-            GridView.count(
-              crossAxisCount: 2,
-              padding: EdgeInsets.all(16.0),
-              childAspectRatio: 8.0 / 9.0,
-              children: _buildGridCards(context, Category.snd,snapshot),
-            ),
-            GridView.count(
-              crossAxisCount: 2,
-              padding: EdgeInsets.all(16.0),
-              childAspectRatio: 8.0 / 9.0,
-              children: _buildGridCards(context, Category.ke,snapshot),
-            ),
-            GridView.count(
-              crossAxisCount: 2,
-              padding: EdgeInsets.all(16.0),
-              childAspectRatio: 8.0 / 9.0,
-              children: _buildGridCards(context, Category.hhi,snapshot),
-            ),
-            GridView.count(
-              crossAxisCount: 2,
-              padding: EdgeInsets.all(16.0),
-              childAspectRatio: 8.0 / 9.0,
-              children: _buildGridCards(context, Category.misc,snapshot),
-            ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PartnerCustomProduct(),
-              ),
-            );
-          },
-          elevation: 20,
-          child: Icon(
-            Icons.add_circle,
-            color: Colors.black38,
-            size: 40,
-          ),
-          backgroundColor: Colors.green,
-        ),
-      )
-      );
-    });
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return LinearProgressIndicator();
+          return DefaultTabController(
+              length: 7,
+              child: Scaffold(
+                appBar: TabBar(
+                  isScrollable: true,
+                  indicatorWeight: 1,
+                  indicatorColor: Colors.black54,
+                  labelColor: Colors.white,
+                  labelPadding: EdgeInsets.all(0),
+                  unselectedLabelColor: Colors.black54,
+                  tabs: [
+                    Container(
+                      color: Colors.green[400],
+                      child: Tab(
+                        text: "All",
+                      ),
+                      width: 100,
+                    ),
+                    Container(
+                      color: Colors.green[400],
+                      child: Tab(
+                        text: "Snacks and Drinks",
+                      ),
+                      width: 160,
+                    ),
+                    Container(
+                      color: Colors.green[400],
+                      child: Tab(
+                        text: "Dairy and Bakery",
+                      ),
+                      width: 150,
+                    ),
+                    Container(
+                      color: Colors.green[400],
+                      child: Tab(
+                        text: "Personal Care",
+                      ),
+                      width: 130,
+                    ),
+                    Container(
+                      color: Colors.green[400],
+                      child: Tab(
+                        text: "Kitchen Essentials",
+                      ),
+                      width: 170,
+                    ),
+                    Container(
+                      color: Colors.green[400],
+                      child: Tab(
+                        text: "Household Items",
+                      ),
+                      width: 150,
+                    ),
+                    Container(
+                      color: Colors.green[400],
+                      child: Tab(
+                        text: "Miscellaneous",
+                      ),
+                      width: 130,
+                    ),
+                  ],
+                ),
+                body: TabBarView(
+                  children: [
+                    GridView.count(
+                      crossAxisCount: 2,
+                      padding: EdgeInsets.all(16.0),
+                      childAspectRatio: 8.0 / 9.0,
+                      children:
+                          _buildGridCards(context, Category.all, snapshot),
+                    ),
+                    GridView.count(
+                      crossAxisCount: 2,
+                      padding: EdgeInsets.all(16.0),
+                      childAspectRatio: 8.0 / 9.0,
+                      children:
+                          _buildGridCards(context, Category.dnb, snapshot),
+                    ),
+                    GridView.count(
+                      crossAxisCount: 2,
+                      padding: EdgeInsets.all(16.0),
+                      childAspectRatio: 8.0 / 9.0,
+                      children: _buildGridCards(context, Category.pc, snapshot),
+                    ),
+                    GridView.count(
+                      crossAxisCount: 2,
+                      padding: EdgeInsets.all(16.0),
+                      childAspectRatio: 8.0 / 9.0,
+                      children:
+                          _buildGridCards(context, Category.snd, snapshot),
+                    ),
+                    GridView.count(
+                      crossAxisCount: 2,
+                      padding: EdgeInsets.all(16.0),
+                      childAspectRatio: 8.0 / 9.0,
+                      children: _buildGridCards(context, Category.ke, snapshot),
+                    ),
+                    GridView.count(
+                      crossAxisCount: 2,
+                      padding: EdgeInsets.all(16.0),
+                      childAspectRatio: 8.0 / 9.0,
+                      children:
+                          _buildGridCards(context, Category.hhi, snapshot),
+                    ),
+                    GridView.count(
+                      crossAxisCount: 2,
+                      padding: EdgeInsets.all(16.0),
+                      childAspectRatio: 8.0 / 9.0,
+                      children:
+                          _buildGridCards(context, Category.misc, snapshot),
+                    ),
+                  ],
+                ),
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PartnerCustomProduct(),
+                      ),
+                    );
+                  },
+                  elevation: 20,
+                  child: Icon(
+                    Icons.add_circle,
+                    color: Colors.black38,
+                    size: 40,
+                  ),
+                  backgroundColor: Colors.green,
+                ),
+              ));
+        });
   }
 }
-

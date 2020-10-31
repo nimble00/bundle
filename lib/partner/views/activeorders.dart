@@ -14,7 +14,7 @@ class _PartnerActiveOrdersState extends State<PartnerActiveOrders> {
           flex: 1,
         ),
         Text(
-          "RAVI WILL IMPLEMENT CURRENT ACTIVE ORDERS HERE!!!",
+          "I WILL IMPLEMENT CURRENT ACTIVE ORDERS HERE!!!",
           style: TextStyle(color: Colors.black),
         ),
         Spacer(

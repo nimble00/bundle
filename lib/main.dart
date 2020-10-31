@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:flutter/material.dart';
-import 'package:flutter_app/partner/views/phome.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_app/globals.dart' as globals;

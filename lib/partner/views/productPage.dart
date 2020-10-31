@@ -1,17 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/buyer/models/partner.dart';
-import 'package:flutter_app/buyer/views/cart.dart';
- import 'package:flutter_app/globals.dart' as globals;
+import 'package:flutter_app/globals.dart' as globals;
 import 'package:toast/toast.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 
 class ProductPage extends StatefulWidget {
   final List displayList;
   final int index;
-
-
 
   ProductPage({Key key, this.displayList, this.index}) : super(key: key);
 
@@ -25,7 +21,7 @@ class ProductPageState extends State<ProductPage> {
   int index;
 
   final _prizeController = TextEditingController();
-  final _nameController=  TextEditingController();
+  final _nameController = TextEditingController();
 
   ProductPageState({this.displayList, this.index});
 
@@ -40,91 +36,99 @@ class ProductPageState extends State<ProductPage> {
     );
   }
 
-
   Widget _buildView(BuildContext context, List displayList, int index) {
     return Column(
-       children: <Widget>[
-         Image.asset(
-           'assets/products/' +
-               displayList[index].name.toString().replaceAll(' ', '-'),
-           fit: BoxFit.scaleDown,
-          ),
+      children: <Widget>[
+        Image.asset(
+          'assets/products/' +
+              displayList[index].name.toString().replaceAll(' ', '-'),
+          fit: BoxFit.scaleDown,
+        ),
 //             ?? Icon(Icons.image),
 //         SizedBox(height: 40),
-         //NAME AND PRICE
-         Column(
-           children: <Widget>[
-             Text(
-               displayList[index].name,
-             ),
+        //NAME AND PRICE
+        Column(
+          children: <Widget>[
+            Text(
+              displayList[index].name,
+            ),
 //             Spacer(),
-             Row(
-                 children: <Widget>[
-                   Expanded(
-                     flex:3,
-                       child:Text(
-                       "Change Name",
-                     ),
-                   ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    "Change Name",
+                  ),
+                ),
 //                   Spacer(),
 
-                    Expanded(
-                      flex:6,
-                      child:TextFormField(
-                         controller: _nameController,
-                         decoration: InputDecoration(
-                             labelText:"optional",
-                             hintText: displayList[index].name.split('.').first,
-                         )
-                      ),
-                    ),
-                 ],
-             )
-
-           ],
-         ),
+                Expanded(
+                  flex: 6,
+                  child: TextFormField(
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                        labelText: "optional",
+                        hintText: displayList[index].name.split('.').first,
+                      )),
+                ),
+              ],
+            )
+          ],
+        ),
 //         Spacer(),
-         Row(
-             children:<Widget>[
-               Text(
-                   "Price : "
-               ),
-             Expanded(
-               flex:6,
-               child: TextFormField(
-                     controller: _prizeController,
-                     keyboardType: TextInputType.number,
-                     inputFormatters: <TextInputFormatter>[
-                       WhitelistingTextInputFormatter.digitsOnly
-                     ],
-                     decoration: InputDecoration(
-                         labelText:"your Price",
-                         hintText: "your Price",
-                         icon: Icon(Icons.phone_iphone)
-                     )
-                 ),
-              ),
-             ],
-           ),
+        Row(
+          children: <Widget>[
+            Text("Price : "),
+            Expanded(
+              flex: 6,
+              child: TextFormField(
+                  controller: _prizeController,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    WhitelistingTextInputFormatter.digitsOnly
+                  ],
+                  decoration: InputDecoration(
+                      labelText: "your Price",
+                      hintText: "your Price",
+                      icon: Icon(Icons.phone_iphone))),
+            ),
+          ],
+        ),
 //         Spacer(),
-         //DETAILS OF PRODUCT
-         Container(
-           padding: const EdgeInsets.all(32),
-           child: Row(
-             children: <Widget>[
-               RaisedButton(
+        //DETAILS OF PRODUCT
+        Container(
+            padding: const EdgeInsets.all(32),
+            child: Row(
+              children: <Widget>[
+                RaisedButton(
                   child: Text('ADD'),
                   onPressed: (() {
-                    String pname=(_nameController.text.length>0)?_nameController.text:displayList[index].name.toString().split('.').first;
-                    DocumentReference docRef= globals.partner.collection("products").doc("productDoc");
+                    String pname = (_nameController.text.length > 0)
+                        ? _nameController.text
+                        : displayList[index].name.toString().split('.').first;
+                    DocumentReference docRef = globals.partner;
+                    // .collection("products")
+                    // .doc("productDoc");
 //                    globals.partner.collection("products").limit(1).get().then((docSnapshot){
 //                      if(docSnapshot.size>0){
 //                         docRef = globals.partner.collection("products").doc("productDoc");
 //                        }
 //                    });
                     docRef.update({
-                      "productList" : FieldValue.arrayUnion([{'name':pname, 'price': _prizeController.text,
-                        'imageLoc':'assets/products/' + displayList[index].name.toString().replaceAll(' ', '-'),"category":displayList[index].category.toString(),"show":"true" }])
+                      "productList": FieldValue.arrayUnion([
+                        {
+                          'name': pname,
+                          'price': _prizeController.text,
+                          'imageLoc': 'assets/products/' +
+                              displayList[index]
+                                  .name
+                                  .toString()
+                                  .replaceAll(' ', '-'),
+                          "category": displayList[index].category.toString(),
+                          "show": "true"
+                        }
+                      ])
                     }).then((_) {
                       print("success!");
                       showToast("product added");
@@ -136,21 +140,17 @@ class ProductPageState extends State<ProductPage> {
 //                        .then((_){
 //
 //                    }) ;
-
-               ),
-               Spacer(),
-               FlatButton(
-                   child: Text('Cancel'),
-                     onPressed: () {
-                        Navigator.pop(context);
-                     }
-               ),
-
-             ],
-           )
-         ),
+                ),
+                Spacer(),
+                FlatButton(
+                    child: Text('Cancel'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+              ],
+            )),
 //         Spacer(),
-       ],
+      ],
     );
   }
 
