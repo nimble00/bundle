@@ -38,9 +38,7 @@ class _PartnerMyProductsState extends State<PartnerMyProducts> {
 
   _buildGridCards(
       BuildContext context, Category category, AsyncSnapshot snapshot) {
-    displayList = snapshot.data["productList"];
-//      print("####################################################################"+displayList[0]);
-
+    displayList = snapshot.data()["products"];
     List<Card> cards = List.generate(
       displayList.length,
       (int i) => Card(
@@ -279,9 +277,10 @@ class _PartnerMyProductsState extends State<PartnerMyProducts> {
 //    );
     return StreamBuilder<DocumentSnapshot>(
         stream: globals.partner
-            .collection("products")
-            .doc("productDoc")
+            // .collection("products")
+            // .doc("productDoc")
             .snapshots(),
+        // .asBroadcastStream(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) return LinearProgressIndicator();
           return DefaultTabController(

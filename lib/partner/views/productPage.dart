@@ -108,15 +108,8 @@ class ProductPageState extends State<ProductPage> {
                         ? _nameController.text
                         : displayList[index].name.toString().split('.').first;
                     DocumentReference docRef = globals.partner;
-                    // .collection("products")
-                    // .doc("productDoc");
-//                    globals.partner.collection("products").limit(1).get().then((docSnapshot){
-//                      if(docSnapshot.size>0){
-//                         docRef = globals.partner.collection("products").doc("productDoc");
-//                        }
-//                    });
                     docRef.update({
-                      "productList": FieldValue.arrayUnion([
+                      "product": FieldValue.arrayUnion([
                         {
                           'name': pname,
                           'price': _prizeController.text,

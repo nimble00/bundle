@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/buyer/models/item.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 //shoping cart list
 
@@ -17,7 +18,7 @@ String pincode;
 Position position;
 String address = "";
 GeoPoint geopoint = new GeoPoint(48, 60);
-String phoneNumber;
+String phoneNumber = FirebaseAuth.instance.currentUser.phoneNumber;
 //String phoneNumber="+917879426746";
 
 bool fromStartPage = false;
@@ -27,10 +28,12 @@ String userType = '';
 DocumentReference shops =
     FirebaseFirestore.instance.collection('pincodes').doc(pincode);
 DocumentReference reference;
-DocumentReference user =
-    FirebaseFirestore.instance.collection('users').doc(phoneNumber);
-DocumentReference partner =
-    FirebaseFirestore.instance.collection('partner').doc(phoneNumber);
+DocumentReference user = FirebaseFirestore.instance
+    .collection('users')
+    .doc(FirebaseAuth.instance.currentUser.phoneNumber);
+DocumentReference partner = FirebaseFirestore.instance
+    .collection('partner')
+    .doc(FirebaseAuth.instance.currentUser.phoneNumber);
 
 //list of fav items
 List<String> favoriteName = new List();

@@ -41,7 +41,9 @@ class _ExistCheckState extends State<ExistCheck> {
               '${globals.phoneNumber}': {
                 'userType': globals.userType,
                 'pincode': globals.pincode,
-                'products': {},
+                'products': [],
+                'active_orders': [],
+                'past_orders': [],
                 'location': GeoPoint(
                     globals.position.latitude, globals.position.longitude),
                 'image_source': '',
@@ -58,6 +60,8 @@ class _ExistCheckState extends State<ExistCheck> {
         .set({
           'userType': globals.userType,
           'pincode': globals.pincode,
+          'cart': [],
+          'orders': [],
           'loggedIn': true
         })
         .then((value) => print("User Added"))
